@@ -7,14 +7,16 @@
 
 #include "CEngine.h"
 CObj::CObj(): 
-    m_iLayerIdx(-1)
+    m_iLayerIdx(-1),
+    m_iAlpha(255)
 {}
 
 CObj::CObj(const CObj & _Origin):
     CEntity(_Origin),
     m_Pos(_Origin.m_Pos),
     m_Scale(_Origin.m_Scale),
-    m_iLayerIdx(-1)
+    m_iLayerIdx(-1),
+    m_iAlpha(255)
 {
     for (size_t i = 0; i < _Origin.m_vecComponent.size(); ++i) {
         CComponent* pCom = _Origin.m_vecComponent[i]->Clone();

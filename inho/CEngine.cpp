@@ -93,6 +93,8 @@ void CEngine::ChangeWindowSize(POINT _ptResolution, bool _bMenu)
 
     RECT rt = { 0, 0, _ptResolution.x, _ptResolution.y };
     AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, _bMenu);
-    SetWindowPos(m_hWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top, 0);
+    int x = rt.right - rt.left;
+    int y = rt.bottom - rt.top;
+    SetWindowPos(m_hWnd, nullptr, 10, 10, (int)(rt.right - rt.left), (int)(rt.bottom - rt.top), 0);
 }
 

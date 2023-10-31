@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "CLevel.h"
-class CStartLevel :
+class CStartMenuLevel :
     public CLevel
 {
 public:

@@ -8,10 +8,12 @@
 
 class CObj : public CEntity {
   private:
+
     Vec2                      m_Pos;
     Vec2                      m_Scale;
     vector<CComponent*> m_vecComponent;
     int m_iLayerIdx;
+    int m_iAlpha;
 
   public:
     Vec2 GetPos() { return m_Pos; }
@@ -22,6 +24,9 @@ class CObj : public CEntity {
     void SetScale(Vec2 _Scale) { m_Scale = _Scale; }
     
     int GetLayerIdx() { return m_iLayerIdx; }
+
+    int GetAlpha() { return m_iAlpha; }
+    void SetAlpha(int _alpha) { m_iAlpha = _alpha; }
 
   protected:
     template <typename T> T* AddComponent(const wstring& _strName = L"") {

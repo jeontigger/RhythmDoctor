@@ -142,6 +142,7 @@
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
+    <ClInclude Include="CBackground.h" />
     <ClInclude Include="CBtnUI.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCollider.h" />
@@ -172,7 +173,7 @@
     <ClInclude Include="CProjectile.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CSoundMgr.h" />
-    <ClInclude Include="CStartLevel.h" />
+    <ClInclude Include="CStartMenuLevel.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateMachine.h" />
     <ClInclude Include="CTaskMgr.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
+    <ClCompile Include="CBackground.cpp" />
     <ClCompile Include="CBtnUI.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCollider.cpp" />
@@ -224,7 +226,7 @@
     <ClCompile Include="CProjectile.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CSoundMgr.cpp" />
-    <ClCompile Include="CStartLevel.cpp" />
+    <ClCompile Include="CStartMenuLevel.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateMachine.cpp" />
     <ClCompile Include="CTaskMgr.cpp" />

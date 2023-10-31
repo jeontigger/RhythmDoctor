@@ -118,6 +118,7 @@ enum KEY_STATE {
 
 enum LAYER {
     DEFAULT,
+    BACKGROUND,
     TILE,
     PLATFORM,
     PLAYER,
@@ -147,7 +148,7 @@ enum LOG_LEVEL {
 };
 
 enum class LEVEL_TYPE {
-    START_LEVEL,
+    START_MENU_LEVEL,
     PLAY_LEVEL,
     EDITOR_LEVEL,
     END,
@@ -157,3 +158,55 @@ enum class ENORMAL_MON_STATE {
     IDLE,
     TRACE
 };
+
+#define CheckPosAndScale Vec2 vPos = GetPos();\
+Vec2 vScale = GetScale();\
+if (KEY_TAP(KEY::W)) {\
+    SetPos({ vPos.x, vPos.y - 1 });\
+    wstring buffer = L"";\
+    buffer += L"vPos x : " + std::to_wstring(GetPos().x) + L" y: " + std::to_wstring(GetPos().y);\
+    CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
+}\
+if (KEY_TAP(KEY::S)) {\
+    SetPos({ vPos.x, vPos.y + 1 });\
+    wstring buffer = L"";\
+    buffer += L"vPos x : " + std::to_wstring(GetPos().x) + L" y: " + std::to_wstring(GetPos().y);\
+    CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
+}\
+if (KEY_TAP(KEY::A)) {\
+    SetPos({ vPos.x - 1, vPos.y });\
+    wstring buffer = L"";\
+    buffer += L"vPos x : " + std::to_wstring(GetPos().x) + L" y: " + std::to_wstring(GetPos().y);\
+    CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
+}\
+if (KEY_TAP(KEY::D)) {\
+    SetPos({ vPos.x + 1, vPos.y });\
+    wstring buffer = L"";\
+    buffer += L"vPos x : " + std::to_wstring(GetPos().x) + L" y: " + std::to_wstring(GetPos().y);\
+    CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
+}\
+\
+if (KEY_TAP(KEY::UP)) {\
+    SetScale({ vScale.x, vScale.y + 0.1f });\
+    wstring buffer = L"";\
+    buffer += L"vPos x : " + std::to_wstring(GetScale().x) + L" y: " + std::to_wstring(GetScale().y);\
+    CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
+}\
+if (KEY_TAP(KEY::DOWN)) {\
+    SetScale({ vScale.x, vScale.y - 0.1f });\
+    wstring buffer = L"";\
+    buffer += L"vPos x : " + std::to_wstring(GetScale().x) + L" y: " + std::to_wstring(GetScale().y);\
+    CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
+}\
+if (KEY_TAP(KEY::LEFT)) {\
+    SetScale({ vScale.x - 0.1f, vScale.y });\
+    wstring buffer = L"";\
+    buffer += L"vPos x : " + std::to_wstring(GetScale().x) + L" y: " + std::to_wstring(GetScale().y);\
+    CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
+}\
+if (KEY_TAP(KEY::RIGHT)) {\
+    SetScale({ vScale.x + 0.1f, vScale.y });\
+    wstring buffer = L"";\
+    buffer += L"vPos x : " + std::to_wstring(GetScale().x) + L" y: " + std::to_wstring(GetScale().y);\
+    CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
+}

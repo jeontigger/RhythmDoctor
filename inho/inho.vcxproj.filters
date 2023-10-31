@@ -62,9 +62,6 @@
     <Filter Include="Game\05. Object\Platform">
       <UniqueIdentifier>{00b93198-c558-404b-be6f-ddf3e91ed408}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\04. Level\StartLevel">
-      <UniqueIdentifier>{4f93bc02-cf12-4586-af2d-4dad944364f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\04. Level\PlayLevel">
       <UniqueIdentifier>{70990aa3-e6aa-4833-ac26-3824219d83f9}</UniqueIdentifier>
     </Filter>
@@ -82,6 +79,12 @@
     </Filter>
     <Filter Include="Game\06. Component\StateMachine\State">
       <UniqueIdentifier>{2a4562cf-1160-460a-b3f2-4c7fec525d50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\04. Level\StartMenuLevel">
+      <UniqueIdentifier>{4f93bc02-cf12-4586-af2d-4dad944364f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\Background">
+      <UniqueIdentifier>{05207290-50b7-40c3-a0f5-195277d8894f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -197,8 +200,8 @@
     <ClInclude Include="CPlatform.h">
       <Filter>Game\05. Object\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="CStartLevel.h">
-      <Filter>Game\04. Level\StartLevel</Filter>
+    <ClInclude Include="CStartMenuLevel.h">
+      <Filter>Game\04. Level\StartMenuLevel</Filter>
     </ClInclude>
     <ClInclude Include="CEditorLevel.h">
       <Filter>Game\04. Level\EditorLevel</Filter>
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="CNormalMonTrace.h">
       <Filter>Game\06. Component\StateMachine\State</Filter>
+    </ClInclude>
+    <ClInclude Include="CBackground.h">
+      <Filter>Game\05. Object\Background</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -345,8 +351,8 @@
     <ClCompile Include="CPlatform.cpp">
       <Filter>Game\05. Object\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="CStartLevel.cpp">
-      <Filter>Game\04. Level\StartLevel</Filter>
+    <ClCompile Include="CStartMenuLevel.cpp">
+      <Filter>Game\04. Level\StartMenuLevel</Filter>
     </ClCompile>
     <ClCompile Include="CEditorLevel.cpp">
       <Filter>Game\04. Level\EditorLevel</Filter>
@@ -383,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="CNormalMonTrace.cpp">
       <Filter>Game\06. Component\StateMachine\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackground.cpp">
+      <Filter>Game\05. Object\Background</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

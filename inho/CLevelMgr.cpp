@@ -7,7 +7,7 @@
 
 #include "CLevel.h"
 #include "CPlayLevel.h"
-#include "CStartLevel.h"
+#include "CStartMenuLevel.h"
 #include "CEditorLevel.h"
 
 #include "CMonster.h"
@@ -30,7 +30,7 @@ CLevelMgr::~CLevelMgr() {
 
 void CLevelMgr::init() {
 
-    m_arrLevels[(UINT)LEVEL_TYPE::START_LEVEL] = new CStartLevel;
+    m_arrLevels[(UINT)LEVEL_TYPE::START_MENU_LEVEL] = new CStartMenuLevel;
     m_arrLevels[(UINT)LEVEL_TYPE::EDITOR_LEVEL] = new CEditorLevel;
     m_arrLevels[(UINT)LEVEL_TYPE::PLAY_LEVEL] = new CPlayLevel;
 
@@ -38,7 +38,7 @@ void CLevelMgr::init() {
         m_arrLevels[i]->init();
     }
 
-    ::ChangeLevel(LEVEL_TYPE::PLAY_LEVEL);
+    ::ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);
 
 }
 
@@ -55,10 +55,11 @@ void CLevelMgr::render(HDC _dc) {
         return;
 
     POINT ptResolution = CEngine::GetInst()->GetResolution();
-    Rectangle(_dc, -1, -1, ptResolution.x, ptResolution.y);
+    CPaletteMgr::GetInst()->SelectBrush(CPaletteMgr::BrushColor::BBLACK);
+    Rectangle(_dc, -1, -1, ptResolution.x+1, ptResolution.y+1);
 
     m_pCurLevel->render(_dc);
-    CPaletteMgr::GetInst()->SelectBrush(CPaletteMgr::BrushColor::BWHITE);
+    
 
     CLogMgr::GetInst()->tick(_dc);
 }
