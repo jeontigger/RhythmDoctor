@@ -7,6 +7,7 @@
 #include "CAssetMgr.h"
 #include "CSound.h"
 #include "CEngine.h"
+#include "CTimeMgr.h"
 
 #include "CBackground.h"
 #include "CTextUI.h"
@@ -30,22 +31,31 @@ void CStartMenuLevel::init()
 	m_Monitor = new CAnimUI;
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoMonitor", L"texture\\Logo_Monitor.png");
 	m_Monitor->GetAnimator()->CreateAnimation(L"MonitorFallDown", pAtlas, Vec2(0.f, 0.f), Vec2(184, 134), {0,0}, 0.05f, 4);
-	m_Monitor->SetPos({ 262, 118 });
+	m_Monitor->SetPos({ 354, 185 });
 	m_Monitor->SetScale({ 2, 2});
 	
 	AddObject(UI, m_Monitor);
-	CAnimUI* rhythm = new CAnimUI;
-	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoRhythm", L"texture\\logo_rhythm.png");
 
-	rhythm->GetAnimator()->CreateAnimation(L"Rhythm", pAtlas, Vec2(0.f, 0.f), Vec2(130, 32), { 0,0 }, 0.05f, 15);
-	rhythm->GetAnimator()->SaveAnimation(L"animdata");
-	rhythm->SetScale({ 2,2 });
-	rhythm->SetPos(Vec2(10.f, 10.f));
-	rhythm->GetAnimator()->Play(L"Rhythm", true);
-	m_Monitor->AddChildUI(rhythm);
+	m_Rhythm = new CAnimUI;
+	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoRhythm", L"texture\\logo_rhythm.png");
+	m_Rhythm->GetAnimator()->LoadAnimation(L"animdata\\Rhythm.txt");
 	
+	m_Rhythm->SetScale({ 2,2 });
+	m_Rhythm->SetPos(Vec2(-10.f, -20.f));
+	m_Rhythm->GetAnimator()->Play(L"Rhythm", true);
+	m_Monitor->AddChildUI(m_Rhythm);
 	
+	m_Doctor = new CAnimUI;
+	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoDoctor", L"texture\\logo_doctor.png");
+	//doctor->GetAnimator()->CreateAnimation(L"LogoDoctor4", pAtlas, Vec2(0.f, 184.f), Vec2(114, 46), { 0,0 }, 0.05f, 4);
+	//doctor->GetAnimator()->SaveAnimation(L"animdata");
+	m_Doctor->GetAnimator()->LoadAnimation(L"animdata\\LogoDoctor.txt");
 
+	m_Doctor->SetScale({ 2,2 });
+	m_Doctor->SetPos(Vec2(-10.f, 33.f));
+	m_Doctor->GetAnimator()->Play(L"LogoDoctor", false);
+	m_Monitor->AddChildUI(m_Doctor);
+	m_bHeartBeat = false;
 
 
 	for (int i = 0; i < StartMenuSize; ++i) {
@@ -70,6 +80,7 @@ void CStartMenuLevel::init()
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
 	
+	
 }
 
 void CStartMenuLevel::enter()
@@ -92,6 +103,25 @@ void CStartMenuLevel::tick()
 	CLevel::tick();
 	if (KEY_TAP(ESC)) {
 		m_Monitor->GetAnimator()->Play(L"MonitorFallDown", false);
+	}
+
+	Vec2 vScale = m_Doctor->GetScale();
+	float beatScale = 0.05f;
+	if (m_bHeartBeat && 0.03f <= m_AccTime) {
+		m_Doctor->SetScale(vScale - beatScale);
+		m_AccTime = 0;
+		m_bHeartBeat = false;
+	}
+	else if(!m_bHeartBeat && 0.9f <= m_AccTime){
+		m_Doctor->SetScale(vScale + beatScale);
+		m_AccTime = 0;
+		m_bHeartBeat = true;
+	}
+	m_AccTime += DT;
+	
+	Vec2 vPos = m_Doctor->GetPos();
+	if (KEY_TAP(D)) {
+		m_Doctor->SetPos({ vPos.x + 1, vPos.y });
 	}
 
 }

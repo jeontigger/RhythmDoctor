@@ -8,6 +8,12 @@ class CStartMenuLevel :
 {
 private:
     class CAnimUI* m_Monitor;
+    class CAnimUI* m_Rhythm;
+    class CAnimUI* m_Doctor;
+    bool m_bHeartBeat;
+    float m_AccTime;
+    float m_Duration;
+
     vector<class CTextUI*> m_vecMenus;
     class CTextUI* m_AnyPress;
     int m_curIdx;

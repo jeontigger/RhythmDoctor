@@ -51,16 +51,6 @@ CPlayer::CPlayer() :
 
     m_Animator->SaveAnimation(L"animdata");*/
 
-    m_Animator->LoadAnimation(L"animdata\\IdleDown.txt");
-    m_Animator->LoadAnimation(L"animdata\\IdleLeft.txt");
-    m_Animator->LoadAnimation(L"animdata\\IdleRight.txt");
-    m_Animator->LoadAnimation(L"animdata\\IdleUp.txt");
-    m_Animator->LoadAnimation(L"animdata\\WalkDown.txt");
-    m_Animator->LoadAnimation(L"animdata\\WalkLeft.txt");
-    m_Animator->LoadAnimation(L"animdata\\WalkRight.txt");
-    m_Animator->LoadAnimation(L"animdata\\WalkUp.txt");
-
-    m_Animator->Play(L"WalkDown", true);
 
     m_Movement = AddComponent<CMovement>(L"PlayerMovement");
     m_Movement->SetMass(1.f);
