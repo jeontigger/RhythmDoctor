@@ -29,7 +29,7 @@ void CStartMenuLevel::init()
 
 	m_Monitor = new CAnimUI;
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoMonitor", L"texture\\Logo_Monitor.png");
-	m_Monitor->GetAnimator()->CreateAnimation(L"MonitorFallDown", pAtlas, Vec2(0.f, 0.f), Vec2(120, 130), {0,60}, 0.05f, 4);
+	m_Monitor->GetAnimator()->CreateAnimation(L"MonitorFallDown", pAtlas, Vec2(0.f, 0.f), Vec2(184, 134), {0,60}, 0.05f, 4);
 	m_Monitor->GetAnimator()->Play(L"MonitorFallDown", false);
 	m_Monitor->SetPos({ 300, 00 });
 	m_Monitor->SetScale({ 2, 2});
