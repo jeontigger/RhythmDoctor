@@ -11,6 +11,7 @@ CAnimUI::CAnimUI():m_Animator(nullptr)
 
 CAnimUI::CAnimUI(const CAnimUI& _Origin)
 {
+	delete m_Animator;
 }
 
 CAnimUI::~CAnimUI()
@@ -19,8 +20,13 @@ CAnimUI::~CAnimUI()
 
 void CAnimUI::tick(float _dt)
 {
-	//CheckPosAndScale;
 	Super::tick(_dt);
+}
 
-	
+void CAnimUI::finaltick(float _DT)
+{
+	m_Animator->finaltick(_DT);
+	for (int i = 0; i < m_vecChildUI.size(); i++) {
+		m_vecChildUI[i]->finaltick(_DT);
+	}
 }

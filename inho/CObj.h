@@ -17,7 +17,7 @@ class CObj : public CEntity {
 
   public:
     Vec2 GetPos() { return m_Pos; }
-    Vec2 GetRenderPos() { return CCamera::GetInst()->GetRenderPos(m_Pos); }
+    virtual Vec2 GetRenderPos() { return CCamera::GetInst()->GetRenderPos(m_Pos); }
     Vec2 GetScale() { return m_Scale; }
 
     void SetPos(Vec2 _Pos) { m_Pos = _Pos; }
@@ -60,7 +60,7 @@ public:
   public:
       virtual void begin() {};
     virtual void tick(float _DT);
-    virtual void finaltick(float _DT) final;
+    virtual void finaltick(float _DT);
     virtual void render(HDC _dc);
 
     void Destroy();
