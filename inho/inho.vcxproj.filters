@@ -86,6 +86,9 @@
     <Filter Include="Game\05. Object\Background">
       <UniqueIdentifier>{05207290-50b7-40c3-a0f5-195277d8894f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\05. Object\StartMenu">
+      <UniqueIdentifier>{377ab3e8-e462-47e9-a080-f132efc096cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inho.h">
@@ -242,6 +245,12 @@
     <ClInclude Include="CBackground.h">
       <Filter>Game\05. Object\Background</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimUI.h">
+      <Filter>Game\05. Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextUI.h">
+      <Filter>Game\05. Object\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -392,6 +401,12 @@
     </ClCompile>
     <ClCompile Include="CBackground.cpp">
       <Filter>Game\05. Object\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimUI.cpp">
+      <Filter>Game\05. Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextUI.cpp">
+      <Filter>Game\05. Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -60,7 +60,7 @@ void CAnimator::Stop() {}
 
 CAnim* CAnimator::FindAnim(const wstring& _strName)
 {
-	auto iter = m_mapAnim.find(_strName);
+	map<wstring, CAnim*>::iterator iter = m_mapAnim.find(_strName);
 
 	if (iter == m_mapAnim.end()) {
 		return nullptr;

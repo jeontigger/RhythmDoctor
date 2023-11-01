@@ -9,6 +9,8 @@
 #include "CEngine.h"
 
 #include "CBackground.h"
+#include "CTextUI.h"
+#include "CAnimUI.h"
 
 void CStartMenuLevel::init()
 {
@@ -19,6 +21,21 @@ void CStartMenuLevel::init()
 	bg->SetAlpha(50);
 	
 	AddObject(BACKGROUND, bg);
+
+	m_AnyPress = new CTextUI;
+	m_AnyPress->SetPos({ 300.f,300.f });
+	m_AnyPress->SetText(L"아무 버튼이나 누르세요");
+	AddObject(UI, m_AnyPress);
+
+	m_Monitor = new CAnimUI;
+	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoMonitor", L"texture\\Logo_Monitor.png");
+	m_Monitor->GetAnimator()->CreateAnimation(L"MonitorFallDown", pAtlas, Vec2(0.f, 0.f), Vec2(120, 130), {0,60}, 0.05f, 4);
+	m_Monitor->GetAnimator()->Play(L"MonitorFallDown", false);
+	m_Monitor->SetPos({ 300, 00 });
+	m_Monitor->SetScale({ 2, 2});
+	AddObject(UI, m_Monitor);
+
+
 	
 	// 카메라 설정
 	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
@@ -43,9 +60,5 @@ void CStartMenuLevel::exit()
 void CStartMenuLevel::tick()
 {
 	CLevel::tick();
-
-	if (KEY_TAP(KEY::W)) {
-		
-	}
 
 }

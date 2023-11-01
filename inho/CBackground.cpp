@@ -29,12 +29,13 @@ void CBackground::render(HDC _dc)
 		Rectangle(_dc,
 			(int)vRenderPos.x,
 			(int)vRenderPos.y,
-			(int)(vRenderPos.x + TILE_SIZE),
-			(int)(vRenderPos.y + TILE_SIZE));
+			(int)(vRenderPos.x),
+			(int)(vRenderPos.y));
 	}
 	else {
 		UINT width = m_Tex->GetWidth();
 		UINT heigth = m_Tex->GetHeight();
+	
 
 		BLENDFUNCTION blend = {};
         blend.BlendOp = AC_SRC_OVER;
