@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "CLevel.h"
 
+constexpr int StartMenuSize = 8;
+
 class CStartMenuLevel :
     public CLevel
 {
@@ -9,6 +11,8 @@ private:
     vector<class CTextUI*> m_vecMenus;
     class CTextUI* m_AnyPress;
     int m_curIdx;
+
+    
 
 public:
     virtual void init() override;

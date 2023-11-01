@@ -23,7 +23,7 @@ void CLogMgr::tick(HDC _dc) {
 	}
 
 	iter = m_LogList.begin();
-	POINT LT = { 10, 10 };
+	POINT LT = { 120, 10 };
 
 	int i = 0;
 	for (; iter != m_LogList.end(); ++iter, ++i)

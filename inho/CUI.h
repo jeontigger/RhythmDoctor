@@ -5,9 +5,10 @@ class CUI :
 {
     GENERATED_OBJECT(CObj);
 
+protected:
+    vector<CUI*> m_vecChildUI;
 private:
     CUI* m_ParentUI;
-    vector<CUI*> m_vecChildUI;
     Vec2 m_vFinalPos;
 
     bool m_bMouseOn;
@@ -22,6 +23,7 @@ public:
     }
 
 public:
+    virtual Vec2 GetRenderPos() { return CCamera::GetInst()->GetRenderPos(m_vFinalPos); }
     virtual void tick(float _DT) override;
     virtual void render(HDC _dc) override;
 
