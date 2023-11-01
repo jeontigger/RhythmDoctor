@@ -25,7 +25,7 @@ int g_KeySync[KEY::KEY_END] = {
 
     VK_LEFT,    VK_RIGHT,   VK_UP,      VK_DOWN,
 
-    VK_LBUTTON, VK_RBUTTON,
+    VK_LBUTTON, VK_RBUTTON,    
 };
 
 CKeyMgr::CKeyMgr() {}
@@ -56,13 +56,18 @@ void CKeyMgr::tick() {
         }
     }
     else {
+        m_bAnyKey_Tap = false;
+        m_bAnyKey_Pressed = false;
+        m_bAnyKey_Released = false;
         for (size_t i = 0; i < m_vecKeyData.size(); ++i) {
             if (GetAsyncKeyState(g_KeySync[m_vecKeyData[i].eKey]) & 0x8001) {
                 if (m_vecKeyData[i].bPressed) {
                     m_vecKeyData[i].eState = PRESSED;
+                    m_bAnyKey_Pressed = true;
                 }
                 else {
                     m_vecKeyData[i].eState = TAP;
+                    m_bAnyKey_Tap = true;
                 }
 
                 m_vecKeyData[i].bPressed = true;
@@ -70,6 +75,7 @@ void CKeyMgr::tick() {
             else {
                 if (m_vecKeyData[i].bPressed) {
                     m_vecKeyData[i].eState = RELEASED;
+                    m_bAnyKey_Released = true;
                 }
                 else {
                     m_vecKeyData[i].eState = NONE;

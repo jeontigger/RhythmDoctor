@@ -22,6 +22,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE     hInstance,
     if (!InitInstance(hInstance, nCmdShow)) {
         return FALSE;
     }
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    //_CrtSetBreakAlloc(226);
 
     // 엔진 초기화
     CEngine::GetInst()->init(g_hWnd, POINT{704, 396});

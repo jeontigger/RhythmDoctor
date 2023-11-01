@@ -15,6 +15,7 @@
 
 void CStartMenuLevel::init()
 {
+	// 배경 생성
 	CBackground* bg = new CBackground;
 	bg->SetTexture(L"StartBG", L"texture\\BG.png");
 	bg->SetPos({ 100, 125 });
@@ -23,11 +24,14 @@ void CStartMenuLevel::init()
 	
 	AddObject(BACKGROUND, bg);
 
+	// 아무 버튼이나 누르세요 텍스트 생성
+	// Todo : 점멸
 	m_AnyPress = new CTextUI;
 	m_AnyPress->SetPos({ 350.f,300.f });
 	m_AnyPress->SetText(L"아무 버튼이나 누르세요");
 	AddObject(UI, m_AnyPress);
 
+	// 모니터 생성
 	m_Monitor = new CAnimUI;
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoMonitor", L"texture\\Logo_Monitor.png");
 	m_Monitor->GetAnimator()->CreateAnimation(L"MonitorFallDown", pAtlas, Vec2(0.f, 0.f), Vec2(184, 134), {0,0}, 0.05f, 4);
@@ -36,8 +40,8 @@ void CStartMenuLevel::init()
 	
 	AddObject(UI, m_Monitor);
 
+	// 리듬 생성 후 모니터에 추가
 	m_Rhythm = new CAnimUI;
-	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoRhythm", L"texture\\logo_rhythm.png");
 	m_Rhythm->GetAnimator()->LoadAnimation(L"animdata\\Rhythm.txt");
 	
 	m_Rhythm->SetScale({ 2,2 });
@@ -45,10 +49,8 @@ void CStartMenuLevel::init()
 	m_Rhythm->GetAnimator()->Play(L"Rhythm", true);
 	m_Monitor->AddChildUI(m_Rhythm);
 	
+	// 닥터 생성 후 모니터에 추가
 	m_Doctor = new CAnimUI;
-	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoDoctor", L"texture\\logo_doctor.png");
-	//doctor->GetAnimator()->CreateAnimation(L"LogoDoctor4", pAtlas, Vec2(0.f, 184.f), Vec2(114, 46), { 0,0 }, 0.05f, 4);
-	//doctor->GetAnimator()->SaveAnimation(L"animdata");
 	m_Doctor->GetAnimator()->LoadAnimation(L"animdata\\LogoDoctor.txt");
 
 	m_Doctor->SetScale({ 2,2 });
@@ -57,10 +59,10 @@ void CStartMenuLevel::init()
 	m_Monitor->AddChildUI(m_Doctor);
 	m_bHeartBeat = false;
 
-
+	// 메뉴 버튼들 생성
 	for (int i = 0; i < StartMenuSize; ++i) {
 		CTextUI* menu = new CTextUI;
-		menu->SetPos({ 530.f, 92.f + i * 30.f });
+		menu->SetPos({ 800.f, 92.f + i * 30.f });
 		m_vecMenus.push_back(menu);
 		AddObject(UI, menu);
 	}
@@ -79,8 +81,6 @@ void CStartMenuLevel::init()
 	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
-	
-	
 }
 
 void CStartMenuLevel::enter()
