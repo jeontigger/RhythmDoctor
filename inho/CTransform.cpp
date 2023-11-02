@@ -17,7 +17,7 @@ void CTransform::finaltick(float _DT)
 {
 	Vec2 vPos = GetOwner()->GetPos();
 	Vec2 vDir = m_Point - vPos;
-	if (vDir.Length() <= 0.1f) {
+	if (vDir.Length() <= 1.f) {
 		GetOwner()->SetPos(m_Point);
 		return;
 	}
@@ -32,6 +32,7 @@ void CTransform::MoveTo(Vec2 _Point, float _duration)
 {
 	if (_duration == 0) {
 		GetOwner()->SetPos(_Point);
+		m_Point = _Point;
 		return;
 	}
 	m_Point = _Point;

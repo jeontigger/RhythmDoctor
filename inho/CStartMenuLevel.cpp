@@ -13,6 +13,8 @@
 #include "CTextUI.h"
 #include "CAnimUI.h"
 
+#include "CLogMgr.h"
+
 void CStartMenuLevel::init()
 {
 	// 배경 생성
@@ -27,7 +29,7 @@ void CStartMenuLevel::init()
 	// 아무 버튼이나 누르세요 텍스트 생성
 	// Todo : 점멸
 	m_AnyPress = new CTextUI;
-	m_AnyPress->SetPos({ 350.f,300.f });
+	m_AnyPress->SetPos({ 260.f,300.f });
 	m_AnyPress->SetText(L"아무 버튼이나 누르세요");
 	AddObject(UI, m_AnyPress);
 	m_AnyPress->SetBlink(0.6f, 0.2f);
@@ -64,7 +66,7 @@ void CStartMenuLevel::init()
 	// 메뉴 버튼들 생성
 	for (int i = 0; i < StartMenuSize; ++i) {
 		CTextUI* menu = new CTextUI;
-		menu->SetPos({ 800.f, 92.f + i * 30.f });
+		menu->SetPos({ 750.f, 92.f + i * 30.f });
 		m_vecMenus.push_back(menu);
 		AddObject(UI, menu);
 	}
@@ -78,6 +80,30 @@ void CStartMenuLevel::init()
 	m_vecMenus[6]->SetText(L" OST(YouTube로 이동)");
 	m_vecMenus[7]->SetText(L"나가기");
 
+	m_vecMenus[0]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::PLAY_LEVEL); });
+	m_vecMenus[1]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL); });
+	m_vecMenus[2]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);});
+	m_vecMenus[3]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);});
+	m_vecMenus[4]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);});
+	m_vecMenus[5]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);});
+	m_vecMenus[6]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL); });
+	
+	m_vecMenus[7]->SetCallBack([]() {DestroyWindow(CEngine::GetInst()->GetMainWind()); });
+
+	m_curMenu = m_vecMenus[0];
+
+	// 커서 생성
+	m_Cursor = new CAnimUI;
+	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Cursor", L"texture\\Cursor.png");
+
+	//m_Cursor->GetAnimator()->CreateAnimation(L"Cursor", pAtlas, Vec2(0.f, 0.f), Vec2(3, 5), { 0,0 }, 0.05f, 1);
+	m_Cursor->GetAnimator()->LoadAnimation(L"animdata\\Cursor.txt");
+	m_Cursor->SetScale({ 2.f, 2.f });
+	
+	m_Cursor->SetPos({ 740.f, 100.f });
+	m_Cursor->GetAnimator()->Play(L"Cursor", true);
+	AddObject(UI, m_Cursor);
+
 	
 	// 카메라 설정
 	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
@@ -89,10 +115,10 @@ void CStartMenuLevel::init()
 
 void CStartMenuLevel::enter()
 {
-	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\DM.wav");
-	pSound->SetVolume(100);
-	pSound->SetPosition(45.f);
-	pSound->Play(true);
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\Intro.wav");
+	pSound->SetVolume(80);
+	pSound->SetPosition(0.f);
+	pSound->PlayToBGM(true);
 	m_Monitor->GetAnimator()->Play(L"MonitorFallDown", false);
 	
 }
@@ -122,22 +148,53 @@ void CStartMenuLevel::tick()
 	
 	Vec2 vPos = m_Doctor->GetPos();
 	
-	// 메뉴 출력
+	// 메뉴 출력 in & out
 	if (!m_bOpen && CKeyMgr::GetInst()->IsAnyKeyTap()) {
 		m_bOpen = true;
 		m_Monitor->MoveTo({ m_Monitor->GetPos().x - 100.f,m_Monitor->GetPos().y }, 0.04f);
+
 		for (int i = 0; i < m_vecMenus.size(); i++) {
 			m_vecMenus[i]->MoveTo({ m_vecMenus[i]->GetPos().x - 250.f, m_vecMenus[i]->GetPos().y }, 0.04f);
 		}
+		m_Cursor->MoveTo({ m_Cursor->GetPos().x - 250.f,m_Cursor->GetPos().y }, 0.04f);
 		m_AnyPress->SetBlink(0.f, 1.f);
 	}
-	else if (m_bOpen && KEY_TAP(ESC)) {
-		m_bOpen = false;
-		m_Monitor->MoveTo({ m_Monitor->GetPos().x + 100.f,m_Monitor->GetPos().y }, 0.04f);
-		for (int i = 0; i < m_vecMenus.size(); i++) {
-			m_vecMenus[i]->MoveTo({ m_vecMenus[i]->GetPos().x + 250.f, m_vecMenus[i]->GetPos().y }, 0.04f);
+	else if (m_bOpen) {
+		if (KEY_TAP(ENTER)) {
+			m_curMenu->LBtnClicked({ 0,0 });
 		}
-		m_AnyPress->SetBlink(0.6f, 0.2f);
+
+		if (KEY_TAP(ESC)) {
+			m_bOpen = false;
+			m_Monitor->MoveTo({ m_Monitor->GetPos().x + 100.f,m_Monitor->GetPos().y }, 0.04f);
+			for (int i = 0; i < m_vecMenus.size(); i++) {
+				m_vecMenus[i]->MoveTo({ m_vecMenus[i]->GetPos().x + 250.f, m_vecMenus[i]->GetPos().y }, 0.04f);
+			}
+			m_Cursor->MoveTo({ m_Cursor->GetPos().x + 250.f,m_Cursor->GetPos().y }, 0.04f);
+			m_AnyPress->SetBlink(0.6f, 0.2f);
+		}
 	}
 
+	if (KEY_TAP(DOWN)) {
+		m_iCursorIdx++;
+		if (StartMenuSize <= m_iCursorIdx) {
+			m_iCursorIdx = 0;
+		}
+		MoveCursor(m_iCursorIdx);
+	}
+	if (KEY_TAP(UP)) {
+		m_iCursorIdx--;
+		if (m_iCursorIdx < 0) {
+			m_iCursorIdx = StartMenuSize - 1;
+		}
+		MoveCursor(m_iCursorIdx);
+	}
+
+}
+
+void CStartMenuLevel::MoveCursor(int _idx)
+{
+	Vec2 vPos = m_Cursor->GetPos();
+	m_Cursor->MoveTo({ vPos.x, 100.f + _idx * 30.f });
+	m_curMenu = m_vecMenus[_idx];
 }

@@ -24,7 +24,7 @@ void CTextUI::render(HDC _dc)
 		SetBkMode(_dc, 1);
 		SetTextColor(_dc, RGB(255, 255, 255));
 
-		SetTextAlign(_dc, TA_CENTER);
+		SetTextAlign(_dc, TA_LEFT);
 		TextOut(_dc, vPos.x, vPos.y, m_Text.c_str(), m_Text.length());
 	}
 }
@@ -43,5 +43,12 @@ void CTextUI::finaltick(float _dt)
 	else if (GetAlpha() == 0 && m_fShowTime!=0 &&  m_fHideTime <= m_AccTime) {
 		SetAlpha(255);
 		m_AccTime = 0;
+	}
+}
+
+void CTextUI::LBtnClicked(Vec2 _vMousePos)
+{
+	if (nullptr != m_CallBackFunc) {
+		m_CallBackFunc();
 	}
 }

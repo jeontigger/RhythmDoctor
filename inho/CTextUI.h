@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "CUI.h"
+
+typedef void(*BtnCallBack)(void);
 class CTextUI :
     public CUI
 {
@@ -12,11 +14,16 @@ private:
 
     float m_AccTime;
 
+    BtnCallBack m_CallBackFunc;
+
 public:
     virtual void render(HDC _dc) override;
     virtual void finaltick(float _dt) override;
     void SetText(const wstring& _str) { m_Text = _str; }
     void SetBlink(float _showTime, float _hideTime) { m_fShowTime = _showTime; m_fHideTime = _hideTime; }
+
+    void SetCallBack(BtnCallBack _CallBackFunc) { m_CallBackFunc = _CallBackFunc; }
+    virtual void LBtnClicked(Vec2 _vMousePos) override;
 
 public:
     CLONE(CTextUI);
