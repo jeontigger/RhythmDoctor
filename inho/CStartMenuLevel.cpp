@@ -115,7 +115,10 @@ void CStartMenuLevel::init()
 
 void CStartMenuLevel::enter()
 {
-	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\Intro.wav");
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_Intro", L"sound\\Intro.wav");
+	m_sndCursorMove = CAssetMgr::GetInst()->LoadSound(L"sndCursorMove", L"sound\\sndCursorMove.wav");
+	m_sndMenuEnter = CAssetMgr::GetInst()->LoadSound(L"sndMenuEnter", L"sound\\sndMenuEnter.wav");
+	m_sndMenuCancel = CAssetMgr::GetInst()->LoadSound(L"sndMenuCancel", L"sound\\sndMenuCancel.wav");
 	pSound->SetVolume(80);
 	pSound->SetPosition(0.f);
 	pSound->PlayToBGM(true);
@@ -151,6 +154,7 @@ void CStartMenuLevel::tick()
 	// 메뉴 출력 in & out
 	if (!m_bOpen && CKeyMgr::GetInst()->IsAnyKeyTap()) {
 		m_bOpen = true;
+		m_sndMenuEnter->Play(false);
 		m_Monitor->MoveTo({ m_Monitor->GetPos().x - 100.f,m_Monitor->GetPos().y }, 0.04f);
 
 		for (int i = 0; i < m_vecMenus.size(); i++) {
@@ -166,6 +170,7 @@ void CStartMenuLevel::tick()
 
 		if (KEY_TAP(ESC)) {
 			m_bOpen = false;
+			m_sndMenuCancel->Play(false);
 			m_Monitor->MoveTo({ m_Monitor->GetPos().x + 100.f,m_Monitor->GetPos().y }, 0.04f);
 			for (int i = 0; i < m_vecMenus.size(); i++) {
 				m_vecMenus[i]->MoveTo({ m_vecMenus[i]->GetPos().x + 250.f, m_vecMenus[i]->GetPos().y }, 0.04f);
@@ -181,6 +186,7 @@ void CStartMenuLevel::tick()
 			m_iCursorIdx = 0;
 		}
 		MoveCursor(m_iCursorIdx);
+		
 	}
 	if (KEY_TAP(UP)) {
 		m_iCursorIdx--;
@@ -197,4 +203,6 @@ void CStartMenuLevel::MoveCursor(int _idx)
 	Vec2 vPos = m_Cursor->GetPos();
 	m_Cursor->MoveTo({ vPos.x, 100.f + _idx * 30.f });
 	m_curMenu = m_vecMenus[_idx];
+
+	m_sndCursorMove->Play(false);
 }

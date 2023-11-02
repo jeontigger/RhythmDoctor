@@ -17,7 +17,9 @@ private:
     float m_AccTime;
     float m_Duration;
 
-    class CSound* m_cursurSound;
+    class CSound* m_sndCursorMove;
+    class CSound* m_sndMenuEnter;
+    class CSound* m_sndMenuCancel;
     
     bool m_bOpen;
 

@@ -2,15 +2,19 @@
 #include "CTextUI.h"
 
 #include "CTimeMgr.h"
+#include "CEngine.h"
 
 CTextUI::CTextUI():
 	m_fShowTime(1.f),
 	m_fHideTime(0.f)
 {
+	auto hFont = CreateFont(18, 0, 0, 0, 700, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, VARIABLE_PITCH || FF_ROMAN, TEXT("Anton"));
+	auto oldFont = (HFONT)SelectObject(CEngine::GetInst()->GetMainDC(), hFont);
 }
 
 CTextUI::CTextUI(const CTextUI& _Origin)
 {
+
 }
 
 CTextUI::~CTextUI()
