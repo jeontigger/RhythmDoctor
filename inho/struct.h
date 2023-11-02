@@ -88,6 +88,14 @@ struct Vec2 {
         y /= _f;
     }
 
+    bool operator == (Vec2 _Other) {
+        return x == _Other.x && y == _Other.y;
+    }
+
+    bool operator != (Vec2 _Other) {
+        return !this->operator==(_Other);
+    }
+
     bool IsZero() {
         if (x == 0.f && y == 0.f) {
             return true;

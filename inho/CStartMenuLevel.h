@@ -13,6 +13,8 @@ private:
     bool m_bHeartBeat;
     float m_AccTime;
     float m_Duration;
+    
+    bool m_bOpen;
 
     vector<class CTextUI*> m_vecMenus;
     class CTextUI* m_AnyPress;

@@ -11,7 +11,6 @@ private:
 
 public:
     virtual void tick(float _dt) override;
-    virtual void finaltick(float _DT) override;
 
     CAnimator* GetAnimator() { return m_Animator; }
 

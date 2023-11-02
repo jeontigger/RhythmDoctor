@@ -49,6 +49,7 @@ void CStartMenuLevel::init()
 	m_Rhythm->GetAnimator()->Play(L"Rhythm", true);
 	m_Monitor->AddChildUI(m_Rhythm);
 	
+	
 	// 닥터 생성 후 모니터에 추가
 	m_Doctor = new CAnimUI;
 	m_Doctor->GetAnimator()->LoadAnimation(L"animdata\\LogoDoctor.txt");
@@ -81,6 +82,8 @@ void CStartMenuLevel::init()
 	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
+
+	m_bOpen = false;
 }
 
 void CStartMenuLevel::enter()
@@ -101,9 +104,6 @@ void CStartMenuLevel::exit()
 void CStartMenuLevel::tick()
 {
 	CLevel::tick();
-	if (KEY_TAP(ESC)) {
-		m_Monitor->GetAnimator()->Play(L"MonitorFallDown", false);
-	}
 
 	Vec2 vScale = m_Doctor->GetScale();
 	float beatScale = 0.05f;
@@ -120,8 +120,23 @@ void CStartMenuLevel::tick()
 	m_AccTime += DT;
 	
 	Vec2 vPos = m_Doctor->GetPos();
-	if (KEY_TAP(D)) {
-		m_Doctor->SetPos({ vPos.x + 1, vPos.y });
+	
+	// 메뉴 출력
+	if (!m_bOpen && CKeyMgr::GetInst()->IsAnyKeyTap()) {
+		m_bOpen = true;
+		m_Monitor->MoveTo({ m_Monitor->GetPos().x - 100.f,m_Monitor->GetPos().y }, 0.04f);
+		for (int i = 0; i < m_vecMenus.size(); i++) {
+			m_vecMenus[i]->MoveTo({ m_vecMenus[i]->GetPos().x - 250.f, m_vecMenus[i]->GetPos().y }, 0.04f);
+		}
+		m_AnyPress->SetAlpha(0);
+	}
+	else if (m_bOpen && KEY_TAP(ESC)) {
+		m_bOpen = false;
+		m_Monitor->MoveTo({ m_Monitor->GetPos().x + 100.f,m_Monitor->GetPos().y }, 0.04f);
+		for (int i = 0; i < m_vecMenus.size(); i++) {
+			m_vecMenus[i]->MoveTo({ m_vecMenus[i]->GetPos().x + 250.f, m_vecMenus[i]->GetPos().y }, 0.04f);
+		}
+		m_AnyPress->SetAlpha(255);
 	}
 
 }

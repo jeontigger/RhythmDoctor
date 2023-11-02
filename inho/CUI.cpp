@@ -2,6 +2,7 @@
 #include "CUI.h"
 
 #include "CKeyMgr.h"
+#include "CTransform.h"
 
 CUI::CUI():
 	m_ParentUI(nullptr),
@@ -9,6 +10,7 @@ CUI::CUI():
 	m_bMouseOn_Prev(false),
 	m_bMouseLBtnDown(false)
 {
+	m_Transform = AddComponent<CTransform>(L"Transform");
 }
 
 CUI::CUI(const CUI& _Origin):
@@ -63,4 +65,20 @@ void CUI::render(HDC _dc)
 	for (size_t i = 0; i < m_vecChildUI.size(); i++) {
 		m_vecChildUI[i]->render(_dc);
 	}
+}
+
+void CUI::finaltick(float _dt)
+{
+	const vector<CComponent*> components = GetComponentAll();
+	for (int i = 0; i < components.size(); i++) {
+		components[i]->finaltick(_dt);
+	}
+	for (int i = 0; i < m_vecChildUI.size(); ++i) {
+		m_vecChildUI[i]->finaltick(_dt);
+	}
+}
+
+void CUI::begin()
+{
+	m_Transform->SetTargetPoint(GetPos());
 }

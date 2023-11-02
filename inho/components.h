@@ -8,3 +8,5 @@
 #include "CCollider.h"
 
  #include "CStateMachine.h"
+
+#include "CTransform.h"

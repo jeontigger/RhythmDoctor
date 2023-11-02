@@ -37,6 +37,7 @@ class CObj : public CEntity {
     }
 
 public:
+    const vector<CComponent*>& GetComponentAll() { return m_vecComponent; }
     template<typename T>
     T* GetComponent() {
         for (size_t i = 0; i < m_vecComponent.size(); ++i) {

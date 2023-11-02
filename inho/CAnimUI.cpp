@@ -22,11 +22,3 @@ void CAnimUI::tick(float _dt)
 {
 	Super::tick(_dt);
 }
-
-void CAnimUI::finaltick(float _DT)
-{
-	m_Animator->finaltick(_DT);
-	for (int i = 0; i < m_vecChildUI.size(); i++) {
-		m_vecChildUI[i]->finaltick(_DT);
-	}
-}

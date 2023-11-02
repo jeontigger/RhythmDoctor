@@ -89,6 +89,9 @@
     <Filter Include="Game\05. Object\StartMenu">
       <UniqueIdentifier>{377ab3e8-e462-47e9-a080-f132efc096cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\06. Component\Transform">
+      <UniqueIdentifier>{b1d85c6d-4fbe-47a2-ac34-ac69958dcde9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inho.h">
@@ -251,6 +254,9 @@
     <ClInclude Include="CTextUI.h">
       <Filter>Game\05. Object\UI</Filter>
     </ClInclude>
+    <ClInclude Include="CTransform.h">
+      <Filter>Game\06. Component\Transform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -407,6 +413,9 @@
     </ClCompile>
     <ClCompile Include="CTextUI.cpp">
       <Filter>Game\05. Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CTransform.cpp">
+      <Filter>Game\06. Component\Transform</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

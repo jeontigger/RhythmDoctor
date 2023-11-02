@@ -5,11 +5,12 @@ class CUI :
 {
     GENERATED_OBJECT(CObj);
 
-protected:
-    vector<CUI*> m_vecChildUI;
 private:
+    vector<CUI*> m_vecChildUI;
     CUI* m_ParentUI;
     Vec2 m_vFinalPos;
+
+    class CTransform* m_Transform;
 
     bool m_bMouseOn;
     bool m_bMouseOn_Prev;
@@ -26,6 +27,8 @@ public:
     virtual Vec2 GetRenderPos() { return CCamera::GetInst()->GetRenderPos(m_vFinalPos); }
     virtual void tick(float _DT) override;
     virtual void render(HDC _dc) override;
+    virtual void finaltick(float _dt) override;
+    virtual void begin() override;
 
     virtual void OnHovered(Vec2 _vMousePos) {}
     virtual void MouseOn(Vec2 _vMousePos) {}
@@ -38,6 +41,9 @@ public:
 public:
     Vec2 GetFinalPos() { return m_vFinalPos; }
     bool IsLBtnDown() { return m_bMouseLBtnDown; }
+
+public:
+    void MoveTo(Vec2 _point, float _time) { m_Transform->MoveTo(_point, _time); }
 
 public:
     virtual CUI* Clone() = 0;
