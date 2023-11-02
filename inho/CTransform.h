@@ -9,7 +9,7 @@ private:
 
 public:
     virtual void finaltick(float _DT) override;
-    void MoveTo(Vec2 _Point, float _duration);
+    void MoveTo(Vec2 _Point, float _duration = 0);
     void SetTargetPoint(Vec2 _point) { m_Point = _point; }
 
 

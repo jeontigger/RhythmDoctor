@@ -43,7 +43,7 @@ public:
     bool IsLBtnDown() { return m_bMouseLBtnDown; }
 
 public:
-    void MoveTo(Vec2 _point, float _time) { m_Transform->MoveTo(_point, _time); }
+    void MoveTo(Vec2 _point, float _time = 0) { m_Transform->MoveTo(_point, _time); }
 
 public:
     virtual CUI* Clone() = 0;

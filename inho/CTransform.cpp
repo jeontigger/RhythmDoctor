@@ -30,6 +30,10 @@ void CTransform::finaltick(float _DT)
 
 void CTransform::MoveTo(Vec2 _Point, float _duration)
 {
+	if (_duration == 0) {
+		GetOwner()->SetPos(_Point);
+		return;
+	}
 	m_Point = _Point;
 	m_Speed = (m_Point - GetOwner()->GetPos()).Length()/_duration;
 }

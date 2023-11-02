@@ -30,6 +30,7 @@ void CStartMenuLevel::init()
 	m_AnyPress->SetPos({ 350.f,300.f });
 	m_AnyPress->SetText(L"아무 버튼이나 누르세요");
 	AddObject(UI, m_AnyPress);
+	m_AnyPress->SetBlink(0.6f, 0.2f);
 
 	// 모니터 생성
 	m_Monitor = new CAnimUI;
@@ -128,7 +129,7 @@ void CStartMenuLevel::tick()
 		for (int i = 0; i < m_vecMenus.size(); i++) {
 			m_vecMenus[i]->MoveTo({ m_vecMenus[i]->GetPos().x - 250.f, m_vecMenus[i]->GetPos().y }, 0.04f);
 		}
-		m_AnyPress->SetAlpha(0);
+		m_AnyPress->SetBlink(0.f, 1.f);
 	}
 	else if (m_bOpen && KEY_TAP(ESC)) {
 		m_bOpen = false;
@@ -136,7 +137,7 @@ void CStartMenuLevel::tick()
 		for (int i = 0; i < m_vecMenus.size(); i++) {
 			m_vecMenus[i]->MoveTo({ m_vecMenus[i]->GetPos().x + 250.f, m_vecMenus[i]->GetPos().y }, 0.04f);
 		}
-		m_AnyPress->SetAlpha(255);
+		m_AnyPress->SetBlink(0.6f, 0.2f);
 	}
 
 }

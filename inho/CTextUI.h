@@ -7,10 +7,16 @@ class CTextUI :
 
 private:
     wstring m_Text;
+    float m_fShowTime;
+    float m_fHideTime;
+
+    float m_AccTime;
 
 public:
     virtual void render(HDC _dc) override;
+    virtual void finaltick(float _dt) override;
     void SetText(const wstring& _str) { m_Text = _str; }
+    void SetBlink(float _showTime, float _hideTime) { m_fShowTime = _showTime; m_fHideTime = _hideTime; }
 
 public:
     CLONE(CTextUI);
