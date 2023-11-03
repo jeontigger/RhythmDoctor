@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include "CObj.h"
+
+#include "CTexture.h"
+
 class CBackground :
     public CObj
 {
@@ -8,6 +11,8 @@ private:
 
 public:
     void SetTexture(const wstring& _strKey, const wstring& _strRelativePath);
+    UINT GetWidth() { return m_Tex->GetWidth(); }
+    UINT GetHeight() { return m_Tex->GetHeight(); }
 
 public:
     virtual void render(HDC _dc) override;

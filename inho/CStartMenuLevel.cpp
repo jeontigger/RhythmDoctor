@@ -80,7 +80,7 @@ void CStartMenuLevel::init()
 	m_vecMenus[6]->SetText(L" OST(YouTube로 이동)");
 	m_vecMenus[7]->SetText(L"나가기");
 
-	m_vecMenus[0]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::PLAY_LEVEL); });
+	m_vecMenus[0]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL); });
 	m_vecMenus[1]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL); });
 	m_vecMenus[2]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);});
 	m_vecMenus[3]->SetCallBack([]() {ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);});

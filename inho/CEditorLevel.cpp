@@ -71,7 +71,7 @@ void CEditorLevel::tick()
 	CLevel::tick();
 
 	if (KEY_TAP(KEY::ENTER)) {
-		ChangeLevel(LEVEL_TYPE::PLAY_LEVEL);
+		ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 	}
 
 	if (KEY_TAP(KEY::LBTN)) {

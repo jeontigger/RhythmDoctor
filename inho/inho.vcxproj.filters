@@ -86,11 +86,11 @@
     <Filter Include="Game\05. Object\Background">
       <UniqueIdentifier>{05207290-50b7-40c3-a0f5-195277d8894f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\05. Object\StartMenu">
-      <UniqueIdentifier>{377ab3e8-e462-47e9-a080-f132efc096cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\06. Component\Transform">
       <UniqueIdentifier>{b1d85c6d-4fbe-47a2-ac34-ac69958dcde9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\Stage">
+      <UniqueIdentifier>{8639c905-b5a5-417d-9752-cd45eaf31930}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +212,6 @@
     <ClInclude Include="CEditorLevel.h">
       <Filter>Game\04. Level\EditorLevel</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayLevel.h">
-      <Filter>Game\04. Level\PlayLevel</Filter>
-    </ClInclude>
     <ClInclude Include="CTile.h">
       <Filter>Game\05. Object\Tile</Filter>
     </ClInclude>
@@ -256,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="CTransform.h">
       <Filter>Game\06. Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="CStageSelectLevel.h">
+      <Filter>Game\04. Level\PlayLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -372,9 +372,6 @@
     <ClCompile Include="CEditorLevel.cpp">
       <Filter>Game\04. Level\EditorLevel</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayLevel.cpp">
-      <Filter>Game\04. Level\PlayLevel</Filter>
-    </ClCompile>
     <ClCompile Include="CTile.cpp">
       <Filter>Game\05. Object\Tile</Filter>
     </ClCompile>
@@ -416,6 +413,9 @@
     </ClCompile>
     <ClCompile Include="CTransform.cpp">
       <Filter>Game\06. Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="CStageSelectLevel.cpp">
+      <Filter>Game\04. Level\PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

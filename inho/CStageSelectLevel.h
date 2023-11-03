@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "CLevel.h"
-class CPlayLevel :
-    public CLevel
-{
+class CStageSelectLevel : public CLevel {
 
-public:
+private:
+    class CBackground* m_BG;
+
+  public:
     virtual void init() override;
     virtual void enter() override;
     virtual void exit() override;
 
     virtual void tick() override;
 };
-

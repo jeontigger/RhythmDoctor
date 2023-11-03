@@ -170,10 +170,10 @@
     <ClInclude Include="CPlatform.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CGuidedProjectile.h" />
-    <ClInclude Include="CPlayLevel.h" />
     <ClInclude Include="CProjectile.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CSoundMgr.h" />
+    <ClInclude Include="CStageSelectLevel.h" />
     <ClInclude Include="CStartMenuLevel.h" />
     <ClInclude Include="CState.h" />
     <ClInclude Include="CStateMachine.h" />
@@ -226,10 +226,10 @@
     <ClCompile Include="CPlatform.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CGuidedProjectile.cpp" />
-    <ClCompile Include="CPlayLevel.cpp" />
     <ClCompile Include="CProjectile.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CSoundMgr.cpp" />
+    <ClCompile Include="CStageSelectLevel.cpp" />
     <ClCompile Include="CStartMenuLevel.cpp" />
     <ClCompile Include="CState.cpp" />
     <ClCompile Include="CStateMachine.cpp" />
