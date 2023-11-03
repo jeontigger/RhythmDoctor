@@ -10,6 +10,7 @@
 
 //
 #include "CBackground.h"
+#include "CStage.h"
 //
 void CStageSelectLevel::init()
 {
@@ -27,23 +28,37 @@ void CStageSelectLevel::init()
     pBg->SetScale({ 2,2 });
     AddObject(BACKGROUND, pBg);
 
+    CStage* pStage = new CStage;
+    pStage->SetPos({300, 250});
+    pStage->SetScale({ 40, 40 });
+    pStage->SetBoss(false);
+    pStage->SetLevel(L"1-1");
+    pStage->SetName(L"Samurai Techno");
+    pStage->SetRank(Stage_Rank::A);
+    CAnimator* pAnimator = pStage->GetComponent<CAnimator>();
+    //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"SamuraiAtlas", L"texture\\Samurai.png");
+    //pAnimator->CreateAnimation(L"SamuraiIdle", pAtlas, Vec2(0, 0), Vec2(40, 40), Vec2(0, 0), 0.3f, 2);
+    //pAnimator->SaveAnimation(L"animdata");
+    pAnimator->LoadAnimation(L"animdata\\SamuraiIdle.txt");
+    pAnimator->Play(L"SamuraiIdle", true);
+
+
+
+
+    //m_Animator->CreateAnimation(L"WalkLeft", pAtlas, Vec2(0.f, 650.f), Vec2(120, 130), offset, 0.05f, 10);
+    AddObject(STAGE, pStage);
+    
+
 
     // 카메라 설정
     Vec2 vLookAt = CEngine::GetInst()->GetResolution();
     vLookAt /= 2.f;
     CCamera::GetInst()->SetLookAt(vLookAt);
-
-
 }
 
 void CStageSelectLevel::enter()
 {
     CCamera::GetInst()->FadeIn(1.0f);
-
-    /*CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_01", L"sound\\DM.wav");
-    pSound->SetVolume(100);
-    pSound->SetPosition(45.f);
-    pSound->Play(true);*/
 }
 
 void CStageSelectLevel::exit()

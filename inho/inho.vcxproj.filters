@@ -257,6 +257,9 @@
     <ClInclude Include="CStageSelectLevel.h">
       <Filter>Game\04. Level\PlayLevel</Filter>
     </ClInclude>
+    <ClInclude Include="CStage.h">
+      <Filter>Game\05. Object\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -416,6 +419,9 @@
     </ClCompile>
     <ClCompile Include="CStageSelectLevel.cpp">
       <Filter>Game\04. Level\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CStage.cpp">
+      <Filter>Game\05. Object\Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

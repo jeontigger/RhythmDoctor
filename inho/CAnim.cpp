@@ -69,9 +69,9 @@ void CAnim::render(HDC _dc)
 
 	Vec2 scale = m_pAnimator->GetOwner()->GetScale();
 
-	AlphaBlend(_dc, int(vRenderPos.x - (frm.vCutSize.x / 2.f)*scale.x + frm.vOffset.x)
-		, int(vRenderPos.y - (frm.vCutSize.y / 2.f)*scale.y + frm.vOffset.y)
-		, int(frm.vCutSize.x) * scale.x, int(frm.vCutSize.y) * scale.y
+	AlphaBlend(_dc, int(vRenderPos.x - (frm.vCutSize.x / 2.f)-scale.x/2.f + frm.vOffset.x)
+		, int(vRenderPos.y - (frm.vCutSize.y / 2.f)-scale.y/2.f + frm.vOffset.y)
+		, int(frm.vCutSize.x) + scale.x, int(frm.vCutSize.y) + scale.y
 		, m_Atlas->GetDC()
 		, int(frm.vLeftTop.x), int(frm.vLeftTop.y)
 		, int(frm.vCutSize.x), int(frm.vCutSize.y)

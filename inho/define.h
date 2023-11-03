@@ -127,6 +127,7 @@ enum LAYER {
     MONSTER_PJ,
     WORLD_STATIC,
 
+    STAGE,
     UI = 31,
     END = 32,
 };
@@ -187,25 +188,25 @@ if (KEY_TAP(KEY::D)) {\
 }\
 \
 if (KEY_TAP(KEY::UP)) {\
-    SetScale({ vScale.x, vScale.y + 0.1f });\
+    SetScale({ vScale.x, vScale.y + 1.f });\
     wstring buffer = L"";\
     buffer += L"vPos x : " + std::to_wstring(GetScale().x) + L" y: " + std::to_wstring(GetScale().y);\
     CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
 }\
 if (KEY_TAP(KEY::DOWN)) {\
-    SetScale({ vScale.x, vScale.y - 0.1f });\
+    SetScale({ vScale.x, vScale.y - 1.f });\
     wstring buffer = L"";\
     buffer += L"vPos x : " + std::to_wstring(GetScale().x) + L" y: " + std::to_wstring(GetScale().y);\
     CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
 }\
 if (KEY_TAP(KEY::LEFT)) {\
-    SetScale({ vScale.x - 0.1f, vScale.y });\
+    SetScale({ vScale.x - 1.f, vScale.y });\
     wstring buffer = L"";\
     buffer += L"vPos x : " + std::to_wstring(GetScale().x) + L" y: " + std::to_wstring(GetScale().y);\
     CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
 }\
 if (KEY_TAP(KEY::RIGHT)) {\
-    SetScale({ vScale.x + 0.1f, vScale.y });\
+    SetScale({ vScale.x +1.f, vScale.y });\
     wstring buffer = L"";\
     buffer += L"vPos x : " + std::to_wstring(GetScale().x) + L" y: " + std::to_wstring(GetScale().y);\
     CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });\
