@@ -11,6 +11,7 @@ private:
 
 public:
     virtual void tick(float _dt) override;
+    virtual void render(HDC _dc) override;
 
     CAnimator* GetAnimator() { return m_Animator; }
 

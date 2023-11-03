@@ -9,6 +9,7 @@
 #include "CLogMgr.h"
 #include "CAssetMgr.h"
 
+#include "CPaletteMgr.h"
 
 CAnim::CAnim():
 	m_pAnimator(nullptr),
@@ -76,6 +77,18 @@ void CAnim::render(HDC _dc)
 		, int(frm.vLeftTop.x), int(frm.vLeftTop.y)
 		, int(frm.vCutSize.x), int(frm.vCutSize.y)
 		, blend);
+
+	// 디버깅용 초록 네모 상자 출력
+	{
+		Vec2 m_vScale = m_pAnimator->GetOwner()->GetScale();
+		CPaletteMgr::GetInst()->SelectPen(CPaletteMgr::PenColor::PGREEN);
+		CPaletteMgr::GetInst()->SelectBrush(CPaletteMgr::BrushColor::BHOLLOW);
+
+		Rectangle(_dc, int(vRenderPos.x - m_vScale.x / 2.f),
+			int(vRenderPos.y - m_vScale.y / 2.f),
+			int(vRenderPos.x + m_vScale.x / 2.f),
+			int(vRenderPos.y + m_vScale.y / 2.f));
+	}
 }
 
 void CAnim::Create(const wstring& _strName, CTexture* _Atlas, Vec2 _vLeftTop, Vec2 _vCutSize, Vec2 _vOffset, float _Duration, int _MaxFrm)

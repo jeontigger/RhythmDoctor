@@ -39,7 +39,7 @@ void CStartMenuLevel::init()
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoMonitor", L"texture\\Logo_Monitor.png");
 	m_Monitor->GetAnimator()->CreateAnimation(L"MonitorFallDown", pAtlas, Vec2(0.f, 0.f), Vec2(184, 134), {0,0}, 0.05f, 4);
 	m_Monitor->SetPos({ 354, 185 });
-	m_Monitor->SetScale({ 2, 2});
+	m_Monitor->SetScale({ 184, 134});
 	
 	AddObject(UI, m_Monitor);
 
@@ -47,7 +47,7 @@ void CStartMenuLevel::init()
 	m_Rhythm = new CAnimUI;
 	m_Rhythm->GetAnimator()->LoadAnimation(L"animdata\\Rhythm.txt");
 	
-	m_Rhythm->SetScale({ 2,2 });
+	m_Rhythm->SetScale({ 130,36 });
 	m_Rhythm->SetPos(Vec2(-10.f, -20.f));
 	m_Rhythm->GetAnimator()->Play(L"Rhythm", true);
 	m_Monitor->AddChildUI(m_Rhythm);
@@ -57,7 +57,7 @@ void CStartMenuLevel::init()
 	m_Doctor = new CAnimUI;
 	m_Doctor->GetAnimator()->LoadAnimation(L"animdata\\LogoDoctor.txt");
 
-	m_Doctor->SetScale({ 2,2 });
+	m_Doctor->SetScale({ 114,46 });
 	m_Doctor->SetPos(Vec2(-10.f, 33.f));
 	m_Doctor->GetAnimator()->Play(L"LogoDoctor", false);
 	m_Monitor->AddChildUI(m_Doctor);
@@ -136,7 +136,7 @@ void CStartMenuLevel::tick()
 	CLevel::tick();
 
 	Vec2 vScale = m_Doctor->GetScale();
-	float beatScale = 0.05f;
+	float beatScale = 3.f;
 	if (m_bHeartBeat && 0.03f <= m_AccTime) {
 		m_Doctor->SetScale(vScale - beatScale);
 		m_AccTime = 0;

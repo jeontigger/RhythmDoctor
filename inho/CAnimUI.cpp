@@ -22,3 +22,7 @@ void CAnimUI::tick(float _dt)
 {
 	Super::tick(_dt);
 }
+
+void CAnimUI::render(HDC _dc) {
+	Super::render(_dc);
+}
