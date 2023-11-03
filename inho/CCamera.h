@@ -17,6 +17,8 @@ class CCamera {
     SINGLETON(CCamera);
 
   private:
+      bool m_bUseCamera;
+
     Vec2 m_vLookAt;
     Vec2 m_vDiff;
     CTexture* m_Veil;
