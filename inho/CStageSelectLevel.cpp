@@ -38,7 +38,7 @@ void CStageSelectLevel::init()
     
 
 
-
+    // 사무라이
     CStage* pStage = new CStage;
     pStage->SetPos({300, 250});
     pStage->SetScale({ 40, 40 });
@@ -54,10 +54,24 @@ void CStageSelectLevel::init()
     pAnimator->LoadAnimation(L"animdata\\SamuraiIdle.txt");
     pAnimator->Play(L"SamuraiIdle", true);
 
+    AddObject(STAGE, pStage);
 
+    // 인섬니악
+    pStage = new CStage;
+    pStage->SetPos({ 400, 250 });
+    pStage->SetScale({ 42, 42 });
+    pStage->SetBoss(true);
+    pStage->SetLevel(L"1-XN");
+    pStage->SetName(L"Insomniac");
+    pStage->SetRank(Stage_Rank::A);
 
+    pAnimator = pStage->GetComponent<CAnimator>();
+    //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"InsomniacAtlas", L"texture\\Insomniac.png");
+    //pAnimator->CreateAnimation(L"InsomniacIdle", pAtlas, Vec2(0, 0), Vec2(42, 42), Vec2(0, 0), 0.3f, 2);
+    //pAnimator->SaveAnimation(L"animdata");
+    pAnimator->LoadAnimation(L"animdata\\InsomniacIdle.txt");
+    pAnimator->Play(L"InsomniacIdle", true);
 
-    //m_Animator->CreateAnimation(L"WalkLeft", pAtlas, Vec2(0.f, 650.f), Vec2(120, 130), offset, 0.05f, 10);
     AddObject(STAGE, pStage);
     
 
