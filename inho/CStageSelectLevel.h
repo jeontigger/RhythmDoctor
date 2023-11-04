@@ -4,6 +4,13 @@ class CStageSelectLevel : public CLevel {
 
 private:
     class CAnimUI* m_StageArrow;
+    vector<class CStage*> m_vecStages;
+    
+
+private:
+    int m_cursorIdx;
+    void StageCursorNext();
+    void StageCursorPrev();
 
   public:
     virtual void init() override;
@@ -11,4 +18,8 @@ private:
     virtual void exit() override;
 
     virtual void tick() override;
+
+public:
+    CStageSelectLevel();
+    ~CStageSelectLevel();
 };

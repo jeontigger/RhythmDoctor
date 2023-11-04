@@ -12,7 +12,17 @@
 #include "CBackground.h"
 #include "CStage.h"
 #include "CAnimUI.h"
+
 //
+CStageSelectLevel::CStageSelectLevel():
+    m_cursorIdx(0)
+{
+}
+
+CStageSelectLevel::~CStageSelectLevel()
+{
+}
+
 void CStageSelectLevel::init()
 {
     CBackground* pBg;
@@ -53,6 +63,7 @@ void CStageSelectLevel::init()
     pAnimator->Play(L"SamuraiIdle", true);
 
     AddObject(STAGE, pStage);
+    m_vecStages.push_back(pStage);
 
     // 인섬니악 생성
     pStage = new CStage;
@@ -68,10 +79,11 @@ void CStageSelectLevel::init()
     pAnimator->Play(L"InsomniacIdle", true);
 
     AddObject(STAGE, pStage);
+    m_vecStages.push_back(pStage);
 
     // 스테이지 커서 생성
     m_StageArrow = new CAnimUI;
-    m_StageArrow->SetPos(pStage->GetPos());
+    m_StageArrow->SetPos(m_vecStages[0]->GetPos());
 
     // 스테이지 커서 위 화살표
     CAnimUI* arrow = new CAnimUI;
@@ -120,4 +132,36 @@ void CStageSelectLevel::tick()
         ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);
     }
 
+    if (KEY_TAP(RIGHT)) {
+        StageCursorNext();
+    }
+    if (KEY_TAP(LEFT)) {
+        StageCursorPrev();
+    }
+
+}
+
+
+
+void CStageSelectLevel::StageCursorNext()
+{
+    m_cursorIdx++;
+    if (m_vecStages.size() <= m_cursorIdx) {
+        m_cursorIdx = 0;
+    }
+
+    m_StageArrow->MoveTo(m_vecStages[m_cursorIdx]->GetPos());
+
+
+}
+
+
+void CStageSelectLevel::StageCursorPrev()
+{
+    m_cursorIdx--;
+    if (m_cursorIdx < 0) {
+        m_cursorIdx = m_vecStages.size()-1;
+    }
+
+    m_StageArrow->MoveTo(m_vecStages[m_cursorIdx]->GetPos());
 }
