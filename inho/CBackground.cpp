@@ -40,6 +40,7 @@ void CBackground::render(HDC _dc)
 			(int)(vRenderPos.y)+10);
 	}
 	else {
+
 		UINT width = m_Tex->GetWidth();
 		UINT heigth = m_Tex->GetHeight();
 	
@@ -52,17 +53,18 @@ void CBackground::render(HDC _dc)
         blend.AlphaFormat = AC_SRC_ALPHA; // 0
 
         AlphaBlend(_dc
-            , int(vRenderPos.x - width / 2.f)
-            , int(vRenderPos.y - heigth / 2.f)
-            , width* GetScale().x
-            , heigth * GetScale().y
+            , int(vRenderPos.x - width / 2.f) - GetScale().x/2.f
+            , int(vRenderPos.y - heigth / 2.f) - GetScale().x / 2.f
+            , width+ GetScale().x
+            , heigth + GetScale().y
             , m_Tex->GetDC()
             , 0, 0
             , width
             , heigth
             , blend);
+        
         // 디버깅용 초록 네모 상자 출력
-        {
+        /*{
             if (!DEBUG_RENDER)
                 return;
             CPaletteMgr::GetInst()->SelectPen(CPaletteMgr::PenColor::PGREEN);
@@ -73,7 +75,7 @@ void CBackground::render(HDC _dc)
                 int(vRenderPos.y - m_Tex->GetHeight() / 2.f),
                 int(vRenderPos.x + m_Tex->GetWidth() / 2.f),
                 int(vRenderPos.y + m_Tex->GetHeight() / 2.f));
-        }
+        }*/
 	}
 }
 

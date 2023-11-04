@@ -2,6 +2,7 @@
 #include "CLevel.h"
 
 constexpr int Stage_YPosValue = 260;
+
 class CStageSelectLevel : public CLevel {
 
 private:
@@ -10,6 +11,8 @@ private:
     vector<class CStage*> m_vecStages;
     bool m_isSelect;
     class CBackground* m_Veil;
+
+    Vec2 SpotlightPos;
     
 
 private:

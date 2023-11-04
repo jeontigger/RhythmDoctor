@@ -16,7 +16,8 @@
 //
 CStageSelectLevel::CStageSelectLevel():
     m_cursorIdx(0),
-    m_Veil(nullptr)
+    m_Veil(nullptr),
+    SpotlightPos(200.f, 564.f)
 {
     
 }
@@ -32,34 +33,36 @@ void CStageSelectLevel::init()
     // 배경 생성
     pBg = new CBackground;
     pBg->SetTexture(L"StageSelectBGL", L"texture\\StageSelectLevelBG_L.png");
-    pBg->SetPos({ (float)pBg->GetWidth() - 740.f, 125.f});
-    pBg->SetScale({ 2,2 });
+    pBg->SetPos({ 23.f, 380.f});
+    pBg->SetScale({ 510,148 });
     AddObject(BACKGROUND, pBg);
     veilWidth += pBg->GetWidth();
 
     pBg = new CBackground;
     pBg->SetTexture(L"StageSelectBGR", L"texture\\StageSelectLevelBG_R.png");
-    pBg->SetPos({ (float)pBg->GetWidth() + 37.f, 125.f });
-    pBg->SetScale({ 2,2 });
+    pBg->SetPos({ 1529.f, 623.f });
+    pBg->SetScale({ 996,148 });
     AddObject(BACKGROUND, pBg);
     veilWidth += pBg->GetWidth();
 
     pBg = new CBackground;
     pBg->SetTexture(L"StageSelectLight", L"texture\\StageSelectLight.png");
-    pBg->SetPos({ (float)pBg->GetWidth() - 995.f, 125.f });
-    pBg->SetScale({ 2,2 });
+    pBg->SetPos({ 532.f, 635.f });
+    pBg->SetScale({ 1020, 148 });
+    pBg->SetAlpha(150);
     AddObject(BACKGROUND, pBg);
 
     m_Veil = new CBackground;
-    m_Veil->SetTexture(L"StageVeil", L"texture\\blackPixel.png");
-    m_Veil->SetPos({ -1000.f, 0.f});
-    m_Veil->SetScale({ veilWidth,200.f });
+    m_Veil->SetName(L"LEVEL_VAIL");
+    m_Veil->SetTexture(L"Spotlight", L"texture\\Spotlight.png");
+    m_Veil->SetPos(SpotlightPos);
+    m_Veil->SetScale({ 800.f, 71.f });
     m_Veil->SetAlpha(0);
     AddObject(BACKGROUND, m_Veil);
 
     // 사무라이
     CStage* pStage = new CStage;
-    pStage->SetPos({300, Stage_YPosValue });
+    pStage->SetPos({-200, Stage_YPosValue });
     pStage->SetScale({ 40, 40 });
     pStage->SetBoss(true);
     pStage->SetLevel(L"1-1");
@@ -79,7 +82,7 @@ void CStageSelectLevel::init()
 
     // 인섬니악 생성
     pStage = new CStage;
-    pStage->SetPos({ 400, Stage_YPosValue });
+    pStage->SetPos({ 100, Stage_YPosValue });
     pStage->SetScale({ 42, 42 });
     pStage->SetBoss(true);
     pStage->SetLevel(L"1-XN");
@@ -129,6 +132,8 @@ void CStageSelectLevel::init()
     Vec2 vLookAt = CEngine::GetInst()->GetResolution();
     vLookAt /= 2.f;
     CCamera::GetInst()->SetLookAt(vLookAt);
+    StageCursorNext();
+    StageCursorPrev();
 }
 
 void CStageSelectLevel::enter()
@@ -201,14 +206,16 @@ void CStageSelectLevel::StageSelect()
     CStage* pStage = m_vecStages[m_cursorIdx];
     if (pStage->isLeft()) {
         CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x  + pStage->GetSelectOffset(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);
+        m_Veil->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset()+SpotlightPos.x - 400.f, SpotlightPos.y});
     }
     else {
         CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x  - pStage->GetSelectOffset(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);
+        m_Veil->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() + SpotlightPos.x - 400.f, SpotlightPos.y });
     }
     
     m_arrow[0]->SetAlpha(0);
     m_arrow[1]->SetAlpha(0);
-    m_Veil->SetAlpha(120);
+    m_Veil->SetAlpha(200);
 }
 
 void CStageSelectLevel::StageSelectCancel()
