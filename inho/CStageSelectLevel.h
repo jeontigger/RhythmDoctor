@@ -6,13 +6,18 @@ class CStageSelectLevel : public CLevel {
 
 private:
     class CAnimUI* m_StageArrow;
+    class CAnimUI* m_arrow[2];
     vector<class CStage*> m_vecStages;
+    bool m_isSelect;
+    class CBackground* m_Veil;
     
 
 private:
     int m_cursorIdx;
     void StageCursorNext();
     void StageCursorPrev();
+    void StageSelect();
+    void StageSelectCancel();
 
   public:
     virtual void init() override;

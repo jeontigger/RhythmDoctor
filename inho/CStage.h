@@ -8,6 +8,8 @@ enum class Stage_Type {
 
 enum class Stage_Rank {
     A,
+    UNCOMPLETED,
+    COMPLETED,
     END
 };
 
@@ -30,6 +32,9 @@ private:
 
     Vec2 m_CameraOffset;
 
+    bool m_isStageSelectLeft;
+    float m_fSelectCameraOffset;
+
 
 public:
     virtual void tick(float _dt) override;
@@ -42,6 +47,10 @@ public:
 
     float GetCameraOffsetX() { return m_CameraOffset.x; }
     void SetCameraOffset(Vec2 _vec) { m_CameraOffset = _vec; }
+
+    float GetSelectOffset() { return m_fSelectCameraOffset; }
+    bool isLeft() { return m_isStageSelectLeft; }
+    void SetIsLeft(bool _left) { m_isStageSelectLeft = _left; }
 
 public:
     CLONE_DISABLE(CStage);

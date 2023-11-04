@@ -17,7 +17,9 @@ CStage::CStage() :
     m_strDescription(L"xxxxxxX"),
     m_bIsBoss(true),
     m_fStrOffset(100.f),
-    m_fStrDiff(23.f)
+    m_fStrDiff(23.f),
+    m_fSelectCameraOffset(180.f),
+    m_isStageSelectLeft(true)
 {
     SetRank(Stage_Rank::A);
     AddComponent<CAnimator>();
@@ -76,4 +78,19 @@ void CStage::render(HDC _dc)
 void CStage::SetRank(Stage_Rank _rank)
 {
     m_strRank = L"랭크: A";
+    switch (_rank)
+    {
+    case Stage_Rank::A:
+        break;
+    case Stage_Rank::UNCOMPLETED:
+        m_strRank = L"완료하지 않음";
+        break;
+    case Stage_Rank::COMPLETED:
+        m_strRank = L"완료";
+        break;
+    case Stage_Rank::END:
+        break;
+    default:
+        break;
+    }
 }

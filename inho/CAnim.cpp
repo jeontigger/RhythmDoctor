@@ -65,7 +65,7 @@ void CAnim::render(HDC _dc)
 	blend.BlendOp = AC_SRC_OVER;
 	blend.BlendFlags = 0;
 
-	blend.SourceConstantAlpha = 255;
+	blend.SourceConstantAlpha = m_pAnimator->GetOwner()->GetAlpha();
 	blend.AlphaFormat = AC_SRC_ALPHA;
 
 	Vec2 scale = m_pAnimator->GetOwner()->GetScale();

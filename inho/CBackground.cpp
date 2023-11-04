@@ -6,6 +6,8 @@
 
 #include "CKeyMgr.h"
 #include "CLogMgr.h"
+#include "CEngine.h"
+#include "CPaletteMgr.h"
 
 CBackground::CBackground():
 	m_Tex(nullptr)
@@ -19,6 +21,11 @@ CBackground::~CBackground()
 void CBackground::SetTexture(const wstring& _strKey, const wstring& _strRelativePath)
 {
 	m_Tex = CAssetMgr::GetInst()->LoadTexture(_strKey, _strRelativePath);
+}
+
+void CBackground::SetTexture(CTexture* _tex)
+{
+	m_Tex = _tex;
 }
 
 void CBackground::render(HDC _dc)
@@ -54,7 +61,19 @@ void CBackground::render(HDC _dc)
             , width
             , heigth
             , blend);
+        // 디버깅용 초록 네모 상자 출력
+        {
+            if (!DEBUG_RENDER)
+                return;
+            CPaletteMgr::GetInst()->SelectPen(CPaletteMgr::PenColor::PGREEN);
+            CPaletteMgr::GetInst()->SelectBrush(CPaletteMgr::BrushColor::BHOLLOW);
+            
 
+            Rectangle(_dc, int(vRenderPos.x - m_Tex->GetWidth() / 2.f),
+                int(vRenderPos.y - m_Tex->GetHeight() / 2.f),
+                int(vRenderPos.x + m_Tex->GetWidth() / 2.f),
+                int(vRenderPos.y + m_Tex->GetHeight() / 2.f));
+        }
 	}
 }
 

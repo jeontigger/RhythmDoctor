@@ -44,6 +44,7 @@ void CCamera::tick() {
     if (KEY_TAP(_8)) {
         m_bUseCamera = !m_bUseCamera;
     }
+    
 
     Vec2 vDir = m_TargetAt - m_vLookAt;
     if (vDir.Length() <= 1.f) {
@@ -57,7 +58,7 @@ void CCamera::tick() {
     }
 
     
-    
+
 
     Vec2 vResolution = CEngine::GetInst()->GetResolution();
     Vec2 vCenter = vResolution / 2.f;

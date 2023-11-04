@@ -11,6 +11,7 @@ private:
 
 public:
     void SetTexture(const wstring& _strKey, const wstring& _strRelativePath);
+    void SetTexture(class CTexture* _tex);
     UINT GetWidth() { return m_Tex->GetWidth(); }
     UINT GetHeight() { return m_Tex->GetHeight(); }
 
