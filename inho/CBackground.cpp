@@ -29,8 +29,8 @@ void CBackground::render(HDC _dc)
 		Rectangle(_dc,
 			(int)vRenderPos.x,
 			(int)vRenderPos.y,
-			(int)(vRenderPos.x),
-			(int)(vRenderPos.y));
+			(int)(vRenderPos.x)+10,
+			(int)(vRenderPos.y)+10);
 	}
 	else {
 		UINT width = m_Tex->GetWidth();

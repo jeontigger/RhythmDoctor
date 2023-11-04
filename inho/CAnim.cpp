@@ -79,7 +79,7 @@ void CAnim::render(HDC _dc)
 		, blend);
 
 	// 디버깅용 초록 네모 상자 출력
-	{
+	/*{
 		Vec2 m_vScale = m_pAnimator->GetOwner()->GetScale();
 		CPaletteMgr::GetInst()->SelectPen(CPaletteMgr::PenColor::PGREEN);
 		CPaletteMgr::GetInst()->SelectBrush(CPaletteMgr::BrushColor::BHOLLOW);
@@ -88,7 +88,7 @@ void CAnim::render(HDC _dc)
 			int(vRenderPos.y - m_vScale.y / 2.f),
 			int(vRenderPos.x + m_vScale.x / 2.f),
 			int(vRenderPos.y + m_vScale.y / 2.f));
-	}
+	}*/
 }
 
 void CAnim::Create(const wstring& _strName, CTexture* _Atlas, Vec2 _vLeftTop, Vec2 _vCutSize, Vec2 _vOffset, float _Duration, int _MaxFrm)
