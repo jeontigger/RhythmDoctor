@@ -87,6 +87,11 @@ void CEngine::tick() {
     
 }
 
+HDC CEngine::GetSubDC()
+{
+     return m_SubTex->GetDC(); 
+}
+
 void CEngine::ChangeWindowSize(POINT _ptResolution, bool _bMenu)
 {
     m_ptResolution = _ptResolution;

@@ -3,6 +3,7 @@
 class CLevel;
 class CTexture;
 
+
 class CEngine {
     SINGLETON(CEngine);
 
@@ -17,6 +18,7 @@ class CEngine {
   public:
     HWND  GetMainWind() { return m_hWnd; }
     HDC   GetMainDC() { return m_dc; }
+    HDC GetSubDC();
     POINT GetResolution() { return m_ptResolution; }
 
     bool DebugRender() { return m_bDebugRender; }

@@ -23,7 +23,11 @@ CStage::CStage() :
 {
     SetRank(Stage_Rank::A);
     AddComponent<CAnimator>();
+    SetBkMode(CEngine::GetInst()->GetSubDC(), 1);
+    SetTextColor(CEngine::GetInst()->GetSubDC(), RGB(0, 0, 0));
 
+    SetTextAlign(CEngine::GetInst()->GetSubDC(), TA_CENTER);
+    
 }
 
 CStage::~CStage()
@@ -33,6 +37,7 @@ CStage::~CStage()
 void CStage::tick(float _dt)
 {
     Super::tick(_dt);
+    
 }
 
 void CStage::render(HDC _dc)
@@ -45,21 +50,22 @@ void CStage::render(HDC _dc)
     // 아래에서부터 위로 쌓는 식이면 될 듯
     // 아래에서부터 얼만큼 떨어져 있는지 , 그 후로 얼만큼씩 떨어지는지
     Vec2 vPos = GetRenderPos();
-    SetBkMode(_dc, 1);
-    SetTextColor(_dc, RGB(0,0,0));
+    if (!m_isSelected) {
+        
 
-    SetTextAlign(_dc, TA_CENTER);
-    
-    if (m_bIsBoss) {
-        SetTextColor(_dc, RGB(0xD7, 0x4A, 0x8D));
-        TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 3, L"보스", 2);
+        if (m_bIsBoss) {
+            SetTextColor(_dc, RGB(0xD7, 0x4A, 0x8D));
+            TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 3, L"보스", 2);
+        }
+        SetTextColor(_dc, RGB(0xCC, 0xFF, 0x22));
+        TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 2, m_strLevel.c_str(), m_strLevel.length());
+        SetTextColor(_dc, RGB(0x6A, 0xF2, 0xF0));
+        TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 1, m_strName.c_str(), m_strName.length());
+        SetTextColor(_dc, RGB(0xff, 0xff, 0xff));
+        TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 0, m_strRank.c_str(), m_strRank.length());
     }
-    SetTextColor(_dc, RGB(0xCC, 0xFF, 0x22));
-    TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 2, m_strLevel.c_str(), m_strLevel.length());
-    SetTextColor(_dc, RGB(0x6A, 0xF2, 0xF0));
-    TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 1, m_strName.c_str(), m_strName.length());
-    SetTextColor(_dc, RGB(0xff, 0xff, 0xff));
-    TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 0, m_strRank.c_str(), m_strRank.length());
+    
+   
 
     // 디버깅용 초록 네모 상자 출력
     {

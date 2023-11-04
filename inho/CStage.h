@@ -26,6 +26,7 @@ private:
     int m_iDifficulty;
     wstring m_strDescription;
     bool m_bIsBoss;
+    bool m_isSelected;
 
     float m_fStrOffset;
     float m_fStrDiff;
@@ -44,6 +45,7 @@ public:
     void SetName(wstring _name) { m_strName = _name; }
     void SetDescription(wstring _desc) { m_strDescription = _desc; }
     void SetBoss(bool _boss) { m_bIsBoss = _boss; }
+    void SetSelected(bool _selected) { m_isSelected = _selected; }
 
     float GetCameraOffsetX() { return m_CameraOffset.x; }
     void SetCameraOffset(Vec2 _vec) { m_CameraOffset = _vec; }

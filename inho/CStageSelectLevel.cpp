@@ -216,6 +216,7 @@ void CStageSelectLevel::StageSelect()
     m_arrow[0]->SetAlpha(0);
     m_arrow[1]->SetAlpha(0);
     m_Veil->SetAlpha(200);
+    m_vecStages[m_cursorIdx]->SetSelected(true);
 }
 
 void CStageSelectLevel::StageSelectCancel()
@@ -226,5 +227,6 @@ void CStageSelectLevel::StageSelectCancel()
     m_arrow[0]->SetAlpha(255);
     m_arrow[1]->SetAlpha(255);
     m_Veil->SetAlpha(0);
-
+    m_vecStages[m_cursorIdx]->SetSelected(false);
 }
+
