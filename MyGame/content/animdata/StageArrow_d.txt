@@ -30,3 +30,4 @@ texture\StageArrow_d.png
 0.000000 5.000000
 [DURATION]
 0.200000
+

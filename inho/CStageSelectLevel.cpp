@@ -17,7 +17,8 @@
 CStageSelectLevel::CStageSelectLevel():
     m_cursorIdx(0),
     m_Veil(nullptr),
-    SpotlightPos(200.f, 564.f)
+    SpotlightPos(200.f, 564.f),
+    PhonePos(0, 210)
 {
     
 }
@@ -121,8 +122,25 @@ void CStageSelectLevel::init()
     pAnimator->Play(L"StageArrow_d", true);
     m_arrow[1] = arrow;
     m_StageArrow->AddChildUI(arrow);
-     
     AddObject(UI, m_StageArrow);
+     
+    m_Phone = new CAnimUI;
+    CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"SelectPhone", L"texture\\SelectPhone.png");
+    pAnimator = m_Phone->GetComponent<CAnimator>();
+    pAnimator->CreateAnimation(L"SelectPhone", pAtlas, Vec2(0, 0), Vec2(160, 205), Vec2(0, 0), 0.3f, 1);
+    pAnimator->SaveAnimation(L"animdata");
+    //pAnimator->LoadAnimation(L"animdata\\SelectPhone.txt");
+    pAnimator->Play(L"SelectPhone", true);
+    m_Phone->SetPos(PhonePos);
+    m_Phone->SetName(L"Phone");
+    m_Phone->SetAlpha(0);
+    m_Phone->SetScale({ 160, 205 });
+
+    AddObject(UI, m_Phone);
+
+    
+
+    
     
 
     
@@ -207,15 +225,18 @@ void CStageSelectLevel::StageSelect()
     if (pStage->isLeft()) {
         CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x  + pStage->GetSelectOffset(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);
         m_Veil->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset()+SpotlightPos.x - 400.f, SpotlightPos.y});
+        m_Phone->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() +160.f, PhonePos.y});
     }
     else {
         CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x  - pStage->GetSelectOffset(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);
         m_Veil->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() + SpotlightPos.x - 400.f, SpotlightPos.y });
+        m_Phone->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() - 520.f, PhonePos.y });
     }
     
     m_arrow[0]->SetAlpha(0);
     m_arrow[1]->SetAlpha(0);
-    m_Veil->SetAlpha(200);
+    m_Phone->SetAlpha(255);
+    m_Veil->SetAlpha(150);
     m_vecStages[m_cursorIdx]->SetSelected(true);
 }
 
@@ -227,6 +248,8 @@ void CStageSelectLevel::StageSelectCancel()
     m_arrow[0]->SetAlpha(255);
     m_arrow[1]->SetAlpha(255);
     m_Veil->SetAlpha(0);
+    m_Phone->SetAlpha(0);
+    
     m_vecStages[m_cursorIdx]->SetSelected(false);
 }
 

@@ -8,11 +8,13 @@ class CStageSelectLevel : public CLevel {
 private:
     class CAnimUI* m_StageArrow;
     class CAnimUI* m_arrow[2];
+    class CAnimUI* m_Phone;
     vector<class CStage*> m_vecStages;
     bool m_isSelect;
     class CBackground* m_Veil;
 
     Vec2 SpotlightPos;
+    Vec2 PhonePos;
     
 
 private:
