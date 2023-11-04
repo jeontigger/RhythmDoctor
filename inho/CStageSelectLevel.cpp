@@ -48,12 +48,13 @@ void CStageSelectLevel::init()
 
     // 사무라이
     CStage* pStage = new CStage;
-    pStage->SetPos({300, 250});
+    pStage->SetPos({300, Stage_YPosValue });
     pStage->SetScale({ 40, 40 });
     pStage->SetBoss(true);
     pStage->SetLevel(L"1-1");
     pStage->SetName(L"Samurai Techno");
     pStage->SetRank(Stage_Rank::A);
+    pStage->SetCameraOffset({ 100.f,0.f });
   
     CAnimator* pAnimator = pStage->GetComponent<CAnimator>();
     //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"SamuraiAtlas", L"texture\\Samurai.png");
@@ -67,12 +68,13 @@ void CStageSelectLevel::init()
 
     // 인섬니악 생성
     pStage = new CStage;
-    pStage->SetPos({ 400, 250 });
+    pStage->SetPos({ 400, Stage_YPosValue });
     pStage->SetScale({ 42, 42 });
     pStage->SetBoss(true);
     pStage->SetLevel(L"1-XN");
     pStage->SetName(L"Insomniac");
     pStage->SetRank(Stage_Rank::A);
+    pStage->SetCameraOffset({ 100.f,0.f });
 
     pAnimator = pStage->GetComponent<CAnimator>();
     pAnimator->LoadAnimation(L"animdata\\InsomniacIdle.txt");
@@ -149,8 +151,10 @@ void CStageSelectLevel::StageCursorNext()
     if (m_vecStages.size() <= m_cursorIdx) {
         m_cursorIdx = 0;
     }
+    CStage* pStage = m_vecStages[m_cursorIdx];
 
-    m_StageArrow->MoveTo(m_vecStages[m_cursorIdx]->GetPos());
+    m_StageArrow->MoveTo(pStage->GetPos());
+    CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x + pStage->GetCameraOffsetX(), float(CEngine::GetInst()->GetResolution().y / 2.f)}, 0.15f);
 
 
 }
@@ -162,6 +166,8 @@ void CStageSelectLevel::StageCursorPrev()
     if (m_cursorIdx < 0) {
         m_cursorIdx = m_vecStages.size()-1;
     }
+    CStage* pStage = m_vecStages[m_cursorIdx];
 
-    m_StageArrow->MoveTo(m_vecStages[m_cursorIdx]->GetPos());
+    m_StageArrow->MoveTo(pStage->GetPos());
+    CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x + pStage->GetCameraOffsetX(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);
 }

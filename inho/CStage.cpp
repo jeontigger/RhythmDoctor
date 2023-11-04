@@ -15,12 +15,11 @@ CStage::CStage() :
     m_Rank(Stage_Rank::END),
     m_iDifficulty(0),
     m_strDescription(L"xxxxxxX"),
-    m_bIsBoss(false),
+    m_bIsBoss(true),
     m_fStrOffset(100.f),
     m_fStrDiff(23.f)
 {
     SetRank(Stage_Rank::A);
-    m_bIsBoss = true;
     AddComponent<CAnimator>();
 
 }

@@ -44,6 +44,19 @@ void CCamera::tick() {
     if (KEY_TAP(_8)) {
         m_bUseCamera = !m_bUseCamera;
     }
+
+    Vec2 vDir = m_TargetAt - m_vLookAt;
+    if (vDir.Length() <= 1.f) {
+        m_vLookAt = m_TargetAt;
+   
+    }
+    else {
+        vDir.Normalize();
+
+        m_vLookAt += vDir * m_LinearSpeed * DT;
+    }
+
+    
     
 
     Vec2 vResolution = CEngine::GetInst()->GetResolution();
@@ -104,4 +117,10 @@ void CCamera::render(HDC _dc)
         , 0, 0
         , m_Veil->GetWidth(), m_Veil->GetHeight()
         , blend);
+}
+
+void CCamera::SetLinearLookAt(Vec2 _vLookAt, float _time)
+{
+    m_TargetAt = _vLookAt;
+    m_LinearSpeed = (m_vLookAt - m_TargetAt).Length() / _time;
 }

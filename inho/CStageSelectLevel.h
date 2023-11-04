@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "CLevel.h"
+
+constexpr int Stage_YPosValue = 260;
 class CStageSelectLevel : public CLevel {
 
 private:

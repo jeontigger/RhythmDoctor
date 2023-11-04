@@ -28,6 +28,8 @@ private:
     float m_fStrOffset;
     float m_fStrDiff;
 
+    Vec2 m_CameraOffset;
+
 
 public:
     virtual void tick(float _dt) override;
@@ -37,6 +39,9 @@ public:
     void SetName(wstring _name) { m_strName = _name; }
     void SetDescription(wstring _desc) { m_strDescription = _desc; }
     void SetBoss(bool _boss) { m_bIsBoss = _boss; }
+
+    float GetCameraOffsetX() { return m_CameraOffset.x; }
+    void SetCameraOffset(Vec2 _vec) { m_CameraOffset = _vec; }
 
 public:
     CLONE_DISABLE(CStage);
