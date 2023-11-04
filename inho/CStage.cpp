@@ -60,16 +60,18 @@ void CStage::render(HDC _dc)
     SetTextColor(_dc, RGB(0xff, 0xff, 0xff));
     TextOut(_dc, vPos.x, vPos.y - m_fStrOffset - m_fStrDiff * 0, m_strRank.c_str(), m_strRank.length());
 
-    //// 디버깅용 초록 네모 상자 출력
-    //{
-    //    CPaletteMgr::GetInst()->SelectPen(CPaletteMgr::PenColor::PGREEN);
-    //    CPaletteMgr::GetInst()->SelectBrush(CPaletteMgr::BrushColor::BHOLLOW);
+    // 디버깅용 초록 네모 상자 출력
+    {
+        if (!DEBUG_RENDER)
+            return;
+        CPaletteMgr::GetInst()->SelectPen(CPaletteMgr::PenColor::PGREEN);
+        CPaletteMgr::GetInst()->SelectBrush(CPaletteMgr::BrushColor::BHOLLOW);
 
-    //    Rectangle(_dc, int(vRenderPos.x - m_vScale.x / 2.f),
-    //        int(vRenderPos.y - m_vScale.y / 2.f),
-    //        int(vRenderPos.x + m_vScale.x / 2.f),
-    //        int(vRenderPos.y + m_vScale.y / 2.f));
-    //}
+        Rectangle(_dc, int(vRenderPos.x - m_vScale.x / 2.f),
+            int(vRenderPos.y - m_vScale.y / 2.f),
+            int(vRenderPos.x + m_vScale.x / 2.f),
+            int(vRenderPos.y + m_vScale.y / 2.f));
+    }
 }
 
 void CStage::SetRank(Stage_Rank _rank)

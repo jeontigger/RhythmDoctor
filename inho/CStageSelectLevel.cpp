@@ -11,6 +11,7 @@
 //
 #include "CBackground.h"
 #include "CStage.h"
+#include "CAnimUI.h"
 //
 void CStageSelectLevel::init()
 {
@@ -35,9 +36,6 @@ void CStageSelectLevel::init()
     pBg->SetScale({ 2,2 });
     AddObject(BACKGROUND, pBg);
 
-    
-
-
     // 사무라이
     CStage* pStage = new CStage;
     pStage->SetPos({300, 250});
@@ -56,7 +54,7 @@ void CStageSelectLevel::init()
 
     AddObject(STAGE, pStage);
 
-    // 인섬니악
+    // 인섬니악 생성
     pStage = new CStage;
     pStage->SetPos({ 400, 250 });
     pStage->SetScale({ 42, 42 });
@@ -66,13 +64,36 @@ void CStageSelectLevel::init()
     pStage->SetRank(Stage_Rank::A);
 
     pAnimator = pStage->GetComponent<CAnimator>();
-    //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"InsomniacAtlas", L"texture\\Insomniac.png");
-    //pAnimator->CreateAnimation(L"InsomniacIdle", pAtlas, Vec2(0, 0), Vec2(42, 42), Vec2(0, 0), 0.3f, 2);
-    //pAnimator->SaveAnimation(L"animdata");
     pAnimator->LoadAnimation(L"animdata\\InsomniacIdle.txt");
     pAnimator->Play(L"InsomniacIdle", true);
 
     AddObject(STAGE, pStage);
+
+    // 스테이지 커서 생성
+    m_StageArrow = new CAnimUI;
+    m_StageArrow->SetPos(pStage->GetPos());
+
+    // 스테이지 커서 위 화살표
+    CAnimUI* arrow = new CAnimUI;
+    arrow->SetScale({ 3, 5 });
+    arrow->SetPos({ 0, -50 });
+    pAnimator = arrow->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\StageArrow.txt");
+    pAnimator->Play(L"StageArrow", true);
+    m_StageArrow->AddChildUI(arrow);
+
+    // 스테이지 커서 위 화살표
+    arrow = new CAnimUI;
+    arrow->SetScale({ 3, 5 });
+    arrow->SetPos({ 0, 50 });
+    pAnimator = arrow->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\StageArrow_d.txt");
+    pAnimator->Play(L"StageArrow_d", true);
+    m_StageArrow->AddChildUI(arrow);
+
+    AddObject(UI, m_StageArrow);
+    
+
     
 
 

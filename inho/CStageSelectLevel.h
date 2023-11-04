@@ -3,7 +3,7 @@
 class CStageSelectLevel : public CLevel {
 
 private:
-    class CBackground* m_BG;
+    class CAnimUI* m_StageArrow;
 
   public:
     virtual void init() override;
