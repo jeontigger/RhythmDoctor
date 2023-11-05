@@ -1,0 +1,22 @@
+[ANIM_NAME]
+BattlewornInsomniac
+
+[ATLAS_TEXTURE]
+InsomniacAtlas
+
+texture\Insomniac.png
+
+[FRAME_COUNT]
+1
+
+[FRAME_NUM]
+0
+[LEFT_TOP]
+180.000000 4.000000
+[CUT_SIZE]
+21.000000 24.000000
+[OFFSET]
+0.000000 0.000000
+[DURATION]
+0.300000
+

@@ -51,7 +51,7 @@ void CStage::render(HDC _dc)
     // 아래에서부터 얼만큼 떨어져 있는지 , 그 후로 얼만큼씩 떨어지는지
     Vec2 vPos = GetRenderPos();
     if (!m_isSelected) {
-        
+        SetTextAlign(_dc, TA_CENTER);
 
         if (m_bIsBoss) {
             SetTextColor(_dc, RGB(0xD7, 0x4A, 0x8D));

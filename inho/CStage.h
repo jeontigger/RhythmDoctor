@@ -21,6 +21,7 @@ class CStage :
 private:
     wstring m_strLevel;
     wstring m_strName;
+    wstring m_strCharacterName;
     wstring m_strRank;
     Stage_Rank m_Rank;
     int m_iDifficulty;
@@ -42,8 +43,13 @@ public:
     virtual void render(HDC _dc) override;
     void SetRank(Stage_Rank _rank);
     void SetLevel(wstring _level) { m_strLevel = _level; }
-    void SetName(wstring _name) { m_strName = _name; }
+    void SetStageName(wstring _name) { m_strName = _name; }
+    wstring& GetStageName() { return m_strName; }
+    void SetCharacterName(const wstring& _name) { m_strCharacterName = _name; }
+    const wstring& GetCharcaterName() { return m_strCharacterName; }
+
     void SetDescription(wstring _desc) { m_strDescription = _desc; }
+    const wstring& GetDescription() { return m_strDescription; }
     void SetBoss(bool _boss) { m_bIsBoss = _boss; }
     void SetSelected(bool _selected) { m_isSelected = _selected; }
 

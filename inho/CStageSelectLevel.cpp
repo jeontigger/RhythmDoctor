@@ -12,7 +12,7 @@
 #include "CBackground.h"
 #include "CStage.h"
 #include "CAnimUI.h"
-
+#include "CTextUI.h"
 //
 CStageSelectLevel::CStageSelectLevel():
     m_cursorIdx(0),
@@ -29,6 +29,7 @@ CStageSelectLevel::~CStageSelectLevel()
 
 void CStageSelectLevel::init()
 {
+#pragma region 배경생성
     CBackground* pBg;
     float veilWidth = 0;
     // 배경 생성
@@ -60,14 +61,19 @@ void CStageSelectLevel::init()
     m_Veil->SetScale({ 800.f, 71.f });
     m_Veil->SetAlpha(0);
     AddObject(BACKGROUND, m_Veil);
+#pragma endregion
+
+#pragma region 스테이지 생성
 
     // 사무라이
     CStage* pStage = new CStage;
     pStage->SetPos({-200, Stage_YPosValue });
     pStage->SetScale({ 40, 40 });
-    pStage->SetBoss(true);
+    pStage->SetBoss(false);
     pStage->SetLevel(L"1-1");
-    pStage->SetName(L"Samurai Techno");
+    pStage->SetStageName(L"SamuraiTechno");
+    pStage->SetCharacterName(L"사무라이");
+    pStage->SetDescription(L"환자의 심장에 가해지던 압력이 해소됨. 클럽에서는 그나마 가벼운 갑옷을 착용하라고 권장하였음.");
     pStage->SetRank(Stage_Rank::A);
     pStage->SetCameraOffset({ 100.f,0.f });
   
@@ -87,7 +93,9 @@ void CStageSelectLevel::init()
     pStage->SetScale({ 42, 42 });
     pStage->SetBoss(true);
     pStage->SetLevel(L"1-XN");
-    pStage->SetName(L"Insomniac");
+    pStage->SetStageName(L"BattlewornInsomniac");
+    pStage->SetCharacterName(L"사무라이 보스");
+    pStage->SetDescription(L"환자가 기운이 살아남! 한참 신이 나서 검을 휘두르기 시작했으니까, 멈출 때까지 가까이 가지 말도록 할 것.");
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
     pStage->SetCameraOffset({ 100.f,0.f });
     pStage->SetIsLeft(false);
@@ -123,28 +131,123 @@ void CStageSelectLevel::init()
     m_arrow[1] = arrow;
     m_StageArrow->AddChildUI(arrow);
     AddObject(UI, m_StageArrow);
-     
-    m_Phone = new CAnimUI;
-    CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"SelectPhone", L"texture\\SelectPhone.png");
-    pAnimator = m_Phone->GetComponent<CAnimator>();
-    pAnimator->CreateAnimation(L"SelectPhone", pAtlas, Vec2(0, 0), Vec2(160, 205), Vec2(0, 0), 0.3f, 1);
-    pAnimator->SaveAnimation(L"animdata");
-    //pAnimator->LoadAnimation(L"animdata\\SelectPhone.txt");
+
+#pragma endregion
+    m_vecPhones.resize((UINT)Phone_Anim::END);
+    // 휴대폰 추가
+    CAnimUI* pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"SelectPhone", L"texture\\SelectPhone.png");
+    //pAnimator->CreateAnimation(L"SelectPhone", pAtlas, Vec2(0, 0), Vec2(160, 205), Vec2(0, 0), 0.3f, 1);
+    //pAnimator->SaveAnimation(L"animdata");
+    pAnimator->LoadAnimation(L"animdata\\SelectPhone.txt");
     pAnimator->Play(L"SelectPhone", true);
-    m_Phone->SetPos(PhonePos);
-    m_Phone->SetName(L"Phone");
-    m_Phone->SetAlpha(0);
-    m_Phone->SetScale({ 160, 205 });
+    pAUI->SetPos(PhonePos);
+    pAUI->SetName(L"Phone");
+    pAUI->SetScale({ 160, 205 });
+    m_vecPhones[(UINT)Phone_Anim::Phone] = pAUI;
 
-    AddObject(UI, m_Phone);
+    // monitor ♥ 7beats 추가
+     pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    /*CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PhoneMonitor", L"texture\\PhoneMonitor.png");
+    pAnimator->CreateAnimation(L"PhoneMonitor", pAtlas, Vec2(0, 0), Vec2(124, 14), Vec2(0, 0), 0.3f, 3);
+    pAnimator->SaveAnimation(L"animdata");*/
+    pAnimator->LoadAnimation(L"animdata\\PhoneMonitor.txt");
+    pAnimator->Play(L"PhoneMonitor", true);
+    pAUI->SetScale({ 124, 24 });
+    pAUI->SetPos({ 0,-147 });
+    m_vecPhones[(UINT)Phone_Anim::Monitor] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
 
-    
+    // 랭크 종이 추가
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    /*CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"RankPaper", L"texture\\RankPaper.png");
+    pAnimator->CreateAnimation(L"RankPaper", pAtlas, Vec2(0, 0), Vec2(40, 47), Vec2(0, 0), 0.3f, 4);
+    pAnimator->SaveAnimation(L"animdata");*/
+    pAnimator->LoadAnimation(L"animdata\\RankPaper.txt");
+    pAnimator->Play(L"RankPaper", true);
+    pAUI->SetScale({ 40, 47 });
+    pAUI->SetPos({ 140,-107 });
+    m_vecPhones[(UINT)Phone_Anim::Paper] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+    // 랭크 종이 밴드 추가
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    /*CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PhoneBand", L"texture\\PhoneBand.png");
+    pAnimator->CreateAnimation(L"PhoneBand", pAtlas, Vec2(0, 0), Vec2(58, 50), Vec2(0, 0), 0.3f, 4);
+    pAnimator->SaveAnimation(L"animdata");*/
+    pAnimator->LoadAnimation(L"animdata\\PhoneBand.txt");
+    pAnimator->Play(L"PhoneBand", true);
+    pAUI->SetScale({ 58, 50 });
+    pAUI->SetPos({ 125,-90 });
+    m_vecPhones[(UINT)Phone_Anim::Band] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
 
-    
-    
+    // 초상화 추가
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    /*CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"InsomniacAtlas", L"texture\\Insomniac.png");
+    pAnimator->CreateAnimation(L"Insomniac", pAtlas, Vec2(180, 4), Vec2(21, 24), Vec2(0, 0), 0.3f, 1);
+    pAnimator->SaveAnimation(L"animdata");*/
+    pAnimator->LoadAnimation(L"animdata\\BattlewornInsomniac.txt");
+    pAnimator->LoadAnimation(L"animdata\\SamuraiTechno.txt");
+    pAnimator->Play(L"SamuraiTechno", true);
+    pAUI->SetScale({ 21, 24 });
+    pAUI->SetPos({ -95,-39 });
+    m_vecPhones[(UINT)Phone_Anim::Portrait] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
 
-    
+    // 난이도 별 추가
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\PhoneStar.txt");
+    pAnimator->Play(L"PhoneStar", true);
+    pAUI->SetScale({ 12, 12 });
+    pAUI->SetPos({ -53,-25 });
+    m_vecPhones[(UINT)Phone_Anim::Star] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
 
+    // 시작 버튼 추가
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PhoneButton", L"texture\\PhoneButton-s.png");
+    //pAnimator->CreateAnimation(L"PhoneButtonIdle", pAtlas, Vec2(0, 0), Vec2(100, 20), Vec2(0, 0), 0.3f, 1);
+    //pAnimator->SaveAnimation(L"animdata");
+    pAnimator->LoadAnimation(L"animdata\\PhoneButtonIdle.txt");
+    pAnimator->Play(L"PhoneButtonIdle", true);
+    pAUI->SetScale({ 110, 12 });
+    pAUI->SetPos({ 5,145 });
+    m_vecPhones[(UINT)Phone_Anim::Button] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    m_vecPhoneTexts.resize((UINT)Phone_Text::END);
+
+    CTextUI* pTextUI;
+    pTextUI = new CTextUI;
+    pTextUI->SetText(L"이름자리");
+    pTextUI->SetPos({ -120, -97 });
+    m_vecPhoneTexts[(UINT)Phone_Text::StageName] = pTextUI;
+    //m_vecPhoneTexts.push_back(pTextUI);
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pTextUI);
+
+    pTextUI = new CTextUI;
+    pTextUI->SetText(L"캐릭터 이름 자리");
+    pTextUI->SetPos({ -67, -60 });
+    pTextUI->SetColor(0, 0, 0);
+    m_vecPhoneTexts[(UINT)Phone_Text::CharacterName] = pTextUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pTextUI);
+
+    pTextUI = new CTextUI;
+    pTextUI->SetText(L"스테이지 설명 자리");
+    pTextUI->SetPos({ -117, -5 });
+    pTextUI->SetColor(0, 0, 0);
+    m_vecPhoneTexts[(UINT)Phone_Text::Description] = pTextUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone] ->AddChildUI(pTextUI);
+
+    AddObject(UI, m_vecPhones[(UINT)Phone_Anim::Phone]);
+    SetPhoneUIAlpha(0);
 
     // 카메라 설정
     Vec2 vLookAt = CEngine::GetInst()->GetResolution();
@@ -166,6 +269,7 @@ void CStageSelectLevel::exit()
 
 void CStageSelectLevel::tick()
 {
+
     CLevel::tick();
     if (m_isSelect) {
         if (KEY_TAP(ESC)) {
@@ -225,17 +329,21 @@ void CStageSelectLevel::StageSelect()
     if (pStage->isLeft()) {
         CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x  + pStage->GetSelectOffset(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);
         m_Veil->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset()+SpotlightPos.x - 400.f, SpotlightPos.y});
-        m_Phone->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() +160.f, PhonePos.y});
+        m_vecPhones[0]->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() +160.f, PhonePos.y});
     }
     else {
         CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x  - pStage->GetSelectOffset(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);
         m_Veil->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() + SpotlightPos.x - 400.f, SpotlightPos.y });
-        m_Phone->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() - 520.f, PhonePos.y });
+        m_vecPhones[0]->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() - 520.f, PhonePos.y });
     }
+    m_vecPhoneTexts[(UINT)Phone_Text::StageName]->SetText(pStage->GetStageName());
+    m_vecPhoneTexts[(UINT)Phone_Text::CharacterName]->SetText(pStage->GetCharcaterName());
+    m_vecPhoneTexts[(UINT)Phone_Text::Description]->SetText(pStage->GetDescription());
+    m_vecPhones[(UINT)Phone_Anim::Portrait]->GetAnimator()->Play(pStage->GetStageName(), true);
     
     m_arrow[0]->SetAlpha(0);
     m_arrow[1]->SetAlpha(0);
-    m_Phone->SetAlpha(255);
+    SetPhoneUIAlpha(255);
     m_Veil->SetAlpha(150);
     m_vecStages[m_cursorIdx]->SetSelected(true);
 }
@@ -248,8 +356,24 @@ void CStageSelectLevel::StageSelectCancel()
     m_arrow[0]->SetAlpha(255);
     m_arrow[1]->SetAlpha(255);
     m_Veil->SetAlpha(0);
-    m_Phone->SetAlpha(0);
+    SetPhoneUIAlpha(0);
     
     m_vecStages[m_cursorIdx]->SetSelected(false);
+}
+
+void CStageSelectLevel::SetPhoneUIAlpha(int _alpha)
+{
+    for (int i = 0; i < (UINT)Phone_Anim::END; i++) {
+        m_vecPhones[i]->SetAlpha(_alpha);
+    }
+
+    for (int i = 0; i < (UINT)Phone_Text::END; ++i) {
+        if (_alpha == 255) {
+            m_vecPhoneTexts[i]->SetBlink(1.f, 0.f);
+        }
+        else if (_alpha == 0) {
+            m_vecPhoneTexts[i]->SetBlink(0.f, 1.f);
+        }
+    }
 }
 

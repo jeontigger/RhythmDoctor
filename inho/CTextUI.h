@@ -15,6 +15,12 @@ private:
     float m_AccTime;
 
     BtnCallBack m_CallBackFunc;
+    struct fRGB {
+        int r;
+        int g;
+        int b;
+    };
+    fRGB m_Color;
 
 public:
     virtual void render(HDC _dc) override;
@@ -24,6 +30,9 @@ public:
 
     void SetCallBack(BtnCallBack _CallBackFunc) { m_CallBackFunc = _CallBackFunc; }
     virtual void LBtnClicked(Vec2 _vMousePos) override;
+
+public:
+    void SetColor(int _r, int _g, int _b) { m_Color.r = _r; m_Color.g = _g; m_Color.b = _b; }
 
 public:
     CLONE(CTextUI);

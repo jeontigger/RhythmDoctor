@@ -2,13 +2,31 @@
 #include "CLevel.h"
 
 constexpr int Stage_YPosValue = 260;
+enum class Phone_Text{
+    StageName,
+    CharacterName,
+    Description,
+    END
+};
+
+enum class Phone_Anim {
+    Phone,
+    Monitor,
+    Paper,
+    Band,
+    Portrait,
+    Star,
+    Button,
+    END
+};
 
 class CStageSelectLevel : public CLevel {
 
 private:
     class CAnimUI* m_StageArrow;
     class CAnimUI* m_arrow[2];
-    class CAnimUI* m_Phone;
+    vector <class CAnimUI*> m_vecPhones;
+    vector<class CTextUI*> m_vecPhoneTexts;
     vector<class CStage*> m_vecStages;
     bool m_isSelect;
     class CBackground* m_Veil;
@@ -23,6 +41,8 @@ private:
     void StageCursorPrev();
     void StageSelect();
     void StageSelectCancel();
+
+    void SetPhoneUIAlpha(int _alpha);
 
   public:
     virtual void init() override;

@@ -6,7 +6,8 @@
 
 CTextUI::CTextUI():
 	m_fShowTime(1.f),
-	m_fHideTime(0.f)
+	m_fHideTime(0.f),
+	m_Color{255, 255, 255}
 {
 	auto hFont = CreateFont(18, 0, 0, 0, 700, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, VARIABLE_PITCH || FF_ROMAN, TEXT("Anton"));
 	auto oldFont = (HFONT)SelectObject(CEngine::GetInst()->GetMainDC(), hFont);
@@ -26,7 +27,7 @@ void CTextUI::render(HDC _dc)
 	if (GetAlpha() == 255) {
 		Vec2 vPos = GetRenderPos();
 		SetBkMode(_dc, 1);
-		SetTextColor(_dc, RGB(255, 255, 255));
+		SetTextColor(_dc, RGB(m_Color.r, m_Color.g, m_Color.b));
 
 		SetTextAlign(_dc, TA_LEFT);
 		TextOut(_dc, vPos.x, vPos.y, m_Text.c_str(), m_Text.length());
