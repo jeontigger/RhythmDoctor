@@ -133,13 +133,12 @@ void CStageSelectLevel::init()
     AddObject(UI, m_StageArrow);
 
 #pragma endregion
+
+
     m_vecPhones.resize((UINT)Phone_Anim::END);
     // 휴대폰 추가
     CAnimUI* pAUI = new CAnimUI;
     pAnimator = pAUI->GetComponent<CAnimator>();
-    //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"SelectPhone", L"texture\\SelectPhone.png");
-    //pAnimator->CreateAnimation(L"SelectPhone", pAtlas, Vec2(0, 0), Vec2(160, 205), Vec2(0, 0), 0.3f, 1);
-    //pAnimator->SaveAnimation(L"animdata");
     pAnimator->LoadAnimation(L"animdata\\SelectPhone.txt");
     pAnimator->Play(L"SelectPhone", true);
     pAUI->SetPos(PhonePos);
@@ -150,9 +149,6 @@ void CStageSelectLevel::init()
     // monitor ♥ 7beats 추가
      pAUI = new CAnimUI;
     pAnimator = pAUI->GetComponent<CAnimator>();
-    /*CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PhoneMonitor", L"texture\\PhoneMonitor.png");
-    pAnimator->CreateAnimation(L"PhoneMonitor", pAtlas, Vec2(0, 0), Vec2(124, 14), Vec2(0, 0), 0.3f, 3);
-    pAnimator->SaveAnimation(L"animdata");*/
     pAnimator->LoadAnimation(L"animdata\\PhoneMonitor.txt");
     pAnimator->Play(L"PhoneMonitor", true);
     pAUI->SetScale({ 124, 24 });
@@ -163,21 +159,16 @@ void CStageSelectLevel::init()
     // 랭크 종이 추가
     pAUI = new CAnimUI;
     pAnimator = pAUI->GetComponent<CAnimator>();
-    /*CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"RankPaper", L"texture\\RankPaper.png");
-    pAnimator->CreateAnimation(L"RankPaper", pAtlas, Vec2(0, 0), Vec2(40, 47), Vec2(0, 0), 0.3f, 4);
-    pAnimator->SaveAnimation(L"animdata");*/
     pAnimator->LoadAnimation(L"animdata\\RankPaper.txt");
     pAnimator->Play(L"RankPaper", true);
     pAUI->SetScale({ 40, 47 });
     pAUI->SetPos({ 140,-107 });
     m_vecPhones[(UINT)Phone_Anim::Paper] = pAUI;
     m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
     // 랭크 종이 밴드 추가
     pAUI = new CAnimUI;
     pAnimator = pAUI->GetComponent<CAnimator>();
-    /*CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PhoneBand", L"texture\\PhoneBand.png");
-    pAnimator->CreateAnimation(L"PhoneBand", pAtlas, Vec2(0, 0), Vec2(58, 50), Vec2(0, 0), 0.3f, 4);
-    pAnimator->SaveAnimation(L"animdata");*/
     pAnimator->LoadAnimation(L"animdata\\PhoneBand.txt");
     pAnimator->Play(L"PhoneBand", true);
     pAUI->SetScale({ 58, 50 });
@@ -185,12 +176,22 @@ void CStageSelectLevel::init()
     m_vecPhones[(UINT)Phone_Anim::Band] = pAUI;
     m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
 
+    // 랭크 추가
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PaperRankAPlus", L"texture\\PaperRankAPlus.png");
+    pAnimator->CreateAnimation(L"PaperRankAPlus", pAtlas, Vec2(0, 0), Vec2(30, 34), Vec2(0, 0), 0.3f, 1);
+    pAnimator->SaveAnimation(L"animdata");
+    //pAnimator->LoadAnimation(L"animdata\\PaperRankAPlus.txt");
+    pAnimator->Play(L"PaperRankAPlus", true);
+    pAUI->SetScale({ 30, 34 });
+    pAUI->SetPos({ 135,-105 });
+    m_vecPhones[(UINT)Phone_Anim::Rank] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
     // 초상화 추가
     pAUI = new CAnimUI;
     pAnimator = pAUI->GetComponent<CAnimator>();
-    /*CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"InsomniacAtlas", L"texture\\Insomniac.png");
-    pAnimator->CreateAnimation(L"Insomniac", pAtlas, Vec2(180, 4), Vec2(21, 24), Vec2(0, 0), 0.3f, 1);
-    pAnimator->SaveAnimation(L"animdata");*/
     pAnimator->LoadAnimation(L"animdata\\BattlewornInsomniac.txt");
     pAnimator->LoadAnimation(L"animdata\\SamuraiTechno.txt");
     pAnimator->Play(L"SamuraiTechno", true);
@@ -212,15 +213,94 @@ void CStageSelectLevel::init()
     // 시작 버튼 추가
     pAUI = new CAnimUI;
     pAnimator = pAUI->GetComponent<CAnimator>();
-    //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PhoneButton", L"texture\\PhoneButton-s.png");
-    //pAnimator->CreateAnimation(L"PhoneButtonIdle", pAtlas, Vec2(0, 0), Vec2(100, 20), Vec2(0, 0), 0.3f, 1);
-    //pAnimator->SaveAnimation(L"animdata");
     pAnimator->LoadAnimation(L"animdata\\PhoneButtonIdle.txt");
     pAnimator->Play(L"PhoneButtonIdle", true);
     pAUI->SetScale({ 110, 12 });
     pAUI->SetPos({ 5,145 });
     m_vecPhones[(UINT)Phone_Anim::Button] = pAUI;
     m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    // Start!! 출력 생성
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\Start.txt");
+    pAnimator->Play(L"Start", true);
+    pAUI->SetScale({ 30, 6 });
+    pAUI->SetPos({ 30,145 });
+    m_vecPhones[(UINT)Phone_Anim::Start] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    // Start!! 손 생성
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\StartHand.txt");
+    pAnimator->Play(L"StartHand", true);
+    pAUI->SetScale({ 13, 10 });
+    pAUI->SetPos({ -40,145 });
+    m_vecPhones[(UINT)Phone_Anim::Hand] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    // Left Arrow 생성
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\ButtonArrowL.txt");
+    pAnimator->Play(L"ButtonArrowL", true);
+    pAUI->SetScale({ 13, 10 });
+    pAUI->SetPos({ -80,145 });
+    m_vecPhones[(UINT)Phone_Anim::LArrow] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    // Right Arrow 생성
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\ButtonArrowR.txt");
+    pAnimator->Play(L"ButtonArrowR", true);
+    pAUI->SetScale({ 13, 10 });
+    pAUI->SetPos({ 87 ,145 });
+    m_vecPhones[(UINT)Phone_Anim::RArrow] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    // LT 생성
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\LT.txt");
+    pAnimator->Play(L"LT", true);
+    pAUI->SetScale({ 4, 4 });
+    pAUI->SetPos({ -105,125 });
+    m_vecPhones[(UINT)Phone_Anim::LT] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    // RT 생성
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\RT.txt");
+    pAnimator->Play(L"RT", true);
+    pAUI->SetScale({ 4, 4 });
+    pAUI->SetPos({ 115,125 });
+    m_vecPhones[(UINT)Phone_Anim::RT] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    // LB 생성
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\LB.txt");
+    pAnimator->Play(L"LB", true);
+    pAUI->SetScale({ 4, 4 });
+    pAUI->SetPos({ -105,165 });
+    m_vecPhones[(UINT)Phone_Anim::LB] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+    // RB 생성
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\RB.txt");
+    pAnimator->Play(L"RB", true);
+    pAUI->SetScale({ 4, 4 });
+    pAUI->SetPos({ 115,165 });
+    m_vecPhones[(UINT)Phone_Anim::RB] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+
 
     m_vecPhoneTexts.resize((UINT)Phone_Text::END);
 

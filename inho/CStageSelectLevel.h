@@ -14,9 +14,18 @@ enum class Phone_Anim {
     Monitor,
     Paper,
     Band,
+    Rank,
     Portrait,
     Star,
     Button,
+    Start,
+    Hand,
+    LArrow,
+    RArrow,
+    LT,
+    RT,
+    LB,
+    RB,
     END
 };
 
