@@ -7,6 +7,7 @@
 
 #include "CLevel.h"
 #include "CStageSelectLevel.h"
+#include "CStagePlayLevel.h"
 #include "CStartMenuLevel.h"
 #include "CEditorLevel.h"
 
@@ -33,12 +34,13 @@ void CLevelMgr::init() {
     m_arrLevels[(UINT)LEVEL_TYPE::START_MENU_LEVEL] = new CStartMenuLevel;
     m_arrLevels[(UINT)LEVEL_TYPE::EDITOR_LEVEL] = new CEditorLevel;
     m_arrLevels[(UINT)LEVEL_TYPE::STAGE_SELECT_LEVEL] = new CStageSelectLevel;
+    m_arrLevels[(UINT)LEVEL_TYPE::STAGE_PLAY_LEVEL] = new CStagePlayLevel;
 
     for (UINT i = 0; i < (UINT)LEVEL_TYPE::END; i++) {
         m_arrLevels[i]->init();
     }
 
-    ::ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
+    ::ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);
 
 }
 

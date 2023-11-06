@@ -336,18 +336,22 @@ void CStageSelectLevel::init()
     Vec2 vLookAt = CEngine::GetInst()->GetResolution();
     vLookAt /= 2.f;
     CCamera::GetInst()->SetLookAt(vLookAt);
-    StageCursorNext();
-    StageCursorPrev();
+    
+    
 }
 
 void CStageSelectLevel::enter()
 {
+    m_isSelect = false;
+    StageSelectCancel();
     CCamera::GetInst()->FadeIn(1.0f);
+    StageCursorNext();
+    StageCursorPrev();
 }
 
 void CStageSelectLevel::exit()
 {
-    DeleteAllObjects();
+    /*DeleteAllObjects();*/
 }
 
 void CStageSelectLevel::tick()
@@ -357,6 +361,7 @@ void CStageSelectLevel::tick()
     if (m_isSelect) {
         if (KEY_TAP(ENTER)) {
             CCamera::GetInst()->BlinkIn(.5f);
+            ChangeLevel(LEVEL_TYPE::STAGE_PLAY_LEVEL);
         }
         if (KEY_TAP(ESC)) {
             StageSelectCancel();
@@ -372,6 +377,9 @@ void CStageSelectLevel::tick()
 
         if (KEY_TAP(ENTER)) {
             StageSelect();
+        }
+        if (KEY_TAP(ESC)) {
+            ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);
         }
 
     }
@@ -411,6 +419,7 @@ void CStageSelectLevel::StageSelect()
 {
     m_isSelect = true;
     CStage* pStage = m_vecStages[m_cursorIdx];
+
     if (pStage->isLeft()) {
         CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x  + pStage->GetSelectOffset(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);
         m_Veil->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset()+SpotlightPos.x - 400.f, SpotlightPos.y});

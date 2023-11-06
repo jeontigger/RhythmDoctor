@@ -151,6 +151,7 @@ enum LOG_LEVEL {
 enum class LEVEL_TYPE {
     START_MENU_LEVEL,
     STAGE_SELECT_LEVEL,
+    STAGE_PLAY_LEVEL,
     EDITOR_LEVEL,
     END,
 };

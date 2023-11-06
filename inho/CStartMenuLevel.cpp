@@ -20,8 +20,9 @@ void CStartMenuLevel::init()
 	// 배경 생성
 	CBackground* bg = new CBackground;
 	bg->SetTexture(L"StartBG", L"texture\\BG.png");
-	bg->SetPos({ 100, 125 });
-	bg->SetScale({ 2,2 });
+	bg->SetPos({ 300, 375 });
+
+	bg->SetScale({ bg->GetWidth(),bg->GetHeight()});
 	bg->SetAlpha(50);
 	
 	AddObject(BACKGROUND, bg);
@@ -98,17 +99,14 @@ void CStartMenuLevel::init()
 
 	//m_Cursor->GetAnimator()->CreateAnimation(L"Cursor", pAtlas, Vec2(0.f, 0.f), Vec2(3, 5), { 0,0 }, 0.05f, 1);
 	m_Cursor->GetAnimator()->LoadAnimation(L"animdata\\Cursor.txt");
-	m_Cursor->SetScale({ 2.f, 2.f });
+	m_Cursor->SetScale({ 3.f, 5.f });
 	
 	m_Cursor->SetPos({ 740.f, 100.f });
 	m_Cursor->GetAnimator()->Play(L"Cursor", true);
 	AddObject(UI, m_Cursor);
 
 	
-	// 카메라 설정
-	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
-	vLookAt /= 2.f;
-	CCamera::GetInst()->SetLookAt(vLookAt);
+
 
 	m_bOpen = false;
 }
@@ -123,12 +121,15 @@ void CStartMenuLevel::enter()
 	pSound->SetPosition(0.f);
 	pSound->PlayToBGM(true);
 	m_Monitor->GetAnimator()->Play(L"MonitorFallDown", false);
-	
+	// 카메라 설정
+	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
+	vLookAt /= 2.f;
+	CCamera::GetInst()->SetLookAt(vLookAt);
 }
 
 void CStartMenuLevel::exit()
 {
-	DeleteAllObjects();
+	//DeleteAllObjects();
 }
 
 void CStartMenuLevel::tick()

@@ -59,7 +59,7 @@ public:
     }
 
   public:
-      virtual void begin() {};
+     virtual void begin() {};
     virtual void tick(float _DT);
     virtual void finaltick(float _DT);
     virtual void render(HDC _dc);

@@ -92,6 +92,9 @@
     <Filter Include="Game\05. Object\Stage">
       <UniqueIdentifier>{8639c905-b5a5-417d-9752-cd45eaf31930}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\05. Object\Character">
+      <UniqueIdentifier>{b0c234eb-6275-48df-bdef-fa1e28643f95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inho.h">
@@ -260,6 +263,13 @@
     <ClInclude Include="CStage.h">
       <Filter>Game\05. Object\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="CStagePlayLevel.h">
+      <Filter>Game\04. Level\PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CJudgeBar.h">
+      <Filter>Game\05. Object\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="CCharacter.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -423,5 +433,12 @@
     <ClCompile Include="CStage.cpp">
       <Filter>Game\05. Object\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="CStagePlayLevel.cpp">
+      <Filter>Game\04. Level\PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CJudgeBar.cpp">
+      <Filter>Game\05. Object\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="CCharacter.cpp" />
   </ItemGroup>
 </Project>
