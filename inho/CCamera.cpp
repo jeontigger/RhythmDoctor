@@ -11,10 +11,12 @@
 
 CCamera::CCamera():
     m_Veil(nullptr),
-    m_Alpha(0.f)
+    m_BlinkAlpha(0.f),
+    m_VeilAlpha(0.f)
 {
     Vec2 vResol = CEngine::GetInst()->GetResolution();
     m_Veil = CAssetMgr::GetInst()->CreateTexture(L"VeilTex", vResol.x, vResol.y);
+    m_Blink = CAssetMgr::GetInst()->LoadTexture(L"BlinkTex", L"texture\\Blink.png");
 }
 
 CCamera::~CCamera() {}
@@ -75,13 +77,13 @@ void CCamera::tick() {
         evnt.AccTime += DT;
 
         if (evnt.Duration <= evnt.AccTime) {
-            m_Alpha = 0;
+            m_VeilAlpha = 0;
             m_EventList.pop_front();
         }
         else {
             float fRatio = evnt.AccTime / evnt.Duration;
             float alpha = 1.f - fRatio;
-            m_Alpha = (UINT)(alpha * 255);
+            m_VeilAlpha = (UINT)(alpha * 255);
         }
     }
 
@@ -91,32 +93,70 @@ void CCamera::tick() {
 
         if (evnt.Duration <= evnt.AccTime) {
             m_EventList.pop_front();
-            m_Alpha = 255;
+            m_VeilAlpha = 255;
         }
         else {
             float fRatio = evnt.AccTime / evnt.Duration;
             float alpha = fRatio;
-            m_Alpha = (UINT)(alpha * 255);
+            m_VeilAlpha = (UINT)(alpha * 255);
+        }
+    }
+
+    else if (evnt.type == CAM_EFFECT::BLINK_IN) {
+
+        evnt.AccTime += DT;
+
+        if (evnt.Duration <= evnt.AccTime) {
+            m_BlinkAlpha = 0;
+            m_EventList.pop_front();
+        }
+        else {
+            float fRatio = evnt.AccTime / evnt.Duration;
+            float alpha = 1.f - fRatio;
+            m_BlinkAlpha = (UINT)(alpha * 255);
+        }
+    }
+    else if (evnt.type == CAM_EFFECT::BLINK_OUT) {
+
+        evnt.AccTime += DT;
+
+        if (evnt.Duration <= evnt.AccTime) {
+            m_EventList.pop_front();
+            m_BlinkAlpha = 255;
+        }
+        else {
+            float fRatio = evnt.AccTime / evnt.Duration;
+            float alpha = fRatio;
+            m_BlinkAlpha = (UINT)(alpha * 255);
         }
     }
 }
 
 void CCamera::render(HDC _dc)
 {
-    if (0 == m_Alpha)
+    if (0 == m_VeilAlpha && 0 == m_BlinkAlpha)
         return;
 
     BLENDFUNCTION blend = {};
     blend.BlendOp = AC_SRC_OVER;
     blend.BlendFlags = 0;
-    blend.SourceConstantAlpha = m_Alpha;
+    blend.SourceConstantAlpha = m_VeilAlpha;
     blend.AlphaFormat = 0;
 
-    AlphaBlend(_dc
+    /*AlphaBlend(_dc
         , 0, 0, m_Veil->GetWidth(), m_Veil->GetHeight()
         , m_Veil->GetDC()
         , 0, 0
         , m_Veil->GetWidth(), m_Veil->GetHeight()
+        , blend);*/
+
+    blend.SourceConstantAlpha = m_BlinkAlpha;
+
+    AlphaBlend(_dc
+        , 0, 0,CEngine::GetInst()->GetResolution().x, CEngine::GetInst()->GetResolution().y
+        , m_Blink->GetDC()
+        , 0, 0
+        , m_Blink->GetWidth(), m_Blink->GetHeight()
         , blend);
 }
 

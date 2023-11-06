@@ -134,6 +134,7 @@ void CStageSelectLevel::init()
 
 #pragma endregion
 
+#pragma region 휴대폰 UI
 
     m_vecPhones.resize((UINT)Phone_Anim::END);
     // 휴대폰 추가
@@ -329,6 +330,8 @@ void CStageSelectLevel::init()
     AddObject(UI, m_vecPhones[(UINT)Phone_Anim::Phone]);
     SetPhoneUIAlpha(0);
 
+#pragma endregion
+
     // 카메라 설정
     Vec2 vLookAt = CEngine::GetInst()->GetResolution();
     vLookAt /= 2.f;
@@ -352,6 +355,9 @@ void CStageSelectLevel::tick()
 
     CLevel::tick();
     if (m_isSelect) {
+        if (KEY_TAP(ENTER)) {
+            CCamera::GetInst()->BlinkIn(.5f);
+        }
         if (KEY_TAP(ESC)) {
             StageSelectCancel();
         }
@@ -369,7 +375,6 @@ void CStageSelectLevel::tick()
         }
 
     }
-    
 
 }
 

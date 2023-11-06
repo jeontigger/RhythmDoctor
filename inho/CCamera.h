@@ -5,6 +5,8 @@ class CTexture;
 enum class CAM_EFFECT {
     FADE_IN,
     FADE_OUT,
+    BLINK_IN,
+    BLINK_OUT,
 };
 
 struct FCamEvent {
@@ -22,12 +24,14 @@ class CCamera {
     Vec2 m_vLookAt;
     Vec2 m_vDiff;
     CTexture* m_Veil;
+    CTexture* m_Blink;
 
     Vec2 m_TargetAt;
     float m_LinearSpeed;
 
     list<FCamEvent> m_EventList;
-    UINT m_Alpha;
+    UINT m_VeilAlpha;
+    UINT m_BlinkAlpha;
 
   public:
     void tick();
@@ -46,6 +50,22 @@ class CCamera {
     void FadeOut(float _time) {
         FCamEvent evnt = {};
         evnt.type = CAM_EFFECT::FADE_OUT;
+        evnt.AccTime = 0.f;
+        evnt.Duration = _time;
+        m_EventList.push_back(evnt);
+    }
+
+    void BlinkIn(float _time) {
+        FCamEvent evnt = {};
+        evnt.type = CAM_EFFECT::BLINK_IN;
+        evnt.AccTime = 0.f;
+        evnt.Duration = _time;
+        m_EventList.push_back(evnt);
+    }
+
+    void BlinkOut(float _time) {
+        FCamEvent evnt = {};
+        evnt.type = CAM_EFFECT::BLINK_OUT;
         evnt.AccTime = 0.f;
         evnt.Duration = _time;
         m_EventList.push_back(evnt);
