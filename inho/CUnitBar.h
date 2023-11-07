@@ -13,8 +13,8 @@ private:
     class CCharacter* m_Character;
     class CHeart* m_Heart;
 
-private:
-    void ShowNote(int _idx);
+public:
+    void HideBar(int _idx, float _duration);
 public:
     virtual void begin() override;
     virtual void tick(float _dt) override;
@@ -23,5 +23,6 @@ public:
     CLONE_DISABLE(CUnitBar);
     CUnitBar();
     ~CUnitBar();
+
 };
 

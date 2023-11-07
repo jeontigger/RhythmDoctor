@@ -3,10 +3,15 @@
 class CStagePlayLevel :
     public CLevel
 {
-    
 private:
-    class CUnitBar* m_Judgebar;
+    list<class CNote*> m_listNotes;
+
+private:
+    class CUnitBar* m_UnitBar;
     class CCharacter* m_Hand;
+
+private:
+    float m_AccTime;
 
 public:
     void Judge();

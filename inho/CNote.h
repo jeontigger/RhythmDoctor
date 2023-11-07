@@ -1,28 +1,31 @@
 ﻿#pragma once
 #include "CObj.h"
 
-enum class NoteType {
-    NORMAL,
-    GETSET,
-    END
-};
 class CNote :
     public CObj
 {
     GENERATED_OBJECT(CObj);
 
-private:
-    NoteType m_Type;
+protected:
+    class CUnitBar* m_bar;
+
+protected:
+    float m_StartTime;
     float m_AccTime;
-    float m_Beat;
+    float m_BeatSpeed;
 
 public:
-    virtual void tick(float _dt) override;
-
+    void SetBeatSpeed(float _speed) { m_BeatSpeed = _speed; }
 
 public:
+    virtual void Play(class CUnitBar* _bar);
+    
+ public:
     CLONE(CNote);
     CNote();
     ~CNote();
+
+    friend class CUnitBar;
+    friend class CStagePlayLevel;
 };
 

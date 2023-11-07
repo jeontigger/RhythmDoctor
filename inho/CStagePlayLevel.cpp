@@ -10,8 +10,11 @@
 
 #include "CUnitBar.h"
 #include "CCharacter.h"
+#include "CNote.h"
+#include "CNormalNote.h"
 
-CStagePlayLevel::CStagePlayLevel()
+CStagePlayLevel::CStagePlayLevel(): 
+	m_AccTime(0.f)
 {
 }
 
@@ -23,8 +26,8 @@ CStagePlayLevel::~CStagePlayLevel()
 void CStagePlayLevel::init()
 {
 
-	m_Judgebar = new CUnitBar;
-	AddObject(PLAYER, m_Judgebar);
+	m_UnitBar = new CUnitBar;
+	AddObject(PLAYER, m_UnitBar);
 
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 	
@@ -64,12 +67,30 @@ void CStagePlayLevel::tick()
 {
 	CLevel::tick();
 
+
+
+
+	
+
 	if (KEY_TAP(ESC)) {
 		ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 	}
 	if(KEY_TAP(SPACE)) {
-		Judge();
+		CNormalNote* newNote = new CNormalNote;
+		newNote->SetBeatSpeed(0.3f);
+		newNote->Play(m_UnitBar);
+		AddObject(PLAYER, newNote);
 	}
+
+	/*CNote* note = m_listNotes.front();
+	if (m_AccTime <= note->m_StartTime) {
+		note->Play(m_UnitBar);
+		m_listNotes.pop_front();
+	}*/
+
+	
+
+
 }
 
 void CStagePlayLevel::Judge()

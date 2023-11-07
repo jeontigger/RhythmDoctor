@@ -92,8 +92,8 @@
     <Filter Include="Game\05. Object\Stage">
       <UniqueIdentifier>{8639c905-b5a5-417d-9752-cd45eaf31930}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\05. Object\Character">
-      <UniqueIdentifier>{b0c234eb-6275-48df-bdef-fa1e28643f95}</UniqueIdentifier>
+    <Filter Include="Game\05. Object\Stage\Note">
+      <UniqueIdentifier>{ce4158e3-a6d1-4a81-bb25-0fbb061be652}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -275,11 +275,14 @@
     <ClInclude Include="CHeart.h">
       <Filter>Game\05. Object\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="CNote.h">
-      <Filter>Game\05. Object\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="CUnitBar.h">
       <Filter>Game\05. Object\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="CNote.h">
+      <Filter>Game\05. Object\Stage\Note</Filter>
+    </ClInclude>
+    <ClInclude Include="CNormalNote.h">
+      <Filter>Game\05. Object\Stage\Note</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -456,11 +459,14 @@
     <ClCompile Include="CHeart.cpp">
       <Filter>Game\05. Object\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="CNote.cpp">
-      <Filter>Game\05. Object\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="CUnitBar.cpp">
       <Filter>Game\05. Object\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="CNote.cpp">
+      <Filter>Game\05. Object\Stage\Note</Filter>
+    </ClCompile>
+    <ClCompile Include="CNormalNote.cpp">
+      <Filter>Game\05. Object\Stage\Note</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

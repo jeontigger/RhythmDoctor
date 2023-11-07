@@ -5,13 +5,22 @@
 #include "CJudgeBar.h"
 #include "CHeart.h"
 #include "CCharacter.h"
+#include "CNote.h"
 
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CAssetMgr.h"
 #include "CKeyMgr.h"
 
+CUnitBar::CUnitBar()
+{
 
+
+}
+
+CUnitBar::~CUnitBar()
+{
+}
 
 void CUnitBar::begin()
 {
@@ -54,29 +63,44 @@ void CUnitBar::begin()
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Character);
 
 }
+	float beatSpeed = 0.3f;
 
 void CUnitBar::tick(float _dt)
 {
+	
 
 	if (KEY_TAP(Q)) {
-		ShowNote(0);
+		HideBar(0, beatSpeed);
+	}
+	if (KEY_TAP(W)) {
+		HideBar(1, beatSpeed);
+	}
+	if (KEY_TAP(E)) {
+		HideBar(2, beatSpeed);
+	}
+	if (KEY_TAP(R)) {
+		HideBar(3, beatSpeed);
+	}
+	if (KEY_TAP(T)) {
+		HideBar(4, beatSpeed);
+	}
+	if (KEY_TAP(Y)) {
+		HideBar(5, beatSpeed);
+	}
+	if (KEY_TAP(A)) {
+		beatSpeed += 0.1f;
+	}
+	if (KEY_TAP(S)) {
+		beatSpeed -= 0.1f;
 	}
 
 }
 
-void CUnitBar::ShowNote(int _idx)
+void CUnitBar::HideBar(int _idx, float _duration)
 {
-
 	for (int i = StartPoint[_idx]; i < StartPoint[_idx]+NoteSize; i++) {
-		m_vecBars[i]->Hide(3.f);
+		m_vecBars[i]->Hide(_duration);
 	}
 }
 
-CUnitBar::CUnitBar() {
 
-	
-}
-
-CUnitBar::~CUnitBar()
-{
-}
