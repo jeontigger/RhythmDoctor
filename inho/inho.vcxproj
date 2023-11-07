@@ -163,6 +163,7 @@
     <ClInclude Include="CLogMgr.h" />
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CMovement.h" />
+    <ClInclude Include="CNormalBeat.h" />
     <ClInclude Include="CNormalMonIdle.h" />
     <ClInclude Include="CNormalMonTrace.h" />
     <ClInclude Include="CNormalNote.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="CLogMgr.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CMovement.cpp" />
+    <ClCompile Include="CNormalBeat.cpp" />
     <ClCompile Include="CNormalMonIdle.cpp" />
     <ClCompile Include="CNormalMonTrace.cpp" />
     <ClCompile Include="CNormalNote.cpp" />

@@ -37,5 +37,6 @@ public:
     ~CAnimator();
 
     friend class CHeart;
+    friend class CNormalBeat;
 };
 
