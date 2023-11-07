@@ -4,6 +4,7 @@
 #include "CAnimator.h"
 #include "CAssetMgr.h"
 
+
 CJudgeBar::CJudgeBar()
 {
 	m_Bar = AddComponent<CAnimator>();
@@ -15,4 +16,21 @@ CJudgeBar::CJudgeBar()
 
 CJudgeBar::~CJudgeBar()
 {
+}
+
+void CJudgeBar::Hide(float _duration)
+{
+	m_AccTime = 0;
+	m_ShowTime = _duration;
+
+	CObj::Hide();
+}
+
+void CJudgeBar::tick(float _dt)
+{
+	m_AccTime += _dt;
+	if (m_ShowTime <= m_AccTime) {
+		Show();
+		m_AccTime;
+	}
 }

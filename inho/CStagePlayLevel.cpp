@@ -8,9 +8,8 @@
 #include "CKeyMgr.h"
 #include "CTexture.h"
 
-#include "CJudgeBar.h"
+#include "CUnitBar.h"
 #include "CCharacter.h"
-#include "CHeart.h"
 
 CStagePlayLevel::CStagePlayLevel()
 {
@@ -24,42 +23,13 @@ CStagePlayLevel::~CStagePlayLevel()
 void CStagePlayLevel::init()
 {
 
-	m_Judgebar = new CJudgeBar;
-	Vec2 vRes = CEngine::GetInst()->GetResolution();
-	Vec2 vBarScale = { 550, 1 };
-	m_Judgebar->SetPos({ vRes.x / 2.f,vRes.y / 2.f });
-	/*m_Judgebar->SetScale(vBarScale);
-	AddObject(PLAYER, m_Judgebar);*/
-	m_Judgebar->SetPos({ vRes.x/2.f,vRes.y/2.f });
-	m_Judgebar->SetScale({ 3,1 });
-	vector<CJudgeBar*> m_vecBars;
-	m_vecBars.resize(180);
-	m_vecBars.push_back(m_Judgebar);
-	for (int i = 1; i < 180; i++) {
-		m_vecBars[i] = m_Judgebar->Clone();
-	}
-	for (int i = 1; i < 180; i++) {
-		m_vecBars[i]->SetPos({ vRes.x / 2.f - 270.f + 3.f*i,vRes.y / 2.f });
-		AddObject(PLAYER, m_vecBars[i]);
-	}
-	
-	m_Heart = new CHeart;
-	m_Heart->SetPos({ vRes.x / 2.f + 280.f, vRes.y / 2.f + 3.f });
-	m_Heart->SetScale({ 10, 11 });
-	AddObject(PLAYER, m_Heart);
+	m_Judgebar = new CUnitBar;
+	AddObject(PLAYER, m_Judgebar);
 
+	Vec2 vRes = CEngine::GetInst()->GetResolution();
+	
 	CTexture* pAtlas;
 	CAnimator* pAnimator;
-
-	m_Character = new CCharacter;
-	m_Character->SetPos({ vRes.x / 2.f-  280.f, vRes.y / 2.f });
-	m_Character->SetScale({ 40, 40 });
-	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeAtlas", L"texture\\Cole.png");
-	pAnimator = m_Character->GetComponent<CAnimator>();
-	pAnimator->CreateAnimation(L"ColeIdle", pAtlas, Vec2(40, 0), Vec2(40, 40), Vec2(0, 0), 0.3f, 4);
-	pAnimator->SaveAnimation(L"animdata");
-	pAnimator->Play(L"ColeIdle", true);
-	AddObject(PLAYER, m_Character);
 
 
 	m_Hand = new CCharacter;

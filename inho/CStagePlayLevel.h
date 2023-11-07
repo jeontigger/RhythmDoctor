@@ -5,9 +5,7 @@ class CStagePlayLevel :
 {
     
 private:
-    class CJudgeBar* m_Judgebar;
-    class CCharacter* m_Character;
-    class CHeart* m_Heart;
+    class CUnitBar* m_Judgebar;
     class CCharacter* m_Hand;
 
 public:

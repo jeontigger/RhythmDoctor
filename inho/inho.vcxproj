@@ -191,6 +191,7 @@
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIMgr.h" />
+    <ClInclude Include="CUnitBar.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="func.h" />
     <ClInclude Include="global.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIMgr.cpp" />
+    <ClCompile Include="CUnitBar.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="inho.cpp" />
     <ClCompile Include="pch.cpp">
