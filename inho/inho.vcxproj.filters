@@ -95,6 +95,9 @@
     <Filter Include="Game\05. Object\Stage\Note">
       <UniqueIdentifier>{ce4158e3-a6d1-4a81-bb25-0fbb061be652}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\05. Object\Stage\Beat">
+      <UniqueIdentifier>{92a1d876-f676-4b4d-9884-a27a2c30e178}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inho.h">
@@ -284,6 +287,9 @@
     <ClInclude Include="CNormalNote.h">
       <Filter>Game\05. Object\Stage\Note</Filter>
     </ClInclude>
+    <ClInclude Include="CNormalBeat.h">
+      <Filter>Game\05. Object\Stage\Beat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -467,6 +473,9 @@
     </ClCompile>
     <ClCompile Include="CNormalNote.cpp">
       <Filter>Game\05. Object\Stage\Note</Filter>
+    </ClCompile>
+    <ClCompile Include="CNormalBeat.cpp">
+      <Filter>Game\05. Object\Stage\Beat</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
