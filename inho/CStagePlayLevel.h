@@ -3,12 +3,15 @@
 class CStagePlayLevel :
     public CLevel
 {
-
+    
 private:
-    class CJudgeBar* m_bar;
+    class CJudgeBar* m_Judgebar;
     class CCharacter* m_Character;
-    class CCharacter* m_Heart;
+    class CHeart* m_Heart;
+    class CCharacter* m_Hand;
 
+public:
+    void Judge();
 
 public:
     virtual void init() override;

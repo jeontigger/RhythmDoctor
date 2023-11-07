@@ -35,5 +35,7 @@ public:
     CAnimator(CObj* _Owner);
     CAnimator(const CAnimator& _Origin);
     ~CAnimator();
+
+    friend class CHeart;
 };
 

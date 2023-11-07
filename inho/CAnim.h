@@ -51,5 +51,6 @@ public:
     ~CAnim();
 
     friend class CAnimator;
+    friend class CHeart;
 };
 

@@ -269,7 +269,12 @@
     <ClInclude Include="CJudgeBar.h">
       <Filter>Game\05. Object\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="CCharacter.h" />
+    <ClInclude Include="CCharacter.h">
+      <Filter>Game\05. Object\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="CHeart.h">
+      <Filter>Game\05. Object\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -439,6 +444,11 @@
     <ClCompile Include="CJudgeBar.cpp">
       <Filter>Game\05. Object\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="CCharacter.cpp" />
+    <ClCompile Include="CCharacter.cpp">
+      <Filter>Game\05. Object\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="CHeart.cpp">
+      <Filter>Game\05. Object\Stage</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
