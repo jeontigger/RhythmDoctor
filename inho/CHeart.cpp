@@ -3,12 +3,17 @@
 
 #include "CTimeMgr.h"
 #include "CTexture.h"
+#include "CAssetMgr.h"
 
 CHeart::CHeart():
 	m_Acctime(0),
 	m_isBig(false)
 {
 	m_Animator = AddComponent<CAnimator>(L"Animator");
+	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HeartAtlas", L"texture\\Heart.png");
+	m_Animator->CreateAnimation(L"HeartIdle", pAtlas, Vec2(0, 132), Vec2(39, 44), Vec2(0, 0), 0.3f, 1);
+	m_Animator->SaveAnimation(L"animdata");
+	m_Animator->Play(L"HeartIdle", true);
 }
 
 CHeart::~CHeart()

@@ -165,6 +165,7 @@
     <ClInclude Include="CMovement.h" />
     <ClInclude Include="CNormalMonIdle.h" />
     <ClInclude Include="CNormalMonTrace.h" />
+    <ClInclude Include="CNote.h" />
     <ClInclude Include="CObj.h" />
     <ClInclude Include="components.h" />
     <ClInclude Include="CPaletteMgr.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="CMovement.cpp" />
     <ClCompile Include="CNormalMonIdle.cpp" />
     <ClCompile Include="CNormalMonTrace.cpp" />
+    <ClCompile Include="CNote.cpp" />
     <ClCompile Include="CObj.cpp" />
     <ClCompile Include="CPaletteMgr.cpp" />
     <ClCompile Include="CPanelUI.cpp" />

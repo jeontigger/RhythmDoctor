@@ -58,6 +58,10 @@ public:
         }
     }
 
+public:
+    void Show() { m_iAlpha = 255; }
+    void Hide() { m_iAlpha = 0; }
+
   public:
      virtual void begin() {};
     virtual void tick(float _DT);

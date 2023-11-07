@@ -27,9 +27,26 @@ void CStagePlayLevel::init()
 	m_Judgebar = new CJudgeBar;
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 	Vec2 vBarScale = { 550, 1 };
+	m_Judgebar->SetPos({ vRes.x / 2.f,vRes.y / 2.f });
+	/*m_Judgebar->SetScale(vBarScale);
+	AddObject(PLAYER, m_Judgebar);*/
 	m_Judgebar->SetPos({ vRes.x/2.f,vRes.y/2.f });
-	m_Judgebar->SetScale(vBarScale);
-	AddObject(PLAYER, m_Judgebar);
+	m_Judgebar->SetScale({ 3,1 });
+	vector<CJudgeBar*> m_vecBars;
+	m_vecBars.resize(180);
+	m_vecBars.push_back(m_Judgebar);
+	for (int i = 1; i < 180; i++) {
+		m_vecBars[i] = m_Judgebar->Clone();
+	}
+	for (int i = 1; i < 180; i++) {
+		m_vecBars[i]->SetPos({ vRes.x / 2.f - 270.f + 3.f*i,vRes.y / 2.f });
+		AddObject(PLAYER, m_vecBars[i]);
+	}
+	
+	m_Heart = new CHeart;
+	m_Heart->SetPos({ vRes.x / 2.f + 280.f, vRes.y / 2.f + 3.f });
+	m_Heart->SetScale({ 10, 11 });
+	AddObject(PLAYER, m_Heart);
 
 	CTexture* pAtlas;
 	CAnimator* pAnimator;
@@ -44,16 +61,6 @@ void CStagePlayLevel::init()
 	pAnimator->Play(L"ColeIdle", true);
 	AddObject(PLAYER, m_Character);
 
-	m_Heart = new CHeart;
-	m_Heart->SetPos({ vRes.x / 2.f + 280.f, vRes.y / 2.f+ 3.f });
-	m_Heart->SetScale({ 10, 11 });
-	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HeartAtlas", L"texture\\Heart.png");
-	pAnimator = m_Heart->GetComponent<CAnimator>();
-	pAnimator->CreateAnimation(L"HeartIdle", pAtlas, Vec2(0, 132), Vec2(39, 44), Vec2(0, 0), 0.3f, 1);
-	pAnimator->SaveAnimation(L"animdata");
-	pAnimator->Play(L"HeartIdle", true);
-
-	AddObject(PLAYER, m_Heart);
 
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
@@ -66,6 +73,8 @@ void CStagePlayLevel::init()
 	pAnimator->LoadAnimation(L"animdata\\Hand.txt");
 	pAnimator->Play(L"Hand", false);
 	AddObject(PLAYER, m_Hand);
+
+
 }
 
 void CStagePlayLevel::enter()

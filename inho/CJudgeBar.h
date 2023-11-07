@@ -7,7 +7,7 @@ class CJudgeBar :
     class CAnimator* m_Bar;
 
 public:
-    CLONE_DISABLE(CJudgeBar);
+    CLONE(CJudgeBar);
 
     CJudgeBar();
     ~CJudgeBar();
