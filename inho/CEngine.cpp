@@ -15,6 +15,7 @@
 #include "CPathMgr.h"
 #include "CPlayer.h"
 #include "CTaskMgr.h"
+#include "CEventMgr.h"
 
 #include "CGCMgr.h"
 #include "CUIMgr.h"
@@ -71,6 +72,7 @@ void CEngine::tick() {
     CLevelMgr::GetInst()->tick();
     CCollisionMgr::GetInst()->tick();
     CUIMgr::GetInst()->tick();
+    CEventMgr::GetInst()->tick();
     CLevelMgr::GetInst()->render(m_SubTex->GetDC());
     CCamera::GetInst()->render(m_SubTex->GetDC());
 

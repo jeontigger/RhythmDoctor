@@ -64,14 +64,14 @@ void CUnitBar::begin()
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Character);
 
 	CNormalBeat* BeatImg;
-	m_NoteImgs.resize(6);
+	m_NormalBeats.resize(6);
 	for (int i = 0; i < 6; ++i) {
 		BeatImg = new CNormalBeat;
-		m_NoteImgs[i] = BeatImg;
-		m_NoteImgs[i]->SetScale({ 30, 40 });
-		m_NoteImgs[i]->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[i] * 3.f + 25.f, m_Judgebar->GetPos().y  -3.f});
-		CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_NoteImgs[i]);
-		m_NoteImgs[i]->Hide();
+		m_NormalBeats[i] = BeatImg;
+		m_NormalBeats[i]->SetScale({ 30, 40 });
+		m_NormalBeats[i]->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[i] * 3.f + 25.f, m_Judgebar->GetPos().y  -3.f});
+		CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_NormalBeats[i]);
+		m_NormalBeats[i]->Hide();
 	}
 
 	
@@ -87,32 +87,6 @@ void CUnitBar::begin()
 void CUnitBar::tick(float _dt)
 {
 	
-
-	if (KEY_TAP(Q)) {
-		HideBar(0, beatSpeed);
-	}
-	if (KEY_TAP(W)) {
-		HideBar(1, beatSpeed);
-	}
-	if (KEY_TAP(E)) {
-		HideBar(2, beatSpeed);
-	}
-	if (KEY_TAP(R)) {
-		HideBar(3, beatSpeed);
-	}
-	if (KEY_TAP(T)) {
-		HideBar(4, beatSpeed);
-	}
-	if (KEY_TAP(Y)) {
-		HideBar(5, beatSpeed);
-	}
-	if (KEY_TAP(A)) {
-		beatSpeed += 0.1f;
-	}
-	if (KEY_TAP(S)) {
-		beatSpeed -= 0.1f;
-	}
-
 }
 
 void CUnitBar::HideBar(int _idx, float _duration)
@@ -122,9 +96,9 @@ void CUnitBar::HideBar(int _idx, float _duration)
 	}
 }
 
-void CUnitBar::ShowBeat(int _idx, float _duration)
+void CUnitBar::ShowNormalBeat(int _idx, float _duration)
 {
-	m_NoteImgs[_idx]->Show(_duration);
+	m_NormalBeats[_idx]->Show(_duration);
 }
 
 

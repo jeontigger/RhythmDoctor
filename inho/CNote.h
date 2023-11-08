@@ -1,11 +1,9 @@
 ﻿#pragma once
-#include "CObj.h"
+#include "CEvent.h"
 
 class CNote :
-    public CObj
+    public CEvent
 {
-    GENERATED_OBJECT(CObj);
-
 protected:
     class CUnitBar* m_bar;
 
@@ -15,17 +13,13 @@ protected:
     float m_BeatSpeed;
 
 public:
+    void SetBar(class CUnitBar* _bar) { m_bar = _bar; }
+    void SetStartTime(float _time) { m_StartTime = _time; }
     void SetBeatSpeed(float _speed) { m_BeatSpeed = _speed; }
 
-public:
-    virtual void Play(class CUnitBar* _bar);
     
  public:
-    CLONE(CNote);
     CNote();
     ~CNote();
-
-    friend class CUnitBar;
-    friend class CStagePlayLevel;
 };
 

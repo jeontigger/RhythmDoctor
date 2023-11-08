@@ -9,10 +9,10 @@ CNormalBeat::CNormalBeat():
 	m_Idx(-1)
 {
 	pAnimator = AddComponent<CAnimator>();
-	CTexture* pAtlas;
+	/*CTexture* pAtlas;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"NormalBeat", L"texture\\NormalBeat.png");
 	pAnimator->CreateAnimation(L"NormalBeat", pAtlas, Vec2(0, 0), Vec2(36, 41), Vec2(0, 0), 0.02f, 9);
-	pAnimator->SaveAnimation(L"animdata");
+	pAnimator->SaveAnimation(L"animdata");*/
 	pAnimator->LoadAnimation(L"animdata\\NormalBeat.txt");
 
 

@@ -13,9 +13,6 @@ private:
 	float m_AccTime;
 	float m_HideTime;
 
-private:
-	void Animating(int _idx);
-
 public:
 	void Show(float _duration);
 

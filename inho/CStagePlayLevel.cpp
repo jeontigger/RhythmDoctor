@@ -7,6 +7,7 @@
 #include "CAssetMgr.h"
 #include "CKeyMgr.h"
 #include "CTexture.h"
+#include "CEventMgr.h"
 
 #include "CUnitBar.h"
 #include "CCharacter.h"
@@ -78,8 +79,8 @@ void CStagePlayLevel::tick()
 	if(KEY_TAP(SPACE)) {
 		CNormalNote* newNote = new CNormalNote;
 		newNote->SetBeatSpeed(0.3f);
-		newNote->Play(m_UnitBar);
-		AddObject(PLAYER, newNote);
+		newNote->SetBar(m_UnitBar);
+		CEventMgr::GetInst()->Play(newNote);
 		m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
 	}
 

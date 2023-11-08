@@ -92,11 +92,14 @@
     <Filter Include="Game\05. Object\Stage">
       <UniqueIdentifier>{8639c905-b5a5-417d-9752-cd45eaf31930}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\05. Object\Stage\Note">
-      <UniqueIdentifier>{ce4158e3-a6d1-4a81-bb25-0fbb061be652}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\05. Object\Stage\Beat">
       <UniqueIdentifier>{92a1d876-f676-4b4d-9884-a27a2c30e178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\08. Event">
+      <UniqueIdentifier>{6ce9a08a-27f6-4599-8ffd-313e8789ecb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\08. Event\Note">
+      <UniqueIdentifier>{7ce2cecb-6c3e-4b89-bccf-6900f1311352}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -281,14 +284,20 @@
     <ClInclude Include="CUnitBar.h">
       <Filter>Game\05. Object\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="CNote.h">
-      <Filter>Game\05. Object\Stage\Note</Filter>
-    </ClInclude>
-    <ClInclude Include="CNormalNote.h">
-      <Filter>Game\05. Object\Stage\Note</Filter>
-    </ClInclude>
     <ClInclude Include="CNormalBeat.h">
       <Filter>Game\05. Object\Stage\Beat</Filter>
+    </ClInclude>
+    <ClInclude Include="CEvent.h">
+      <Filter>Game\08. Event</Filter>
+    </ClInclude>
+    <ClInclude Include="CNormalNote.h">
+      <Filter>Game\08. Event\Note</Filter>
+    </ClInclude>
+    <ClInclude Include="CNote.h">
+      <Filter>Game\08. Event\Note</Filter>
+    </ClInclude>
+    <ClInclude Include="CEventMgr.h">
+      <Filter>Game\03. Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -468,14 +477,20 @@
     <ClCompile Include="CUnitBar.cpp">
       <Filter>Game\05. Object\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="CNote.cpp">
-      <Filter>Game\05. Object\Stage\Note</Filter>
-    </ClCompile>
-    <ClCompile Include="CNormalNote.cpp">
-      <Filter>Game\05. Object\Stage\Note</Filter>
-    </ClCompile>
     <ClCompile Include="CNormalBeat.cpp">
       <Filter>Game\05. Object\Stage\Beat</Filter>
+    </ClCompile>
+    <ClCompile Include="CEvent.cpp">
+      <Filter>Game\08. Event</Filter>
+    </ClCompile>
+    <ClCompile Include="CNormalNote.cpp">
+      <Filter>Game\08. Event\Note</Filter>
+    </ClCompile>
+    <ClCompile Include="CNote.cpp">
+      <Filter>Game\08. Event\Note</Filter>
+    </ClCompile>
+    <ClCompile Include="CEventMgr.cpp">
+      <Filter>Game\03. Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
