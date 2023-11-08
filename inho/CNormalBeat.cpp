@@ -16,7 +16,7 @@ CNormalBeat::CNormalBeat():
 	pAnimator->LoadAnimation(L"animdata\\NormalBeat.txt");
 
 
-}	
+}
 
 CNormalBeat::~CNormalBeat()
 {
