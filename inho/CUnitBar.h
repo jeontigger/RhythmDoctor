@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "CObj.h"
 
-constexpr int StartPoint[6] = { 20, 40, 60, 80, 100, 120 };
+constexpr int StartPoint[6] = { 6, 23, 40, 57, 74, 91 };
 constexpr int NoteSize = 15;
 
 class CUnitBar :

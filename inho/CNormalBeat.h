@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "CObj.h"
-constexpr float Magnificant[6] = { 1.f, 1.2f, 0.8f, 0.6f, 0.4f, 0.2f};
 class CNormalBeat:
 	public CObj
 {
