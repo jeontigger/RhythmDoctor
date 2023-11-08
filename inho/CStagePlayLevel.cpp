@@ -80,6 +80,7 @@ void CStagePlayLevel::tick()
 		newNote->SetBeatSpeed(0.3f);
 		newNote->Play(m_UnitBar);
 		AddObject(PLAYER, newNote);
+		m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
 	}
 
 	/*CNote* note = m_listNotes.front();
@@ -95,5 +96,5 @@ void CStagePlayLevel::tick()
 
 void CStagePlayLevel::Judge()
 {
-	m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
+	
 }

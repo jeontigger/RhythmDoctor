@@ -25,8 +25,8 @@ void CNormalNote::tick(float _dt)
 	
 	m_AccTime += _dt;
 	if (m_BeatSpeed <= m_AccTime) {
-		m_bar->HideBar(m_Idx, m_BeatSpeed+0.1f);
-		m_bar->ShowBeat(m_Idx, m_BeatSpeed + 0.1f);
+		m_bar->HideBar(m_Idx, m_BeatSpeed+0.3f);
+		m_bar->ShowBeat(m_Idx, m_BeatSpeed + 0.3f);
 		m_AccTime = 0;
 		m_Idx++;
 	}

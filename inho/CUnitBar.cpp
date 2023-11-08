@@ -63,17 +63,19 @@ void CUnitBar::begin()
 	pAnimator->Play(L"ColeIdle", true);
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Character);
 
-	CNormalBeat* BeatImg = new CNormalBeat;
-	BeatImg->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[0] *3.f + 25.f, m_Judgebar->GetPos().y - 5.f});
-	BeatImg->SetScale({ 30, 40 });
+	CNormalBeat* BeatImg;
 	m_NoteImgs.resize(6);
-	m_NoteImgs[0] = BeatImg;
-	for (int i = 1; i < 6; ++i) {
-		m_NoteImgs[i] = BeatImg->Clone();
-		m_NoteImgs[i]->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[i] * 3.f + 25.f, m_Judgebar->GetPos().y - 5.f });
+	for (int i = 0; i < 6; ++i) {
+		BeatImg = new CNormalBeat;
+		m_NoteImgs[i] = BeatImg;
+		m_NoteImgs[i]->SetScale({ 30, 40 });
+		m_NoteImgs[i]->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[i] * 3.f + 25.f, m_Judgebar->GetPos().y  -3.f});
 		CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_NoteImgs[i]);
+		m_NoteImgs[i]->Hide();
 	}
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(BeatImg);
+
+	
+	
 	
 	
 	
@@ -122,7 +124,6 @@ void CUnitBar::HideBar(int _idx, float _duration)
 
 void CUnitBar::ShowBeat(int _idx, float _duration)
 {
-	m_NoteImgs[_idx]->SetScale({ 30, 40 });
 	m_NoteImgs[_idx]->Show(_duration);
 }
 
