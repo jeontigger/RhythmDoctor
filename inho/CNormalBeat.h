@@ -8,7 +8,6 @@ class CNormalBeat:
 private:
 	int m_Idx;
 	CAnimator* pAnimator;
-	float m_ScaleAccTime;
 	float m_AccTime;
 	float m_HideTime;
 

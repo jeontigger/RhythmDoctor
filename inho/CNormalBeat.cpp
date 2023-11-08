@@ -30,7 +30,6 @@ void CNormalBeat::Show(float _duration)
 	// idx를 가짐
 	m_Idx = 0;
 	m_AccTime = 0;
-	m_ScaleAccTime = 0;
 	m_HideTime = _duration;
 	Play();
 	CObj::Show();

@@ -49,6 +49,8 @@ void CStagePlayLevel::init()
 	AddObject(PLAYER, m_Hand);
 
 
+
+
 }
 
 void CStagePlayLevel::enter()
@@ -71,7 +73,12 @@ void CStagePlayLevel::tick()
 
 
 
-	
+	if (KEY_TAP(Q)) {
+		m_UnitBar->StayGetSetBeat();
+	}
+	if (KEY_TAP(W)) {
+		m_UnitBar->GoGetSetBeat(60.f);
+	}
 
 	if (KEY_TAP(ESC)) {
 		ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);

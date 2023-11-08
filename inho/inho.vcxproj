@@ -156,6 +156,7 @@
     <ClInclude Include="CEvent.h" />
     <ClInclude Include="CEventMgr.h" />
     <ClInclude Include="CGCMgr.h" />
+    <ClInclude Include="CGetSetBeat.h" />
     <ClInclude Include="CHeart.h" />
     <ClInclude Include="CJudgeBar.h" />
     <ClInclude Include="CKeyMgr.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="CEvent.cpp" />
     <ClCompile Include="CEventMgr.cpp" />
     <ClCompile Include="CGCMgr.cpp" />
+    <ClCompile Include="CGetSetBeat.cpp" />
     <ClCompile Include="CHeart.cpp" />
     <ClCompile Include="CJudgeBar.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />

@@ -7,6 +7,7 @@
 #include "CCharacter.h"
 #include "CNote.h"
 #include "CNormalBeat.h"
+#include "CGetSetBeat.h"
 
 #include "CLevelMgr.h"
 #include "CLevel.h"
@@ -74,10 +75,12 @@ void CUnitBar::begin()
 		m_NormalBeats[i]->Hide();
 	}
 
+	m_GetSetBeat = new CGetSetBeat;
+	m_GetSetBeat->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[0] * 3.f + 25.f, m_Judgebar->GetPos().y - 3.f });
+	m_GetSetBeat->SetBar(this);
+	m_GetSetBeat->Hide();
 	
-	
-	
-	
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_GetSetBeat);
 	
 
 
@@ -99,6 +102,21 @@ void CUnitBar::HideBar(int _idx, float _duration)
 void CUnitBar::ShowNormalBeat(int _idx, float _duration)
 {
 	m_NormalBeats[_idx]->Show(_duration);
+}
+
+void CUnitBar::StayGetSetBeat()
+{
+	Vec2 vRes = CEngine::GetInst()->GetResolution();
+	m_GetSetBeat->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[0] * 3.f + 53.f,vRes.y / 2.f -3.f});
+	m_GetSetBeat->PlayStayAnim();
+	m_GetSetBeat->SetSpeed(10.f);
+	m_GetSetBeat->Show();
+}
+
+void CUnitBar::GoGetSetBeat(float _speed)
+{
+	m_GetSetBeat->SetSpeed(_speed);
+	m_GetSetBeat->PlayGoAnim();
 }
 
 
