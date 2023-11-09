@@ -302,6 +302,9 @@
     <ClInclude Include="CGetSetBeat.h">
       <Filter>Game\05. Object\Stage\Beat</Filter>
     </ClInclude>
+    <ClInclude Include="CBeatNote.h">
+      <Filter>Game\08. Event\Note</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -497,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="CGetSetBeat.cpp">
       <Filter>Game\05. Object\Stage\Beat</Filter>
+    </ClCompile>
+    <ClCompile Include="CBeatNote.cpp">
+      <Filter>Game\08. Event\Note</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

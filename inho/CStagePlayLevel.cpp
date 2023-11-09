@@ -13,6 +13,7 @@
 #include "CCharacter.h"
 #include "CNote.h"
 #include "CNormalNote.h"
+#include "CBeatNote.h"
 
 CStagePlayLevel::CStagePlayLevel(): 
 	m_AccTime(0.f)
@@ -70,23 +71,22 @@ void CStagePlayLevel::tick()
 {
 	CLevel::tick();
 
-
-
-
 	if (KEY_TAP(Q)) {
 		m_UnitBar->StayGetSetBeat();
 	}
 	if (KEY_TAP(W)) {
-		m_UnitBar->GoGetSetBeat(60.f);
+		m_UnitBar->GoGetSetBeat(100.f);
 	}
 
 	if (KEY_TAP(ESC)) {
 		ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 	}
+
 	if(KEY_TAP(SPACE)) {
-		CNormalNote* newNote = new CNormalNote;
-		newNote->SetBeatSpeed(0.3f);
+		CBeatNote* newNote = new CBeatNote;
+		newNote->SetBeatSpeed(60.f);
 		newNote->SetBar(m_UnitBar);
+		newNote->SetLoopCount(1);
 		CEventMgr::GetInst()->Play(newNote);
 		m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
 	}
