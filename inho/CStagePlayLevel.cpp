@@ -14,6 +14,7 @@
 #include "CNote.h"
 #include "CNormalNote.h"
 #include "CBeatNote.h"
+#include "CWindowMove.h"
 
 CStagePlayLevel::CStagePlayLevel(): 
 	m_AccTime(0.f)
@@ -77,7 +78,18 @@ void CStagePlayLevel::tick()
 	if (KEY_TAP(W)) {
 		m_UnitBar->GoGetSetBeat(100.f);
 	}
-
+	if (KEY_TAP(D)) {
+		CWindowMove* newEvent = new CWindowMove;
+		newEvent->SetTarget({ 300,300 }, 1.f);
+		newEvent->Play();
+		CEventMgr::GetInst()->Play(newEvent);
+	}
+	if (KEY_TAP(A)) {
+		CWindowMove* newEvent = new CWindowMove;
+		newEvent->SetTarget({ 100,400 }, 1.f);
+		newEvent->Play();
+		CEventMgr::GetInst()->Play(newEvent);
+	}
 	if (KEY_TAP(ESC)) {
 		ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 	}
@@ -88,6 +100,8 @@ void CStagePlayLevel::tick()
 		newNote->SetBar(m_UnitBar);
 		newNote->SetLoopCount(1);
 		CEventMgr::GetInst()->Play(newNote);
+		
+
 		m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
 	}
 

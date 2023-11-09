@@ -101,6 +101,9 @@
     <Filter Include="Game\08. Event\Note">
       <UniqueIdentifier>{7ce2cecb-6c3e-4b89-bccf-6900f1311352}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\08. Event\Window">
+      <UniqueIdentifier>{507aa1af-ebe6-44a7-a8d0-ef6e5146d703}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inho.h">
@@ -305,6 +308,12 @@
     <ClInclude Include="CBeatNote.h">
       <Filter>Game\08. Event\Note</Filter>
     </ClInclude>
+    <ClInclude Include="CWindowEvent.h">
+      <Filter>Game\08. Event\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="CWindowMove.h">
+      <Filter>Game\08. Event\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -503,6 +512,12 @@
     </ClCompile>
     <ClCompile Include="CBeatNote.cpp">
       <Filter>Game\08. Event\Note</Filter>
+    </ClCompile>
+    <ClCompile Include="CWindowEvent.cpp">
+      <Filter>Game\08. Event\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="CWindowMove.cpp">
+      <Filter>Game\08. Event\Window</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

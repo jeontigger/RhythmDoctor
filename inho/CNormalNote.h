@@ -16,7 +16,6 @@ public:
     virtual void tick(float _dt) override;
 
 public:
-    CLONE(CNormalNote);
     CNormalNote();
     ~CNormalNote();
 };

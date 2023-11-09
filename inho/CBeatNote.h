@@ -20,7 +20,6 @@ public:
     virtual void tick(float _dt) override;
 
 public:
-    CLONE(CBeatNote);
     CBeatNote();
     ~CBeatNote();
 };
