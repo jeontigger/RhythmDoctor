@@ -199,7 +199,6 @@
     <ClInclude Include="CUIMgr.h" />
     <ClInclude Include="CUnitBar.h" />
     <ClInclude Include="CWindowEvent.h" />
-    <ClInclude Include="CWindowMove.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="func.h" />
     <ClInclude Include="global.h" />
@@ -270,7 +269,6 @@
     <ClCompile Include="CUIMgr.cpp" />
     <ClCompile Include="CUnitBar.cpp" />
     <ClCompile Include="CWindowEvent.cpp" />
-    <ClCompile Include="CWindowMove.cpp" />
     <ClCompile Include="func.cpp" />
     <ClCompile Include="inho.cpp" />
     <ClCompile Include="pch.cpp">
