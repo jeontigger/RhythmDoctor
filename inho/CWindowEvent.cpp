@@ -76,33 +76,6 @@ void CWindowEvent::SetTarget(Vec2 _target, float _time)
 
 }
 
-void CWindowEvent::SetPortalDirection(PortalDirection _dir)
-{
-    switch (_dir)
-    {
-    case PortalDirection::Left:
-        SetTarget({ -m_vWinRes.x - 10.f, m_vWinPos.y });
-        break;
-
-    case PortalDirection::Top:
-        SetTarget({ m_vWinPos.x, -m_vWinRes.y - 10.f });
-        break;
-
-    case PortalDirection::Right:
-        SetTarget({ m_vMonitorRes.x + 10.f, m_vWinPos.y });
-        break;
-
-    case PortalDirection::Bottom:
-        SetTarget({ m_vWinPos.x , m_vMonitorRes.y + 10.f});
-        break;
-
-    case PortalDirection::END:
-        break;
-    default:
-        break;
-    }
-}
-
 void CWindowEvent::SetMode(WindowEventType _type)
 {
     switch (_type)
@@ -149,7 +122,9 @@ void CWindowEvent::SetMode(WindowEventType _type)
         break;
 
     case WindowEventType::END:
+        pFunc = &CWindowEvent::Stop;
         break;
+
     default:
         break;
     }
@@ -177,6 +152,7 @@ void CWindowEvent::LinearMove(float _dt)
     if ((vPos - m_vTarget).Length() <= 3.f) {
         m_bIsAlive = false;
         SetPos(m_vTarget);
+        SetMode(WindowEventType::END);
     }
 }
 
@@ -244,7 +220,10 @@ void CWindowEvent::Jumping(float _dt)
 
     m_AccTime += _dt;
     if (m_Duration <= m_AccTime && !m_IsFall) {
-        CCamera::GetInst()->BlinkIn(0.2f);
+        if (m_IsFlash) {
+            CCamera::GetInst()->BlinkIn(0.2f);
+            m_IsFlash = false;
+        }
         SetTarget(m_vOrigin, m_Duration);
         m_IsFall = true;
     }
@@ -301,4 +280,35 @@ void CWindowEvent::Portal(float _dt)
         SetPos({ m_vWinPos.x, m_vMonitorRes.y });
     }
     LinearMove(_dt);
+}
+
+void CWindowEvent::SetPortalDirection(PortalDirection _dir)
+{
+    switch (_dir)
+    {
+    case PortalDirection::Left:
+        SetTarget({ -m_vWinRes.x - 10.f, m_vWinPos.y });
+        break;
+
+    case PortalDirection::Top:
+        SetTarget({ m_vWinPos.x, -m_vWinRes.y - 10.f });
+        break;
+
+    case PortalDirection::Right:
+        SetTarget({ m_vMonitorRes.x + 10.f, m_vWinPos.y });
+        break;
+
+    case PortalDirection::Bottom:
+        SetTarget({ m_vWinPos.x , m_vMonitorRes.y + 10.f });
+        break;
+
+    case PortalDirection::END:
+        break;
+    default:
+        break;
+    }
+}
+
+void CWindowEvent::Stop(float _dt)
+{
 }

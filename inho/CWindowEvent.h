@@ -1,18 +1,5 @@
 ﻿#pragma once
 #include "CEvent.h"
-
-enum class WindowEventType {
-    LinearMove,
-    CircleMove,
-    Quake,
-    UpAndDown,
-    Jumping,
-    Disapear,
-    Wave,
-    PortalMove,
-    END
-};
-
 enum class PortalDirection {
     Left,
     Top,
@@ -20,6 +7,47 @@ enum class PortalDirection {
     Bottom,
     END
 };
+
+enum class WindowEventType {
+    /// <summary>
+    /// 선형 움직임. SetTarget이 필요함
+    /// </summary>
+    LinearMove,
+    /// <summary>
+    /// 원형 움직임. Set Theta, Speed, Radius, CW가 필요함. 추가로 speedDecrease speed를 설정할 수 있음
+    /// </summary>
+    CircleMove,
+    /// <summary>
+    /// 지진효과. Set QuakeAmount가 필요함
+    /// </summary>
+    Quake,
+    /// <summary>
+    /// 위아래 움직임. Set Target, UDCount, UDSize가 필요함.
+    /// </summary>
+    UpAndDown,
+    /// <summary>
+    /// 위로 튕겨 점프하는 움직임. Set jumpsize, jumpspeed, flash가 필요함. 
+    /// </summary>
+    Jumping,
+    /// <summary>
+    /// 아래로 숨었다가 원하는 위치로 나타나는 움직임. Set DisapearDistance, DisapearSpeed가 필요함
+    /// </summary>
+    Disapear,
+    /// <summary>
+    /// 출렁이는 움직임. Set WaveSpeed, WaveFrequency, WaveSize가 필요함
+    /// </summary>
+    Wave,
+    /// <summary>
+    /// 화면 밖을 나가도 돌아오는 움직임. SetPortalDirection, Speed가 필요함
+    /// </summary>
+    PortalMove,
+    /// <summary>
+    /// 
+    /// </summary>
+    END
+};
+
+
 class CWindowEvent :
     public CEvent
 {
@@ -62,6 +90,7 @@ private:
     Vec2 m_vOrigin;
     bool m_IsUp;
     bool m_IsFall;
+    bool m_IsFlash;
     void Jumping(float _dt);
 
 private:
@@ -74,6 +103,9 @@ private:
 
 private:
     void Portal(float _dt);
+
+private:
+    void Stop(float _dt);
 
 public:
     void SetTarget(Vec2 _target, float _time = 0);
@@ -91,6 +123,7 @@ public:
 
     void SetJumpingSize(float _size) { m_fUDSize = _size; }
     void SetJumpingSpeed(float _time) { m_Duration = _time; }
+    void SetFlash(bool _flash) { m_IsFlash = _flash; }
 
     void SetDisapearSpeed(float _time) { m_Duration = _time; }
     void SetDisapearDistance(float _dist) { m_Distance = _dist; }
