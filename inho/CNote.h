@@ -17,7 +17,6 @@ public:
     
     void SetBeatSpeed(float _speed) { m_BeatSpeed = _speed; }
 
-    
  public:
     CNote();
     ~CNote();

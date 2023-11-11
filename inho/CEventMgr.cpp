@@ -2,6 +2,8 @@
 #include "CEventMgr.h"
 
 #include "CEvent.h"
+#include "CWindowEvent.h"
+#include "CNote.h"
 
 #include "CTimeMgr.h"
 
@@ -11,20 +13,24 @@ CEventMgr::CEventMgr()
 
 CEventMgr::~CEventMgr()
 {
-}
+	if (nullptr != m_WinMove) {
+		delete m_WinMove;
+	}
 
-void CEventMgr::Play(CEvent* _event)
-{
-	_event->Play(); 
-	m_vecEvents.push_back(_event);
+	for (int i = 0; i < m_vecNotes.size(); ++i) {
+		if(nullptr!= m_vecNotes[i]){
+			delete m_vecNotes[i];
+		}
+	}
 }
 
 void CEventMgr::tick()
 {
 	float _dt = DT;
-	for (int i = 0; i < m_vecEvents.size(); ++i) {
-		if (m_vecEvents[i] != nullptr) {
-			m_vecEvents[i]->tick(_dt);
+	for (int i = 0; i < m_vecNotes.size(); ++i) {
+		if (m_vecNotes[i] != nullptr) {
+			m_vecNotes[i]->tick(_dt);
 		}
 	}
+	m_WinMove->tick(_dt);
 }

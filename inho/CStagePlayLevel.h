@@ -1,10 +1,12 @@
 ﻿#pragma once
 #include "CLevel.h"
+
+
 class CStagePlayLevel :
     public CLevel
 {
 private:
-    list<class CNote*> m_listNotes;
+    list<class CNoteInfo*> m_listNotes;
 
 private:
     class CUnitBar* m_UnitBar;

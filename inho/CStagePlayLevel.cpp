@@ -54,6 +54,14 @@ void CStagePlayLevel::init()
 
 	CWindowEvent* newEvent = new CWindowEvent;
 	CEventMgr::GetInst()->RegistWindowEvent(newEvent);
+
+	CBeatNote* newNote = new CBeatNote;
+	CEventMgr::GetInst()->RegistNoteEvent(newNote);
+
+	newNote->SetLoopCount(1);
+	newNote->SetBeatSpeed(30.f);
+	newNote->SetBar(m_UnitBar);
+	newNote->SetLoopDuration(3.f);
 }
 
 void CStagePlayLevel::enter()
@@ -73,12 +81,17 @@ void CStagePlayLevel::tick()
 {
 	CLevel::tick();
 	auto newEvent = CEventMgr::GetInst()->GetWindowEvent();
+	auto newNote = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[0]);
 #pragma region Presentation
 	
 		if (KEY_TAP(Q)) {
 		newEvent->SetMode(WindowEventType::LinearMove);
 		newEvent->SetTarget({ 10, 10 });
 	}
+		if (KEY_TAP(W)) {
+			
+			newNote->Play();
+		}
 	/*
 	if (KEY_TAP(W)) {
 		newEvent->SetMode(WindowEventType::LinearMove);
