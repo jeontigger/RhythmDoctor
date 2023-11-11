@@ -102,6 +102,23 @@ void CUnitBar::tick(float _dt)
 	if (KEY_TAP(SPACE)) {
 		m_SpaceBarSprite->FadeAway(0.3f);
 	}
+	if (m_IsMoving) {
+		float y = m_vecBars[0]->GetPos().y;
+		m_AccTime += _dt;
+		
+		y = m_fSpeed*sinf(m_AccTime);
+		Vec2 vRes = CEngine::GetInst()->GetResolution();
+
+		for (int i = 0; i < m_vecBars.size(); ++i) {
+			m_vecBars[i]->SetPos({ m_vecBars[i]->GetPos().x, vRes.y/2.f +y});
+		}
+		m_Character->SetPos({ m_Character->GetPos().x, vRes.y / 2.f + y });
+		m_Heart->SetPos({ m_Heart->GetPos().x, vRes.y / 2.f + y });
+		m_GetSetBeat->SetPos({ m_GetSetBeat->GetPos().x, vRes.y / 2.f + y - 3.5f });
+		for (int i = 0; i < m_NormalBeats.size(); ++i) {
+			m_NormalBeats[i]->SetPos({ m_NormalBeats[i]->GetPos().x, vRes.y / 2.f + y - 3.5f });
+		}
+	}
 }
 
 void CUnitBar::HideBar(int _idx, float _duration)
@@ -119,7 +136,7 @@ void CUnitBar::ShowNormalBeat(int _idx, float _duration)
 void CUnitBar::StayGetSetBeat()
 {
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
-	m_GetSetBeat->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[0] * 3.f + 53.f,vRes.y / 2.f -3.f});
+	m_GetSetBeat->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[0] * 3.f + 53.f,m_GetSetBeat->GetPos().y - 3.5f});
 	m_GetSetBeat->PlayStayAnim();
 	m_GetSetBeat->SetSpeed(10.f);
 	m_GetSetBeat->Show();

@@ -138,3 +138,10 @@ struct NoteInfo {
     float Speed;
     int Cnt;
 };
+
+struct BarInfo {
+    float StartTime;
+    bool Moving;
+    float Speed;
+    float Duration;
+};

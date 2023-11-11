@@ -7,6 +7,7 @@ class CStagePlayLevel :
 {
 private:
     list<NoteInfo*> m_listNoteInfo;
+    list<BarInfo*> m_listBarInfo;
 
 private:
     class CUnitBar* m_UnitBar;

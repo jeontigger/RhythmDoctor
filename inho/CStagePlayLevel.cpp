@@ -26,7 +26,13 @@ CStagePlayLevel::CStagePlayLevel():
 
 CStagePlayLevel::~CStagePlayLevel()
 {
-	m_listNoteInfo.clear();
+	for (auto iter = m_listNoteInfo.begin(); iter != m_listNoteInfo.end(); ++iter) {
+		delete* iter;
+	}
+	for (auto iter = m_listBarInfo.begin(); iter != m_listBarInfo.end(); ++iter) {
+		delete* iter;
+	}
+	
 }
 
 void CStagePlayLevel::init()
@@ -61,15 +67,23 @@ void CStagePlayLevel::init()
 	CBeatNote* newNote = new CBeatNote;
 	CEventMgr::GetInst()->RegistNoteEvent(newNote);
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 100; i++) {
 		NoteInfo* noteinfo = new NoteInfo;
 		noteinfo->Bar = L"bar";
-		noteinfo->StartTime = 13.7f + i *1.63f;
+		noteinfo->StartTime = 13.7f + i *1.657f;
 		noteinfo->Speed = 180.f;
 		noteinfo->GetDuration = 0.5f;
 		noteinfo->Cnt = 1;
 		m_listNoteInfo.push_back(noteinfo);
 	}
+
+	BarInfo* barinfo = new BarInfo;
+	barinfo->Moving = true;
+	barinfo->StartTime = 13.7f;
+	barinfo->Speed = 80.f;
+	barinfo->Duration = 1.6f;
+
+	m_listBarInfo.push_back(barinfo);
 }
 
 void CStagePlayLevel::enter()
@@ -81,6 +95,7 @@ void CStagePlayLevel::enter()
 
 	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_Intro", L"sound\\sndAllTheTimes.wav");
 	pSound->PlayToBGM(false);
+
 }
 
 
@@ -105,9 +120,19 @@ void CStagePlayLevel::tick()
 			newNoteEvent->SetLoopDuration(noteinfo->GetDuration);
 			newNoteEvent->Play();
 			m_listNoteInfo.pop_front();
-			delete noteinfo;
 		}
 	}
+
+	if (!m_listBarInfo.empty()) {
+		BarInfo* barinfo = m_listBarInfo.front();
+		if (barinfo->StartTime <= m_AccTime) {
+			m_UnitBar->SetMoving(barinfo->Moving);
+			m_UnitBar->SetMovingSpeed(barinfo->Speed);
+			m_UnitBar->SetMovingDuration(barinfo->Duration);
+
+		}
+	}
+	
 
 #pragma region Presentation
 

@@ -17,7 +17,16 @@ private:
 
     class CCharacter* m_SpaceBarSprite;
 
+    bool m_IsMoving;
+    float m_fSpeed;
+    float m_fDuration;
+    float m_AccTime;
+
 public:
+    void SetMovingSpeed(float _speed) { m_fSpeed = _speed; }
+    void SetMoving(bool _b) { m_IsMoving = _b; }
+    void SetMovingDuration(float _duration) { m_fDuration = _duration; }
+
     void HideBar(int _idx, float _duration);
     void ShowNormalBeat(int _idx, float _duration);
 
