@@ -139,21 +139,10 @@ void CStagePlayLevel::tick()
 	if (KEY_TAP(ESC)) {
 		ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 	}
-
+	*/
 	if(KEY_TAP(SPACE)) {
-		
-		auto newEvent = CEventMgr::GetInst()->GetWindowEvent();
-		
-		newEvent->SetMode(WindowEventType::CircleMove);
-
-		newEvent->SetSpeed(3.f);
-		newEvent->SetRadius(100.f);
-		newEvent->SetCW(true);
-		newEvent->SetTheta(-PI/2.f);
-		
-
 		m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
-	}*/
+	}
 #pragma endregion
 
 	if (KEY_TAP(A)) {

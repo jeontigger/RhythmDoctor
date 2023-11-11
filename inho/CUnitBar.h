@@ -15,6 +15,8 @@ private:
     vector<class CNormalBeat*>m_NormalBeats;
     class CGetSetBeat* m_GetSetBeat;
 
+    class CCharacter* m_SpaceBarSprite;
+
 public:
     void HideBar(int _idx, float _duration);
     void ShowNormalBeat(int _idx, float _duration);

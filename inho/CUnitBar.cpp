@@ -81,7 +81,17 @@ void CUnitBar::begin()
 	m_GetSetBeat->Hide();
 	
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_GetSetBeat);
-	
+
+
+	m_SpaceBarSprite = new CCharacter;
+	m_SpaceBarSprite->SetPos({ vRes.x / 2.f +150.f, vRes.y / 2.f });
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ButtonSpacebarSprite", L"texture\\ButtonSpacebarSprite.png");
+	pAnimator = m_SpaceBarSprite->GetComponent<CAnimator>();
+	pAnimator->CreateAnimation(L"ButtonSpacebarSprite", pAtlas, Vec2(10, 10), Vec2(50, 800), Vec2(0, 0), 0.3f, 1);
+	pAnimator->SaveAnimation(L"animdata");
+	pAnimator->Play(L"ButtonSpacebarSprite", true);
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_SpaceBarSprite);
+	m_SpaceBarSprite->Hide();
 
 
 }
@@ -89,7 +99,9 @@ void CUnitBar::begin()
 
 void CUnitBar::tick(float _dt)
 {
-	
+	if (KEY_TAP(SPACE)) {
+		m_SpaceBarSprite->FadeAway(0.3f);
+	}
 }
 
 void CUnitBar::HideBar(int _idx, float _duration)
