@@ -8,6 +8,8 @@
 #include "CKeyMgr.h"
 #include "CTexture.h"
 #include "CEventMgr.h"
+#include "CTimeMgr.h"
+#include "CSound.h"
 
 #include "CUnitBar.h"
 #include "CCharacter.h"
@@ -16,6 +18,7 @@
 #include "CBeatNote.h"
 #include "CWindowEvent.h"
 
+
 CStagePlayLevel::CStagePlayLevel(): 
 	m_AccTime(0.f)
 {
@@ -23,7 +26,7 @@ CStagePlayLevel::CStagePlayLevel():
 
 CStagePlayLevel::~CStagePlayLevel()
 {
-	
+	m_listNoteInfo.clear();
 }
 
 void CStagePlayLevel::init()
@@ -58,10 +61,15 @@ void CStagePlayLevel::init()
 	CBeatNote* newNote = new CBeatNote;
 	CEventMgr::GetInst()->RegistNoteEvent(newNote);
 
-	newNote->SetLoopCount(1);
-	newNote->SetBeatSpeed(30.f);
-	newNote->SetBar(m_UnitBar);
-	newNote->SetLoopDuration(3.f);
+	for (int i = 0; i < 10; i++) {
+		NoteInfo* noteinfo = new NoteInfo;
+		noteinfo->Bar = L"bar";
+		noteinfo->StartTime = 13.7f + i *1.63f;
+		noteinfo->Speed = 180.f;
+		noteinfo->GetDuration = 0.5f;
+		noteinfo->Cnt = 1;
+		m_listNoteInfo.push_back(noteinfo);
+	}
 }
 
 void CStagePlayLevel::enter()
@@ -70,6 +78,9 @@ void CStagePlayLevel::enter()
 	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
+
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_Intro", L"sound\\sndAllTheTimes.wav");
+	pSound->PlayToBGM(false);
 }
 
 
@@ -81,17 +92,25 @@ void CStagePlayLevel::tick()
 {
 	CLevel::tick();
 	auto newEvent = CEventMgr::GetInst()->GetWindowEvent();
-	auto newNote = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[0]);
-#pragma region Presentation
-	
-		if (KEY_TAP(Q)) {
-		newEvent->SetMode(WindowEventType::LinearMove);
-		newEvent->SetTarget({ 10, 10 });
-	}
-		if (KEY_TAP(W)) {
-			
-			newNote->Play();
+	auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[0]);
+
+	m_AccTime += DT;
+
+	if (!m_listNoteInfo.empty()) {
+		NoteInfo* noteinfo = m_listNoteInfo.front();
+		if (noteinfo->StartTime <= m_AccTime) {
+			newNoteEvent->SetBar(m_UnitBar);
+			newNoteEvent->SetBeatSpeed(noteinfo->Speed);
+			newNoteEvent->SetLoopCount(noteinfo->Cnt);
+			newNoteEvent->SetLoopDuration(noteinfo->GetDuration);
+			newNoteEvent->Play();
+			m_listNoteInfo.pop_front();
+			delete noteinfo;
 		}
+	}
+
+#pragma region Presentation
+
 	/*
 	if (KEY_TAP(W)) {
 		newEvent->SetMode(WindowEventType::LinearMove);
@@ -156,7 +175,7 @@ void CStagePlayLevel::tick()
 	if(KEY_TAP(SPACE)) {
 		m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
 	}
-#pragma endregion
+
 
 	if (KEY_TAP(A)) {
 		newEvent->SetMode(WindowEventType::Disapear);
@@ -193,16 +212,7 @@ void CStagePlayLevel::tick()
 		newEvent->SetSpeed(800.f);
 	}
 
-
-	/*CNote* note = m_listNotes.front();
-	if (m_AccTime <= note->m_StartTime) {
-		note->Play(m_UnitBar);
-		m_listNotes.pop_front();
-	}*/
-
-	
-
-
+#pragma endregion
 }
 
 void CStagePlayLevel::Judge()

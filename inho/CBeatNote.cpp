@@ -25,6 +25,7 @@ void CBeatNote::tick(float _dt)
 	if (m_curCount < m_loopCount && m_LoopDuration <= m_AccLoopTime) {
 		m_bar->StayGetSetBeat();
 		m_AccTime = 0;
+		m_AccLoopTime = 0;
 		m_curCount++;
 		return;
 	}
@@ -38,5 +39,6 @@ void CBeatNote::tick(float _dt)
 void CBeatNote::Play()
 {
 	m_AccTime = 0;
+	m_curCount = 0;
 	m_AccLoopTime = m_LoopDuration;
 }

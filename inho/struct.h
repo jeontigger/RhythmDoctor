@@ -130,3 +130,11 @@ struct FLog {
     wstring Message;
     float AccTime;
 };
+
+struct NoteInfo {
+    wstring Bar;
+    float StartTime;
+    float GetDuration;
+    float Speed;
+    int Cnt;
+};

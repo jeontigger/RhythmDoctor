@@ -6,7 +6,7 @@ class CStagePlayLevel :
     public CLevel
 {
 private:
-    list<class CNoteInfo*> m_listNotes;
+    list<NoteInfo*> m_listNoteInfo;
 
 private:
     class CUnitBar* m_UnitBar;
