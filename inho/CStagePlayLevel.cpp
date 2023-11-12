@@ -315,7 +315,7 @@ void CStagePlayLevel::Judge()
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"빠름");
 			m_newNote = false;
-			m_UnitBar->InCorrect();
+			m_UnitBar->Incorrect(JudgeBeatType::Left);
 		}
 	}
 	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime + m_NoteJudgeTimeOffset 
@@ -324,7 +324,7 @@ void CStagePlayLevel::Judge()
 			LOG(ERR, L"판정!");
 			m_newNote = false;
 			CCamera::GetInst()->Judge(0.1f);
-			
+			m_UnitBar->Correct();
 		}
 	}
 	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset
@@ -332,14 +332,14 @@ void CStagePlayLevel::Judge()
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"느림");
 			m_newNote = false;
-			m_UnitBar->InCorrect();
+			m_UnitBar->Incorrect(JudgeBeatType::Right);
 		}
 	}
 	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset) {
 		if (m_newNote) {
 			LOG(ERR, L"놓침");
 			m_newNote = false;
-			m_UnitBar->InCorrect();
+			m_UnitBar->Incorrect(JudgeBeatType::Miss);
 		}
 	}
 }

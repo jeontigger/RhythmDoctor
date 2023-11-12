@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "CObj.h"
 
-constexpr float GoalPosX = 400.f;
+constexpr float GoalPosX = 300.f;
 
 class CGetSetBeat:
 	public CObj

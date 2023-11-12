@@ -48,7 +48,6 @@ void CNormalBeat::tick(float _dt)
 		m_AccTime = 0;
 		m_HideTime = 0;
 	}
-
 }
 
 void CNormalBeat::Play()

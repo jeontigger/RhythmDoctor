@@ -1,9 +1,25 @@
 ﻿#pragma once
 #include "CObj.h"
 
-constexpr int StartPoint[6] = { 6, 23, 40, 57, 74, 91 };
+constexpr int StartPoint[9] = { 6, 23, 40, 57, 74, 91, 120, 130, 145 };
 constexpr int NoteSize = 15;
-
+enum class BeatPoint {
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    Left,
+    Correct,
+    Right,
+};
+enum class JudgeBeatType {
+    Left,
+    Right,
+    Correct,
+    Miss
+};
 class CUnitBar :
     public CObj
 {
@@ -12,7 +28,10 @@ private:
     vector<class CJudgeBar*> m_vecBars;
     class CCharacter* m_Character;
     class CHeart* m_Heart;
-    vector<class CNormalBeat*>m_NormalBeats;
+    vector<class CNormalBeat*> m_NormalBeats;
+    vector<class CNormalBeat*> m_IncorrectBeats;
+    CNormalBeat* m_CorrectBeat;
+
     class CGetSetBeat* m_GetSetBeat;
 
     class CCharacter* m_SpaceBarSprite;
@@ -42,7 +61,8 @@ public:
     void GoGetSetBeat(float _speed);
     void HideAll();
     void ShowAll();
-    void InCorrect();
+    void Incorrect(JudgeBeatType _type);
+    void Correct();
 
 public:
     virtual void begin() override;

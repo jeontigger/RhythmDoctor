@@ -68,9 +68,6 @@ CUnitBar::CUnitBar():
 	m_GetSetBeat->SetBar(this);
 	m_GetSetBeat->Hide();
 
-	
-
-
 	m_SpaceBarSprite = new CCharacter;
 	m_SpaceBarSprite->SetPos({ vRes.x / 2.f + 150.f, vRes.y / 2.f });
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ButtonSpacebarSprite", L"texture\\ButtonSpacebarSprite.png");
@@ -80,6 +77,25 @@ CUnitBar::CUnitBar():
 	pAnimator->Play(L"ButtonSpacebarSprite", true);
 	
 	m_SpaceBarSprite->Hide();
+
+	m_IncorrectBeats.resize(2);
+	CNormalBeat* ib = new CNormalBeat;
+	ib->SetPos({ vRes.x / 2.f + 110.f, vRes.y / 2.f -3.f });
+	ib->SetScale({ 30, 40 });
+	ib->Hide();
+	 m_IncorrectBeats[(UINT)JudgeBeatType::Left] = ib;
+
+	ib = new CNormalBeat;
+	ib->SetPos({ vRes.x / 2.f + 190.f, vRes.y / 2.f - 3.f });
+	ib->SetScale({ 30, 40 });
+	ib->Hide();
+	 m_IncorrectBeats[(UINT)JudgeBeatType::Right] = ib;
+
+	 m_CorrectBeat = new CNormalBeat;
+	 m_CorrectBeat->SetPos({ vRes.x / 2.f + 150.f, vRes.y / 2.f - 3.f });
+	 m_CorrectBeat->SetScale({ 30, 40 });
+	 m_CorrectBeat->Hide();
+	
 
 	srand(time(NULL));
 
@@ -102,7 +118,11 @@ void CUnitBar::begin()
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_GetSetBeat);
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Heart);
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Character);
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_IncorrectBeats[(UINT)JudgeBeatType::Left]);
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_IncorrectBeats[(UINT)JudgeBeatType::Right]);
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_CorrectBeat);
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_SpaceBarSprite);
+	
 }
 
 void CUnitBar::tick(float _dt)
@@ -112,6 +132,7 @@ void CUnitBar::tick(float _dt)
 	}
 	if (KEY_TAP(SPACE)) {
 		m_SpaceBarSprite->FadeAway(0.3f);
+		
 	}
 	if (m_IsMoving) {
 		float y = m_vecBars[0]->GetPos().y;
@@ -129,6 +150,10 @@ void CUnitBar::tick(float _dt)
 		for (int i = 0; i < m_NormalBeats.size(); ++i) {
 			m_NormalBeats[i]->SetPos({ m_NormalBeats[i]->GetPos().x, vRes.y / 2.f + y - 3.5f });
 		}
+		for (int i = 0; i < m_IncorrectBeats.size(); ++i) {
+			m_IncorrectBeats[i]->SetPos({ m_IncorrectBeats[i]->GetPos().x, vRes.y / 2.f + y - 3.5f });
+		}
+		m_CorrectBeat->SetPos({ m_CorrectBeat->GetPos().x, vRes.y / 2.f + y - 3.5f });
 
 		if (m_AccTime <= m_fQuakeDuration) {
 			Vec2 vPos = m_Character->GetPos();
@@ -195,9 +220,23 @@ void CUnitBar::ShowAll()
 	}
 }
 
-void CUnitBar::InCorrect()
+void CUnitBar::Incorrect(JudgeBeatType _type)
 {
+	if (_type == JudgeBeatType::Left) {
+		m_IncorrectBeats[(UINT)JudgeBeatType::Left]->Show(0.3f);
+		HideBar((UINT)BeatPoint::Left, 0.3f);
+	}
+	else if(_type == JudgeBeatType::Right) {
+		m_IncorrectBeats[(UINT)JudgeBeatType::Right]->Show(0.3f);
+		HideBar((UINT)BeatPoint::Right, 0.3f);
+	}
 	m_fQuakeDuration = m_AccTime + 0.3f;
+}
+
+void CUnitBar::Correct()
+{
+	m_CorrectBeat->Show(0.3f);
+	HideBar((UINT)BeatPoint::Correct, 0.3f);
 }
 
 

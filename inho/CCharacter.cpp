@@ -16,7 +16,11 @@ void CCharacter::tick(float _dt)
 {
 	m_AccTime += _dt;
 	if (m_AccTime <= m_Duration) {
-		SetAlpha(255 - 255*(m_AccTime/ m_Duration));
+		float alpha = 150 - 255 * (m_AccTime / m_Duration);
+		SetAlpha(alpha);
+		if (alpha <= 3.f) {
+			SetAlpha(0);
+		}
 	}
 }
 

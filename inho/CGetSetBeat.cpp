@@ -64,8 +64,8 @@ void CGetSetBeat::tick(float _dt)
 
 	float length = GetPos().x - GetScale().x/2.f - (m_bar->m_vecBars[0]->GetPos().x  - 3.f);
 
-	for (int i = 0; i < m_bar->m_vecBars.size(); i++) {
-		m_bar->m_vecBars[i]->Show();
+	for (int i = 0; length/3.f - i < m_bar->m_vecBars.size() && 0 <= length/3.f - i; i++) {
+		m_bar->m_vecBars[length / 3.f - i]->Show();
 	}
 
 	for (int i = 0 ; i < GetScale().x / 3.f&& i + length / 3.f < m_bar->m_vecBars.size(); i++) {		
