@@ -12,6 +12,7 @@
 CBackground::CBackground():
 	m_Tex(nullptr)
 {
+    AddComponent<CAnimator>();
 }
 
 CBackground::~CBackground()
@@ -30,6 +31,7 @@ void CBackground::SetTexture(CTexture* _tex)
 
 void CBackground::render(HDC _dc)
 {
+    CObj::render(_dc);
 	Vec2 vRenderPos = GetRenderPos();
 
 	if (nullptr == m_Tex) {

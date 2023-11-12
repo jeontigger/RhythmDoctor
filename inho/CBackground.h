@@ -8,7 +8,7 @@ class CBackground :
 {
 private:
     class CTexture* m_Tex;
-
+    
 public:
     void SetTexture(const wstring& _strKey, const wstring& _strRelativePath);
     void SetTexture(class CTexture* _tex);

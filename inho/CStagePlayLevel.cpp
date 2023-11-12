@@ -18,6 +18,7 @@
 #include "CNormalNote.h"
 #include "CBeatNote.h"
 #include "CWindowEvent.h"
+#include "CBackground.h"
 
 
 CStagePlayLevel::CStagePlayLevel(): 
@@ -38,14 +39,33 @@ CStagePlayLevel::~CStagePlayLevel()
 
 void CStagePlayLevel::init()
 {
+	CTexture* pAtlas;
+	CAnimator* pAnimator;
+	Vec2 vRes = CEngine::GetInst()->GetResolution();
+
+	m_ColeBGBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBGBG", L"texture\\ColeBGBG.png");
+	pAnimator = m_ColeBGBG->GetComponent<CAnimator>();
+	pAnimator->CreateAnimation(L"ColeBGBG", pAtlas, Vec2(0, 0), Vec2(352, 119), Vec2(0, 0), 0.1f, 3);
+	pAnimator->SaveAnimation(L"animdata");
+	pAnimator->Play(L"ColeBGBG", true);
+	m_ColeBGBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f -55.f });
+	m_ColeBGBG->SetScale({ 352, 119 });
+	AddObject(BACKGROUND, m_ColeBGBG);
+
+	m_ColeBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
+	m_ColeBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 75.f });
+	m_ColeBG->SetScale({ pAtlas->GetWidth(), pAtlas->GetHeight() });
+	m_ColeBG->SetTexture(pAtlas);
+	AddObject(BACKGROUND, m_ColeBG);
+
 
 	m_UnitBar = new CUnitBar;
 	AddObject(PLAYER, m_UnitBar);
 
-	Vec2 vRes = CEngine::GetInst()->GetResolution();
 	
-	CTexture* pAtlas;
-	CAnimator* pAnimator;
+
 
 
 	m_Hand = new CCharacter;
@@ -82,8 +102,8 @@ void CStagePlayLevel::init()
 	BarInfo* barinfo = new BarInfo;
 	barinfo->Moving = true;
 	barinfo->StartTime = 12.7f;
-	barinfo->Speed = 80.f;
-	barinfo->Duration = 1.6f;
+	barinfo->Speed = 40.f;
+	barinfo->Duration = 0.5f;
 
 	m_listBarInfo.push_back(barinfo);
 }

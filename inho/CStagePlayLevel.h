@@ -7,6 +7,11 @@ constexpr float CorrectTime = 0.033f;
 class CStagePlayLevel :
     public CLevel
 {
+
+private:
+    class CBackground* m_ColeBGBG;
+    class CBackground* m_ColeBG;
+
 private:
     list<NoteInfo*> m_listNoteInfo;
     list<BarInfo*> m_listBarInfo;
