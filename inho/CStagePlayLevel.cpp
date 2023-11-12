@@ -55,7 +55,7 @@ void CStagePlayLevel::init()
 
 	m_ColeBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
-	m_ColeBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 75.f });
+	m_ColeBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
 	m_ColeBG->SetScale({ pAtlas->GetWidth(), pAtlas->GetHeight() });
 	m_ColeBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, m_ColeBG);
@@ -174,8 +174,6 @@ void CStagePlayLevel::tick()
 
 		if (KEY_TAP(SPACE)) {
 			m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
-			CCamera::GetInst()->Judge(0.1f);
-			CCamera::GetInst()->Zoom(30.f, 0.3f);
 		}
 		if (KEY_TAP(O)) {
 			LOG(LOG_LEVEL::WARNING, L"보정 Offset 빠르게");
@@ -318,6 +316,10 @@ void CStagePlayLevel::Judge()
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"판정!");
 			m_newNote = false;
+			CCamera::GetInst()->Judge(0.1f);
+			CCamera::GetInst()->Zoom(30.f, 0.3f);
+			m_UnitBar->GetSpaceBarSprite()->FadeAway(0.3f);
+			
 		}
 	}
 	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset

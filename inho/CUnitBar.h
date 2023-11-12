@@ -24,6 +24,9 @@ private:
     float m_AccTime;
 
 public:
+    class CCharacter* GetSpaceBarSprite() { return m_SpaceBarSprite; }
+
+public:
     void Start(bool _b) { m_IsStart = _b; }
 
     void SetMovingSpeed(float _speed) { m_fSpeed = _speed; }
