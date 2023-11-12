@@ -76,11 +76,27 @@ void CEngine::tick() {
     CLevelMgr::GetInst()->render(m_SubTex->GetDC());
     CCamera::GetInst()->render(m_SubTex->GetDC());
 
-    BitBlt(CEngine::GetInst()->GetMainDC(),
-        0, 0,
-        m_ptResolution.x, m_ptResolution.y,
+
+    BLENDFUNCTION blend = {};
+    blend.BlendOp = AC_SRC_OVER;
+    blend.BlendFlags = 0;
+    blend.SourceConstantAlpha = 255;
+    blend.AlphaFormat = 0;
+    float zoom = CCamera::GetInst()->GetZoomOffset();
+    AlphaBlend(CEngine::GetInst()->GetMainDC()
+        , -zoom/2.f, -zoom/2.f
+        ,m_ptResolution.x+ zoom, m_ptResolution.y + zoom
+        , m_SubTex->GetDC()
+        , 0, 0
+        , m_SubTex->GetWidth(), m_SubTex->GetHeight()
+        , blend);
+
+
+    /*BitBlt(CEngine::GetInst()->GetMainDC(),
+        -30, -30,
+        m_ptResolution.x+30, m_ptResolution.y+30,
         m_SubTex->GetDC(),
-        0, 0, SRCCOPY);
+        0, 0, SRCCOPY);*/
 
     CTaskMgr::GetInst()->tick();
 

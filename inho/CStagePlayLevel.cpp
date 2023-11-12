@@ -174,7 +174,8 @@ void CStagePlayLevel::tick()
 
 		if (KEY_TAP(SPACE)) {
 			m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
-			
+			CCamera::GetInst()->Judge(0.1f);
+			CCamera::GetInst()->Zoom(30.f, 0.3f);
 		}
 		if (KEY_TAP(O)) {
 			LOG(LOG_LEVEL::WARNING, L"보정 Offset 빠르게");

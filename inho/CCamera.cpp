@@ -17,6 +17,7 @@ CCamera::CCamera():
     Vec2 vResol = CEngine::GetInst()->GetResolution();
     m_Veil = CAssetMgr::GetInst()->CreateTexture(L"VeilTex", vResol.x, vResol.y);
     m_Blink = CAssetMgr::GetInst()->LoadTexture(L"BlinkTex", L"texture\\Blink.png");
+    m_Judge = CAssetMgr::GetInst()->LoadTexture(L"JudgeEffect", L"texture\\CameraJudgeEffect.png");
 }
 
 CCamera::~CCamera() {}
@@ -71,84 +72,122 @@ void CCamera::tick() {
         return;
 
     FCamEvent& evnt = m_EventList.front();
+    for (auto iter = m_EventList.begin(); iter != m_EventList.end();) {
+        FCamEvent& evnt = *iter;
+        if (evnt.type == CAM_EFFECT::FADE_IN) {
 
-    if (evnt.type == CAM_EFFECT::FADE_IN) {
+            evnt.AccTime += DT;
 
-        evnt.AccTime += DT;
-
-        if (evnt.Duration <= evnt.AccTime) {
-            m_VeilAlpha = 0;
-            m_EventList.pop_front();
+            if (evnt.Duration <= evnt.AccTime) {
+                m_VeilAlpha = 0;
+                iter = m_EventList.erase(iter);
+            }
+            else {
+                float fRatio = evnt.AccTime / evnt.Duration;
+                float alpha = 1.f - fRatio;
+                m_VeilAlpha = (UINT)(alpha * 255);
+                ++iter;
+            }
         }
-        else {
-            float fRatio = evnt.AccTime / evnt.Duration;
-            float alpha = 1.f - fRatio;
-            m_VeilAlpha = (UINT)(alpha * 255);
+
+        else if (evnt.type == CAM_EFFECT::FADE_OUT) {
+
+            evnt.AccTime += DT;
+
+            if (evnt.Duration <= evnt.AccTime) {
+                iter = m_EventList.erase(iter);
+                m_VeilAlpha = 255;
+            }
+            else {
+                float fRatio = evnt.AccTime / evnt.Duration;
+                float alpha = fRatio;
+                m_VeilAlpha = (UINT)(alpha * 255);
+                ++iter;
+            }
+        }
+
+        else if (evnt.type == CAM_EFFECT::BLINK_IN) {
+
+            evnt.AccTime += DT;
+
+            if (evnt.Duration <= evnt.AccTime) {
+                m_BlinkAlpha = 0;
+                iter = m_EventList.erase(iter);
+            }
+            else {
+                float fRatio = evnt.AccTime / evnt.Duration;
+                float alpha = 1.f - fRatio;
+                m_BlinkAlpha = (UINT)(alpha * 255);
+                ++iter;
+            }
+        }
+        else if (evnt.type == CAM_EFFECT::BLINK_OUT) {
+
+            evnt.AccTime += DT;
+
+            if (evnt.Duration <= evnt.AccTime) {
+                iter = m_EventList.erase(iter);
+                m_BlinkAlpha = 255;
+            }
+            else {
+                float fRatio = evnt.AccTime / evnt.Duration;
+                float alpha = fRatio;
+                m_BlinkAlpha = (UINT)(alpha * 255);
+                ++iter;
+            }
+        }
+        else if (evnt.type == CAM_EFFECT::Judge) {
+
+            evnt.AccTime += DT;
+
+            if (evnt.Duration <= evnt.AccTime) {
+                m_JudgeAlpha = 0;
+                iter= m_EventList.erase(iter);
+            }
+            else {
+                float fRatio = evnt.AccTime / evnt.Duration;
+                float alpha = 1.f - fRatio;
+                m_JudgeAlpha = (UINT)(alpha * 255);
+                ++iter;
+            }
+        }
+        else if (evnt.type == CAM_EFFECT::Zoom) {
+
+            evnt.AccTime += DT;
+
+            if (evnt.Duration <= evnt.AccTime) {
+                m_ZoomOffset = 0;
+                iter = m_EventList.erase(iter);
+                
+            }
+            else {
+                float fRatio = evnt.AccTime / evnt.Duration;
+                float zoom = 1.f - fRatio;
+                m_ZoomOffset = (UINT)(zoom * m_ZoomSize);
+                ++iter;
+            }
         }
     }
-
-    else if (evnt.type == CAM_EFFECT::FADE_OUT) {
-
-        evnt.AccTime += DT;
-
-        if (evnt.Duration <= evnt.AccTime) {
-            m_EventList.pop_front();
-            m_VeilAlpha = 255;
-        }
-        else {
-            float fRatio = evnt.AccTime / evnt.Duration;
-            float alpha = fRatio;
-            m_VeilAlpha = (UINT)(alpha * 255);
-        }
-    }
-
-    else if (evnt.type == CAM_EFFECT::BLINK_IN) {
-
-        evnt.AccTime += DT;
-
-        if (evnt.Duration <= evnt.AccTime) {
-            m_BlinkAlpha = 0;
-            m_EventList.pop_front();
-        }
-        else {
-            float fRatio = evnt.AccTime / evnt.Duration;
-            float alpha = 1.f - fRatio;
-            m_BlinkAlpha = (UINT)(alpha * 255);
-        }
-    }
-    else if (evnt.type == CAM_EFFECT::BLINK_OUT) {
-
-        evnt.AccTime += DT;
-
-        if (evnt.Duration <= evnt.AccTime) {
-            m_EventList.pop_front();
-            m_BlinkAlpha = 255;
-        }
-        else {
-            float fRatio = evnt.AccTime / evnt.Duration;
-            float alpha = fRatio;
-            m_BlinkAlpha = (UINT)(alpha * 255);
-        }
-    }
+    
 }
 
 void CCamera::render(HDC _dc)
 {
-    if (0 == m_VeilAlpha && 0 == m_BlinkAlpha)
+    if (0 == m_VeilAlpha && 0 == m_BlinkAlpha && 0 == m_JudgeAlpha)
         return;
 
     BLENDFUNCTION blend = {};
     blend.BlendOp = AC_SRC_OVER;
     blend.BlendFlags = 0;
     blend.SourceConstantAlpha = m_VeilAlpha;
-    blend.AlphaFormat = 0;
+    blend.AlphaFormat = AC_SRC_ALPHA;
 
-    /*AlphaBlend(_dc
+    AlphaBlend(_dc
         , 0, 0, m_Veil->GetWidth(), m_Veil->GetHeight()
         , m_Veil->GetDC()
         , 0, 0
         , m_Veil->GetWidth(), m_Veil->GetHeight()
-        , blend);*/
+        , blend);
 
     blend.SourceConstantAlpha = m_BlinkAlpha;
 
@@ -157,6 +196,18 @@ void CCamera::render(HDC _dc)
         , m_Blink->GetDC()
         , 0, 0
         , m_Blink->GetWidth(), m_Blink->GetHeight()
+        , blend);
+
+
+    blend.SourceConstantAlpha = m_JudgeAlpha;
+
+    
+
+    AlphaBlend(_dc
+        , 0, 0, CEngine::GetInst()->GetResolution().x, CEngine::GetInst()->GetResolution().y
+        , m_Judge->GetDC()
+        , 0, 0
+        , m_Judge->GetWidth(), m_Judge->GetHeight()
         , blend);
 }
 
