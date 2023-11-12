@@ -16,40 +16,26 @@
 
 CUnitBar::CUnitBar()
 {
-
-
-}
-
-CUnitBar::~CUnitBar()
-{
-}
-
-void CUnitBar::begin()
-{
 	CJudgeBar* m_Judgebar = new CJudgeBar;
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 	Vec2 vBarScale = { 550, 1 };
-	m_Judgebar->SetPos({ vRes.x / 2.f,vRes.y / 2.f });
+	m_Judgebar->SetPos({ vRes.x / 2.f - 270.f, vRes.y / 2.f });
 	/*m_Judgebar->SetScale(vBarScale);
 	AddObject(PLAYER, m_Judgebar);*/
-	m_Judgebar->SetPos({ vRes.x / 2.f,vRes.y / 2.f });
 	m_Judgebar->SetScale({ 3,1 });
-	
+
 	m_vecBars.push_back(m_Judgebar);
 
 	for (int i = 1; i < 180; i++) {
 		m_vecBars.push_back(m_Judgebar->Clone());
-	}
-	for (int i = 0; i < 180; i++) {
 		m_vecBars[i]->SetPos({ vRes.x / 2.f - 270.f + 3.f * i,vRes.y / 2.f });
-
-		CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::PLAYER)->AddObject(m_vecBars[i]);
 	}
+	
 
 	m_Heart = new CHeart;
 	m_Heart->SetPos({ vRes.x / 2.f + 280.f, vRes.y / 2.f + 3.f });
 	m_Heart->SetScale({ 10, 11 });
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Heart);
+	
 
 	CTexture* pAtlas;
 	CAnimator* pAnimator;
@@ -62,7 +48,7 @@ void CUnitBar::begin()
 	pAnimator->CreateAnimation(L"ColeIdle", pAtlas, Vec2(40, 0), Vec2(40, 40), Vec2(0, 0), 0.3f, 4);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"ColeIdle", true);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Character);
+	
 
 	CNormalBeat* BeatImg;
 	m_NormalBeats.resize(6);
@@ -70,8 +56,7 @@ void CUnitBar::begin()
 		BeatImg = new CNormalBeat;
 		m_NormalBeats[i] = BeatImg;
 		m_NormalBeats[i]->SetScale({ 30, 40 });
-		m_NormalBeats[i]->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[i] * 3.f + 25.f, m_Judgebar->GetPos().y  -3.f});
-		CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_NormalBeats[i]);
+		m_NormalBeats[i]->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[i] * 3.f + 25.f, m_Judgebar->GetPos().y - 3.f });
 		m_NormalBeats[i]->Hide();
 	}
 
@@ -79,25 +64,49 @@ void CUnitBar::begin()
 	m_GetSetBeat->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[0] * 3.f + 25.f, m_Judgebar->GetPos().y - 3.f });
 	m_GetSetBeat->SetBar(this);
 	m_GetSetBeat->Hide();
+
 	
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_GetSetBeat);
 
 
 	m_SpaceBarSprite = new CCharacter;
-	m_SpaceBarSprite->SetPos({ vRes.x / 2.f +150.f, vRes.y / 2.f });
+	m_SpaceBarSprite->SetPos({ vRes.x / 2.f + 150.f, vRes.y / 2.f });
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ButtonSpacebarSprite", L"texture\\ButtonSpacebarSprite.png");
 	pAnimator = m_SpaceBarSprite->GetComponent<CAnimator>();
 	pAnimator->CreateAnimation(L"ButtonSpacebarSprite", pAtlas, Vec2(10, 10), Vec2(50, 800), Vec2(0, 0), 0.3f, 1);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"ButtonSpacebarSprite", true);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_SpaceBarSprite);
+	
 	m_SpaceBarSprite->Hide();
+
+}
+
+CUnitBar::~CUnitBar()
+{
+}
+
+void CUnitBar::begin()
+{
+	for (int i = 0; i < 180; i++) {
+		CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::PLAYER)->AddObject(m_vecBars[i]);
+	}
+
+	for (int i = 0; i < 6; ++i) {
+		CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_NormalBeats[i]);
+	}
+
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_GetSetBeat);
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Heart);
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Character);
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_SpaceBarSprite);
 }
 
 void CUnitBar::tick(float _dt)
 {
 	if (!m_IsStart) {
 		return;
+	}
+	if (KEY_TAP(SPACE)) {
+		m_SpaceBarSprite->FadeAway(0.3f);
 	}
 	if (m_IsMoving) {
 		float y = m_vecBars[0]->GetPos().y;
@@ -143,6 +152,24 @@ void CUnitBar::GoGetSetBeat(float _speed)
 {
 	m_GetSetBeat->SetSpeed(_speed);
 	m_GetSetBeat->PlayGoAnim();
+}
+
+void CUnitBar::HideAll()
+{
+	m_Character->Hide();
+	m_Heart->Hide();
+	for (int i = 0; i < m_vecBars.size(); ++i) {
+		m_vecBars[i]->Hide(1000.f);
+	}
+}
+
+void CUnitBar::ShowAll()
+{
+	m_Character->Show();
+	m_Heart->Show();
+	for (int i = 0; i < m_vecBars.size(); ++i) {
+		m_vecBars[i]->Show();
+	}
 }
 
 

@@ -52,6 +52,7 @@ void CStagePlayLevel::init()
 	m_ColeBGBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f -55.f });
 	m_ColeBGBG->SetScale({ 352, 119 });
 	AddObject(BACKGROUND, m_ColeBGBG);
+	
 
 	m_ColeBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
@@ -59,14 +60,12 @@ void CStagePlayLevel::init()
 	m_ColeBG->SetScale({ pAtlas->GetWidth(), pAtlas->GetHeight() });
 	m_ColeBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, m_ColeBG);
+	
 
 
 	m_UnitBar = new CUnitBar;
 	AddObject(PLAYER, m_UnitBar);
-
 	
-
-
 
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
@@ -121,6 +120,9 @@ void CStagePlayLevel::enter()
 	
 	event->SetPos(event->GetMonitorRes()/2 - event->GetWinRes() / 2);
 
+	m_ColeBGBG->Hide();
+	m_ColeBG->Hide();
+	m_UnitBar->HideAll();
 }
 
 
@@ -151,6 +153,7 @@ void CStagePlayLevel::tick()
 				newNoteEvent->SetLoopDuration(noteinfo->GetDuration);
 				newNoteEvent->Play();
 				m_listNoteInfo.pop_front();
+				CCamera::GetInst()->Zoom(20.f, 0.2f);
 
 				m_NoteJudgeTime = noteinfo->StartTime + noteinfo->JudgeTime;
 				m_newNote = true;
@@ -297,6 +300,9 @@ void CStagePlayLevel::AnyPress()
 		m_BGSound->PlayToBGM(false);
 		m_UnitBar->Start(true);
 		m_bAnyPressed = true;
+		m_ColeBGBG->Show();
+		m_ColeBG->Show();
+		m_UnitBar->ShowAll();
 	}
 	return;
 	
@@ -317,8 +323,6 @@ void CStagePlayLevel::Judge()
 			LOG(ERR, L"판정!");
 			m_newNote = false;
 			CCamera::GetInst()->Judge(0.1f);
-			CCamera::GetInst()->Zoom(30.f, 0.3f);
-			m_UnitBar->GetSpaceBarSprite()->FadeAway(0.3f);
 			
 		}
 	}

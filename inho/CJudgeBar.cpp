@@ -31,6 +31,6 @@ void CJudgeBar::tick(float _dt)
 	m_AccTime += _dt;
 	if (m_ShowTime <= m_AccTime) {
 		Show();
-		m_AccTime;
+		m_AccTime =0;
 	}
 }

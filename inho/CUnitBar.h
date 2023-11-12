@@ -39,6 +39,8 @@ public:
 public:
     void StayGetSetBeat();
     void GoGetSetBeat(float _speed);
+    void HideAll();
+    void ShowAll();
 
 public:
     virtual void begin() override;
