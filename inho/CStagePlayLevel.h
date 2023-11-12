@@ -14,12 +14,13 @@ private:
     class CCharacter* m_Hand;
 
 private:
-    bool m_Start;
+    bool m_bAnyPressed;
     float m_AccTime;
 
     class CSound* m_BGSound;
 
 public:
+    void AnyPress();
     void Judge();
 
 public:

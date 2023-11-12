@@ -96,6 +96,9 @@ void CUnitBar::begin()
 
 void CUnitBar::tick(float _dt)
 {
+	if (!m_IsStart) {
+		return;
+	}
 	if (KEY_TAP(SPACE)) {
 		m_SpaceBarSprite->FadeAway(0.3f);
 	}

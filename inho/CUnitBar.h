@@ -17,12 +17,15 @@ private:
 
     class CCharacter* m_SpaceBarSprite;
 
+    bool m_IsStart;
     bool m_IsMoving;
     float m_fSpeed;
     float m_fDuration;
     float m_AccTime;
 
 public:
+    void Start(bool _b) { m_IsStart = _b; }
+
     void SetMovingSpeed(float _speed) { m_fSpeed = _speed; }
     void SetMoving(bool _b) { m_IsMoving = _b; }
     void SetMovingDuration(float _duration) { m_fDuration = _duration; }
