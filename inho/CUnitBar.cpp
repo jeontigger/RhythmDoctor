@@ -14,7 +14,10 @@
 #include "CAssetMgr.h"
 #include "CKeyMgr.h"
 
-CUnitBar::CUnitBar()
+#include <time.h>
+
+CUnitBar::CUnitBar():
+	m_fDuration(-1)
 {
 	CJudgeBar* m_Judgebar = new CJudgeBar;
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
@@ -78,6 +81,8 @@ CUnitBar::CUnitBar()
 	
 	m_SpaceBarSprite->Hide();
 
+	srand(time(NULL));
+
 }
 
 CUnitBar::~CUnitBar()
@@ -118,13 +123,31 @@ void CUnitBar::tick(float _dt)
 		for (int i = 0; i < m_vecBars.size(); ++i) {
 			m_vecBars[i]->SetPos({ m_vecBars[i]->GetPos().x, vRes.y/2.f +y});
 		}
-		m_Character->SetPos({ m_Character->GetPos().x, vRes.y / 2.f + y });
-		m_Heart->SetPos({ m_Heart->GetPos().x, vRes.y / 2.f + y });
+		m_Character->SetPos({ vRes.x / 2.f - 280.f, vRes.y / 2.f + y });
+		m_Heart->SetPos({ vRes.x / 2.f + 280.f, vRes.y / 2.f + y });
 		m_GetSetBeat->SetPos({ m_GetSetBeat->GetPos().x, vRes.y / 2.f + y - 3.5f });
 		for (int i = 0; i < m_NormalBeats.size(); ++i) {
 			m_NormalBeats[i]->SetPos({ m_NormalBeats[i]->GetPos().x, vRes.y / 2.f + y - 3.5f });
 		}
+
+		if (m_AccTime <= m_fQuakeDuration) {
+			Vec2 vPos = m_Character->GetPos();
+			Vec2 vPosH = m_Heart->GetPos();
+			int m_QuakeAmount = 10;
+			int x = rand() % m_QuakeAmount - m_QuakeAmount / 2;
+			int y = rand() % m_QuakeAmount - m_QuakeAmount / 2;
+
+			vPos.x += x;
+			vPos.y += y;
+			vPosH.x += x;
+			vPosH.y += y;
+
+			m_Character->SetPos(vPos);
+			m_Heart->SetPos(vPosH);
+
+		}
 	}
+	
 }
 
 void CUnitBar::HideBar(int _idx, float _duration)
@@ -170,6 +193,11 @@ void CUnitBar::ShowAll()
 	for (int i = 0; i < m_vecBars.size(); ++i) {
 		m_vecBars[i]->Show();
 	}
+}
+
+void CUnitBar::InCorrect()
+{
+	m_fQuakeDuration = m_AccTime + 0.3f;
 }
 
 

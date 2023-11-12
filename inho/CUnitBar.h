@@ -22,6 +22,7 @@ private:
     float m_fSpeed;
     float m_fDuration;
     float m_AccTime;
+    float m_fQuakeDuration;
 
 public:
     class CCharacter* GetSpaceBarSprite() { return m_SpaceBarSprite; }
@@ -41,6 +42,7 @@ public:
     void GoGetSetBeat(float _speed);
     void HideAll();
     void ShowAll();
+    void InCorrect();
 
 public:
     virtual void begin() override;
