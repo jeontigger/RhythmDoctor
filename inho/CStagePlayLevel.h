@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "CLevel.h"
 
+constexpr float JudgeTime = 0.05f;
+constexpr float CorrectTime = 0.016f;
 
 class CStagePlayLevel :
     public CLevel
@@ -8,6 +10,8 @@ class CStagePlayLevel :
 private:
     list<NoteInfo*> m_listNoteInfo;
     list<BarInfo*> m_listBarInfo;
+    float m_NoteJudgeTime;
+    bool m_newNote;
 
 private:
     class CUnitBar* m_UnitBar;

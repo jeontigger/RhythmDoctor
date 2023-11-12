@@ -10,6 +10,7 @@
 #include "CEventMgr.h"
 #include "CTimeMgr.h"
 #include "CSound.h"
+#include "CLogMgr.h"
 
 #include "CUnitBar.h"
 #include "CCharacter.h"
@@ -71,8 +72,8 @@ void CStagePlayLevel::init()
 		NoteInfo* noteinfo = new NoteInfo;
 		noteinfo->Bar = L"bar";
 		noteinfo->StartTime = 13.7f + i *1.657f;
-		noteinfo->Speed = 200.f;
-		noteinfo->GetDuration = 0.5f;
+		noteinfo->Speed = 400.f;
+		noteinfo->GetDuration = 0.4f;
 		noteinfo->Cnt = 1;
 		m_listNoteInfo.push_back(noteinfo);
 	}
@@ -129,6 +130,10 @@ void CStagePlayLevel::tick()
 				newNoteEvent->SetLoopDuration(noteinfo->GetDuration);
 				newNoteEvent->Play();
 				m_listNoteInfo.pop_front();
+
+				m_NoteJudgeTime = noteinfo->StartTime + 0.7f; // 판정 스피드
+				m_newNote = true;
+
 				delete noteinfo;
 			}
 		}
@@ -143,8 +148,12 @@ void CStagePlayLevel::tick()
 				
 			}
 		}
+
+		Judge();
+
 		if (KEY_TAP(SPACE)) {
 			m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
+			
 		}
 
 
@@ -268,5 +277,28 @@ void CStagePlayLevel::AnyPress()
 
 void CStagePlayLevel::Judge()
 {
-	
+	if (m_NoteJudgeTime - JudgeTime <= m_AccTime && m_AccTime < m_NoteJudgeTime - CorrectTime) {
+		if (KEY_TAP(SPACE)) {
+			LOG(ERR, L"빠름");
+			m_newNote = false;
+		}
+	}
+	else if (m_NoteJudgeTime - CorrectTime <= m_AccTime && m_AccTime <= m_NoteJudgeTime + CorrectTime) {
+		if (KEY_TAP(SPACE)) {
+			LOG(ERR, L"판정!");
+			m_newNote = false;
+		}
+	}
+	else if (m_NoteJudgeTime + CorrectTime < m_AccTime && m_AccTime <= m_NoteJudgeTime + JudgeTime) {
+		if (KEY_TAP(SPACE)) {
+			LOG(ERR, L"느림");
+			m_newNote = false;
+		}
+	}
+	else if (m_NoteJudgeTime + JudgeTime < m_AccTime) {
+		if (m_newNote) {
+			LOG(ERR, L"놓침");
+			m_newNote = false;
+		}
+	}
 }
