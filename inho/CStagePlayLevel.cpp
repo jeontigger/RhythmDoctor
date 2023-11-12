@@ -71,7 +71,7 @@ void CStagePlayLevel::init()
 		NoteInfo* noteinfo = new NoteInfo;
 		noteinfo->Bar = L"bar";
 		noteinfo->StartTime = 13.7f + i *1.657f;
-		noteinfo->Speed = 180.f;
+		noteinfo->Speed = 200.f;
 		noteinfo->GetDuration = 0.5f;
 		noteinfo->Cnt = 1;
 		m_listNoteInfo.push_back(noteinfo);
@@ -93,8 +93,11 @@ void CStagePlayLevel::enter()
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
 
-	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_Intro", L"sound\\sndAllTheTimes.wav");
-	pSound->PlayToBGM(false);
+	m_BGSound = CAssetMgr::GetInst()->LoadSound(L"BGM_Intro", L"sound\\sndAllTheTimes.wav");
+	
+	CWindowEvent* event =  CEventMgr::GetInst()->GetWindowEvent();
+	
+	event->SetPos(event->GetMonitorRes()/2 - event->GetWinRes() / 2);
 
 }
 
@@ -105,7 +108,18 @@ void CStagePlayLevel::exit()
 
 void CStagePlayLevel::tick()
 {
+
 	CLevel::tick();
+
+	if (!m_Start) {
+		if (KEY_TAP(SPACE)) {
+			m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
+			m_BGSound->PlayToBGM(false);
+			m_Start = true;
+		}
+		return;
+	}
+
 	auto newEvent = CEventMgr::GetInst()->GetWindowEvent();
 	auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[0]);
 

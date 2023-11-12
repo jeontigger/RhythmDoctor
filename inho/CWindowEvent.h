@@ -57,15 +57,15 @@ private:
     HWND m_hWnd;
     Vec2 m_vMonitorRes;
     Vec2 m_vWinRes;
-    Vec2 m_vWinPos; 
+    Vec2 m_vWinPos;
 
     void(CWindowEvent::* pFunc)(float);
 
 private:
-        Vec2 m_vTarget;
-        float m_fSpeed;
-        bool m_bIsAlive;
-        void LinearMove(float _dt);
+    Vec2 m_vTarget;
+    float m_fSpeed;
+    bool m_bIsAlive;
+    void LinearMove(float _dt);
 
 private:
     float m_Theta;
@@ -133,15 +133,19 @@ public:
     void SetWaveFrequency(float _freq) { m_fFrequency = _freq; }
 
     void SetPortalDirection(PortalDirection _dir);
-    
+
 public:
     void SetMode(WindowEventType _type);
 
     Vec2 GetPos() { return m_vWinPos; }
-    void SetPos(Vec2 _pos) { 
+    void SetPos(Vec2 _pos) {
         m_vWinPos = _pos;
-        MoveWindow(m_hWnd, _pos.x, _pos.y, m_vWinRes.x, m_vWinRes.y, TRUE); 
+        MoveWindow(m_hWnd, _pos.x, _pos.y, m_vWinRes.x, m_vWinRes.y, TRUE);
     }
+
+    Vec2 GetWinRes() { return m_vWinRes; }
+    Vec2 GetMonitorRes() { return m_vMonitorRes; }
+
 
 public:
     virtual void Play() override;

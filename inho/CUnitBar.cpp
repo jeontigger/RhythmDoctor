@@ -92,10 +92,7 @@ void CUnitBar::begin()
 	pAnimator->Play(L"ButtonSpacebarSprite", true);
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_SpaceBarSprite);
 	m_SpaceBarSprite->Hide();
-
-
 }
-	float beatSpeed = 0.3f;
 
 void CUnitBar::tick(float _dt)
 {

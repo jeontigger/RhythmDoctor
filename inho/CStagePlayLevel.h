@@ -14,7 +14,10 @@ private:
     class CCharacter* m_Hand;
 
 private:
+    bool m_Start;
     float m_AccTime;
+
+    class CSound* m_BGSound;
 
 public:
     void Judge();
