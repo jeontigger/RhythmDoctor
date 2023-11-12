@@ -75,6 +75,7 @@ void CStagePlayLevel::init()
 		noteinfo->Speed = 400.f;
 		noteinfo->GetDuration = 0.4f;
 		noteinfo->Cnt = 1;
+		noteinfo->JudgeTime = 0.7f;
 		m_listNoteInfo.push_back(noteinfo);
 	}
 
@@ -131,7 +132,7 @@ void CStagePlayLevel::tick()
 				newNoteEvent->Play();
 				m_listNoteInfo.pop_front();
 
-				m_NoteJudgeTime = noteinfo->StartTime + 0.7f; // 판정 스피드
+				m_NoteJudgeTime = noteinfo->StartTime + noteinfo->JudgeTime;
 				m_newNote = true;
 
 				delete noteinfo;
@@ -155,7 +156,14 @@ void CStagePlayLevel::tick()
 			m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
 			
 		}
-
+		if (KEY_TAP(O)) {
+			LOG(LOG_LEVEL::WARNING, L"보정 Offset 빠르게");
+			m_NoteJudgeTimeOffset -= 0.016f;
+		}
+		if (KEY_TAP(P)) {
+			LOG(LOG_LEVEL::WARNING, L"보정 Offset 느리게");
+			m_NoteJudgeTimeOffset += 0.016f;
+		}
 
 #pragma region UseCase
 
@@ -277,25 +285,28 @@ void CStagePlayLevel::AnyPress()
 
 void CStagePlayLevel::Judge()
 {
-	if (m_NoteJudgeTime - JudgeTime <= m_AccTime && m_AccTime < m_NoteJudgeTime - CorrectTime) {
+	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime+ m_NoteJudgeTimeOffset 
+		&& m_AccTime + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"빠름");
 			m_newNote = false;
 		}
 	}
-	else if (m_NoteJudgeTime - CorrectTime <= m_AccTime && m_AccTime <= m_NoteJudgeTime + CorrectTime) {
+	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime + m_NoteJudgeTimeOffset 
+		&& m_AccTime + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"판정!");
 			m_newNote = false;
 		}
 	}
-	else if (m_NoteJudgeTime + CorrectTime < m_AccTime && m_AccTime <= m_NoteJudgeTime + JudgeTime) {
+	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset
+		&& m_AccTime + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"느림");
 			m_newNote = false;
 		}
 	}
-	else if (m_NoteJudgeTime + JudgeTime < m_AccTime) {
+	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset) {
 		if (m_newNote) {
 			LOG(ERR, L"놓침");
 			m_newNote = false;

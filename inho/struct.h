@@ -136,6 +136,7 @@ struct NoteInfo {
     float StartTime;
     float GetDuration;
     float Speed;
+    float JudgeTime;
     int Cnt;
 };
 
