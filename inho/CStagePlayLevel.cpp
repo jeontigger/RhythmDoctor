@@ -134,6 +134,8 @@ void CStagePlayLevel::exit()
 {
 }
 
+float audioDelay = 0.0f;
+
 void CStagePlayLevel::tick()
 {
 
@@ -147,10 +149,10 @@ void CStagePlayLevel::tick()
 		auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[0]);
 
 		m_AccTime += DT;
-
+		CLogMgr::GetInst()->SetAccTime(m_AccTime);
 		if (!m_listNoteInfo.empty()) {
 			NoteInfo* noteinfo = m_listNoteInfo.front();
-			if (noteinfo->StartTime <= m_AccTime) {
+			if (noteinfo->StartTime <= m_AccTime + audioDelay) {
 				newNoteEvent->SetBar(m_UnitBar);
 				newNoteEvent->SetBeatSpeed(noteinfo->Speed);
 				newNoteEvent->SetLoopCount(noteinfo->Cnt);
@@ -168,7 +170,7 @@ void CStagePlayLevel::tick()
 
 		if (!m_listBarInfo.empty()) {
 			BarInfo* barinfo = m_listBarInfo.front();
-			if (barinfo->StartTime <= m_AccTime) {
+			if (barinfo->StartTime <= m_AccTime + audioDelay) {
 				m_UnitBar->SetMoving(barinfo->Moving);
 				m_UnitBar->SetMovingSpeed(barinfo->Speed);
 				m_UnitBar->SetMovingDuration(barinfo->Duration);
@@ -177,7 +179,7 @@ void CStagePlayLevel::tick()
 
 		if (!m_listWinInfo.empty()) {
 			WinInfo info = m_listWinInfo.front();
-			if (info.StartTime <= m_AccTime) {
+			if (info.StartTime <= m_AccTime + audioDelay) {
 				switch (info.Type)
 				{
 				case WindowEventType::LinearMove:
@@ -185,11 +187,30 @@ void CStagePlayLevel::tick()
 					newEvent->SetTarget(info.Target, info.Speed);
 					break;
 				case WindowEventType::CircleMove:
+					newEvent->SetMode(info.Type);
+					if (info.Theta != -5) {
+						newEvent->SetTheta(info.Theta);
+					}
+					newEvent->SetSpeed(info.Speed);
+					newEvent->SetRadius(info.Radius);
+					newEvent->SetCW(info.CW);
+					if (info.Decrease != 0) {
+						newEvent->SetDecreaseSpeed(info.Decrease);
+					}
 					break;
+
 				case WindowEventType::Quake:
+					newEvent->SetMode(info.Type);
+					newEvent->SetQuakeAmount(info.QuakeAmount);
 					break;
+
 				case WindowEventType::UpAndDown:
+					newEvent->SetMode(info.Type);
+					newEvent->SetTarget(info.Target, info.Speed);
+					newEvent->SetUpDownSize(info.Size);
+					newEvent->SetUpDownCount(info.Count);
 					break;
+
 				case WindowEventType::Jumping:
 					break;
 				case WindowEventType::Disapear:

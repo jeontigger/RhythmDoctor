@@ -90,6 +90,7 @@ void CWindowEvent::SetMode(WindowEventType _type)
         break;
 
     case WindowEventType::Quake:
+        m_vOrigin = m_vWinPos;
         pFunc = &CWindowEvent::WindowQuake;
         break;
 
@@ -153,7 +154,7 @@ void CWindowEvent::LinearMove(float _dt)
     if ((vPos - m_vTarget).Length() <= 3.f) {
         m_bIsAlive = false;
         SetPos(m_vTarget);
-        SetMode(WindowEventType::END);
+        
     }
 }
 
@@ -183,7 +184,7 @@ void CWindowEvent::CircleMove(float _dt)
 
 void CWindowEvent::WindowQuake(float _dt)
 {
-    Vec2 vPos = GetPos();
+    Vec2 vPos = m_vOrigin;
     
     int x = rand() % m_QuakeAmount - m_QuakeAmount/2;
     int y = rand() % m_QuakeAmount - m_QuakeAmount / 2;
@@ -202,7 +203,7 @@ void CWindowEvent::UpAndDown(float _dt)
     m_AccTime += _dt;
 
     if (m_Duration <= m_AccTime && m_curCount <= m_iUDCount) {
-        SetTarget({ vPos.x, vRes.y + m_fUDSize },0.1f);
+        SetTarget({ vPos.x, vPos.y + m_fUDSize },0.1f);
         m_fUDSize = -m_fUDSize;
         m_AccTime = 0;
         m_curCount++;
@@ -345,7 +346,7 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[TYPE]")) {
                 int type = 0;
-                fwscanf_s(pFile, L"%f", &type);
+                fwscanf_s(pFile, L"%d", &type);
                 info.Type = (WindowEventType)type;
             }
             fwscanf_s(pFile, L"%s", szRead, 256);
@@ -365,53 +366,91 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             }
             _out.push_back(info);
         }
+        else if (!wcscmp(szRead, L"[CIRCLE_MOVE]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (WindowEventType)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[THETA]")) {
+                fwscanf_s(pFile, L"%f", &info.Theta);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[RADIUS]")) {
+                fwscanf_s(pFile, L"%f", &info.Radius);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256); 
+            if (!wcscmp(szRead, L"[CW]")) {
+                fwscanf_s(pFile, L"%d", &info.CW);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[DECREASE]")) {
+                fwscanf_s(pFile, L"%d", &info.Decrease);
+            }
+            _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[QUAKE_MOVE]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (WindowEventType)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[QUAKE_AMOUNT]")) {
+                fwscanf_s(pFile, L"%f", &info.QuakeAmount);
+            }
+            _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[UP_DOWN]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (WindowEventType)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TARGET]")) {
+                Vec2 target;
+                fwscanf_s(pFile, L"%f", &target.x);
+                fwscanf_s(pFile, L"%f", &target.y);
+                info.Target = target;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SIZE]")) {
+                fwscanf_s(pFile, L"%f", &info.Size);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[COUNT]")) {
+                fwscanf_s(pFile, L"%f", &info.Count);
+            }
+            _out.push_back(info);
+        }
     }
+    
     fclose(pFile);
 
     return;
 }
-        /*else if (!wcscmp(szRead, L"[ATLAS_TEXTURE]")) {
-            wstring strKey, strRelativePath;
-
-            fwscanf_s(pFile, L"%s", szRead, 256);
-            strKey = szRead;
-
-            fwscanf_s(pFile, L"%s", szRead, 256);
-            strRelativePath = szRead;
-
-            m_Atlas = CAssetMgr::GetInst()->LoadTexture(strKey, strRelativePath);
-        }
-        else if (!wcscmp(szRead, L"[FRAME_COUNT]")) {
-            size_t iFrameCount = 0;
-            fwscanf_s(pFile, L"%d", &iFrameCount);
-            m_vecFrm.resize(iFrameCount);
-
-            size_t iCurFrame = 0;
-
-            while (true) {
-                fwscanf_s(pFile, L"%s", szRead, 256);
-
-                if (!wcscmp(szRead, L"[FRAME_NUM]")) {
-                    fwscanf_s(pFile, L"%d", &iCurFrame);
-                }
-                else if (!wcscmp(szRead, L"[LEFT_TOP]")) {
-                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vLeftTop.x);
-                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vLeftTop.y);
-                }
-                else if (!wcscmp(szRead, L"[CUT_SIZE]")) {
-                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vCutSize.x);
-                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vCutSize.y);
-                }
-                else if (!wcscmp(szRead, L"[OFFSET]")) {
-                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vOffset.x);
-                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vOffset.y);
-                }
-                else if (!wcscmp(szRead, L"[DURATION]")) {
-                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].Duration);
-
-                    if (iFrameCount - 1 <= iCurFrame) {
-                        break;
-                    }
-                }
-            }
-        }*/

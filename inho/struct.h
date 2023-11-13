@@ -190,4 +190,11 @@ struct WinInfo {
     float StartTime;
     Vec2 Target;
     float Speed;
+    float Theta;
+    float Radius;
+    bool CW;
+    float Decrease;
+    float QuakeAmount = 1;
+    float Size;
+    float Count;
 };
