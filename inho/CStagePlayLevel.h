@@ -13,6 +13,7 @@ private:
     class CBackground* m_ColeBG;
 
 private:
+    list<WinInfo> m_listWinInfo;
     list<NoteInfo*> m_listNoteInfo;
     list<BarInfo*> m_listBarInfo;
     float m_NoteJudgeTime;

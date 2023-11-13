@@ -5,6 +5,7 @@
 #include "Resource.h"
 
 #include "CCamera.h"
+#include "CPathMgr.h"
 
 #include <time.h>
 
@@ -56,7 +57,7 @@ void CWindowEvent::tick(float _dt)
 void CWindowEvent::SetTarget(Vec2 _target, float _time)
 {
     m_bIsAlive = true;
-    m_vTarget = _target;
+     m_vTarget = _target;
     if ((m_vTarget - GetPos()).Length() <= 1.f) {
         m_fSpeed = 0;
         m_bIsAlive = false;
@@ -312,3 +313,105 @@ void CWindowEvent::SetPortalDirection(PortalDirection _dir)
 void CWindowEvent::Stop(float _dt)
 {
 }
+
+void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>& _out)
+{
+    wstring strFilePath = CPathMgr::GetContentPath();
+    strFilePath += L"eventdata\\" + _strRelativePath;
+
+
+    FILE* pFile = nullptr;
+
+    _wfopen_s(&pFile, strFilePath.c_str(), L"r");
+
+    _out.clear();
+
+    if (nullptr == pFile) {
+
+        LOG(ERR, L"이벤트 파일 열기 실패");
+        return;
+    }
+
+    while (true) {
+
+        wchar_t szRead[256] = {};
+        if (EOF == fwscanf_s(pFile, L"%s", szRead, 256)) {
+            break;
+        }
+
+        WinInfo info = {};
+
+        if (!wcscmp(szRead, L"[LINEAR_MOVE]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%f", &type);
+                info.Type = (WindowEventType)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TARGET]")) {
+                Vec2 target;
+                fwscanf_s(pFile, L"%f", &target.x);
+                fwscanf_s(pFile, L"%f", &target.y);
+                info.Target = target;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            _out.push_back(info);
+        }
+    }
+    fclose(pFile);
+
+    return;
+}
+        /*else if (!wcscmp(szRead, L"[ATLAS_TEXTURE]")) {
+            wstring strKey, strRelativePath;
+
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            strKey = szRead;
+
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            strRelativePath = szRead;
+
+            m_Atlas = CAssetMgr::GetInst()->LoadTexture(strKey, strRelativePath);
+        }
+        else if (!wcscmp(szRead, L"[FRAME_COUNT]")) {
+            size_t iFrameCount = 0;
+            fwscanf_s(pFile, L"%d", &iFrameCount);
+            m_vecFrm.resize(iFrameCount);
+
+            size_t iCurFrame = 0;
+
+            while (true) {
+                fwscanf_s(pFile, L"%s", szRead, 256);
+
+                if (!wcscmp(szRead, L"[FRAME_NUM]")) {
+                    fwscanf_s(pFile, L"%d", &iCurFrame);
+                }
+                else if (!wcscmp(szRead, L"[LEFT_TOP]")) {
+                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vLeftTop.x);
+                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vLeftTop.y);
+                }
+                else if (!wcscmp(szRead, L"[CUT_SIZE]")) {
+                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vCutSize.x);
+                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vCutSize.y);
+                }
+                else if (!wcscmp(szRead, L"[OFFSET]")) {
+                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vOffset.x);
+                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].vOffset.y);
+                }
+                else if (!wcscmp(szRead, L"[DURATION]")) {
+                    fwscanf_s(pFile, L"%f", &m_vecFrm[iCurFrame].Duration);
+
+                    if (iFrameCount - 1 <= iCurFrame) {
+                        break;
+                    }
+                }
+            }
+        }*/

@@ -105,6 +105,10 @@ void CStagePlayLevel::init()
 	barinfo->Duration = 0.5f;
 
 	m_listBarInfo.push_back(barinfo);
+
+
+	newEvent->LoadEventData(L"AllTheTimes.txt", m_listWinInfo);
+
 }
 
 void CStagePlayLevel::enter()
@@ -168,8 +172,38 @@ void CStagePlayLevel::tick()
 				m_UnitBar->SetMoving(barinfo->Moving);
 				m_UnitBar->SetMovingSpeed(barinfo->Speed);
 				m_UnitBar->SetMovingDuration(barinfo->Duration);
+			}
+		}
 
-				
+		if (!m_listWinInfo.empty()) {
+			WinInfo info = m_listWinInfo.front();
+			if (info.StartTime <= m_AccTime) {
+				switch (info.Type)
+				{
+				case WindowEventType::LinearMove:
+					newEvent->SetMode(info.Type);
+					newEvent->SetTarget(info.Target, info.Speed);
+					break;
+				case WindowEventType::CircleMove:
+					break;
+				case WindowEventType::Quake:
+					break;
+				case WindowEventType::UpAndDown:
+					break;
+				case WindowEventType::Jumping:
+					break;
+				case WindowEventType::Disapear:
+					break;
+				case WindowEventType::Wave:
+					break;
+				case WindowEventType::PortalMove:
+					break;
+				case WindowEventType::END:
+					break;
+				default:
+					break;
+				}
+				m_listWinInfo.pop_front();
 			}
 		}
 
@@ -189,11 +223,12 @@ void CStagePlayLevel::tick()
 
 #pragma region UseCase
 
-		/*
+		
 		if (KEY_TAP(W)) {
 			newEvent->SetMode(WindowEventType::LinearMove);
 			newEvent->SetTarget({ 1200, 10 });
 		}
+		/*
 		if (KEY_TAP(E)) {
 			newEvent->SetMode(WindowEventType::LinearMove);
 			newEvent->SetTarget({ 1200, 600 });

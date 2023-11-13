@@ -146,3 +146,48 @@ struct BarInfo {
     float Speed;
     float Duration;
 };
+enum class WindowEventType {
+    /// <summary>
+    /// 선형 움직임. SetTarget이 필요함
+    /// </summary>
+    LinearMove,
+    /// <summary>
+    /// 원형 움직임. Set Theta, Speed, Radius, CW가 필요함. 추가로 speedDecrease speed를 설정할 수 있음
+    /// </summary>
+    CircleMove,
+    /// <summary>
+    /// 지진효과. Set QuakeAmount가 필요함
+    /// </summary>
+    Quake,
+    /// <summary>
+    /// 위아래 움직임. Set Target, UDCount, UDSize가 필요함.
+    /// </summary>
+    UpAndDown,
+    /// <summary>
+    /// 위로 튕겨 점프하는 움직임. Set jumpsize, jumpspeed, flash가 필요함. 
+    /// </summary>
+    Jumping,
+    /// <summary>
+    /// 아래로 숨었다가 원하는 위치로 나타나는 움직임. Set DisapearDistance, DisapearSpeed가 필요함
+    /// </summary>
+    Disapear,
+    /// <summary>
+    /// 출렁이는 움직임. Set WaveSpeed, WaveFrequency, WaveSize가 필요함
+    /// </summary>
+    Wave,
+    /// <summary>
+    /// 화면 밖을 나가도 돌아오는 움직임. SetPortalDirection, Speed가 필요함
+    /// </summary>
+    PortalMove,
+    /// <summary>
+    /// 
+    /// </summary>
+    END
+};
+
+struct WinInfo {
+    WindowEventType Type;
+    float StartTime;
+    Vec2 Target;
+    float Speed;
+};
