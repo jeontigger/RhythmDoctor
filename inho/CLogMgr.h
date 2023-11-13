@@ -5,11 +5,13 @@ class CLogMgr
 
 private:
 	list<FLog> m_LogList;
+	float m_AccTime;
 
 	float m_LogMaxLife;
 
 public:
 	void SetLogMaxLife(float _Life) { m_LogMaxLife = _Life; }
+	void SetAccTime(float _time) { m_AccTime = _time; }
 
 	void AddLog(const FLog& _log) { m_LogList.push_back(_log); }
 
