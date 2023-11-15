@@ -212,7 +212,11 @@ void CStagePlayLevel::tick()
 					break;
 
 				case WindowEventType::Jumping:
+					newEvent->SetMode(info.Type);
+					newEvent->SetJumpingSize(info.Size);
+					newEvent->SetJumpingSpeed(info.Speed);
 					break;
+
 				case WindowEventType::Disapear:
 					break;
 				case WindowEventType::Wave:

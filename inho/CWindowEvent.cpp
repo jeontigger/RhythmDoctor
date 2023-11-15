@@ -448,6 +448,29 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             }
             _out.push_back(info);
         }
+        else if (!wcscmp(szRead, L"[JUMPING]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (WindowEventType)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SIZE]")) {
+                fwscanf_s(pFile, L"%f", &info.Size);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            _out.push_back(info);
+        }
+            _out.push_back(info);
+        }
     }
     
     fclose(pFile);
