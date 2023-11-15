@@ -206,7 +206,7 @@ void CStagePlayLevel::tick()
 
 				case WindowEventType::UpAndDown:
 					newEvent->SetMode(info.Type);
-					newEvent->SetTarget(info.Target, info.Speed);
+					newEvent->SetTarget(info.Target, 0.05f);
 					newEvent->SetUpDownSize(info.Size);
 					newEvent->SetUpDownCount(info.Count);
 					break;
@@ -375,6 +375,8 @@ void CStagePlayLevel::tick()
 	}
 
 	
+}
+
 void CStagePlayLevel::SetMusic(float _time)
 {
 	m_curTime += _time;

@@ -57,7 +57,8 @@ void CWindowEvent::tick(float _dt)
 void CWindowEvent::SetTarget(Vec2 _target, float _time)
 {
     m_bIsAlive = true;
-     m_vTarget = _target;
+     m_vTarget = (m_vMonitorRes - m_vWinRes) * _target/100;
+
     if ((m_vTarget - GetPos()).Length() <= 1.f) {
         m_fSpeed = 0;
         m_bIsAlive = false;
@@ -154,7 +155,7 @@ void CWindowEvent::LinearMove(float _dt)
     vPos += vDir * m_fSpeed * _dt;
     SetPos(vPos);
 
-    if ((vPos - m_vTarget).Length() <= 3.f) {
+    if ((vPos - m_vTarget).Length() <= 10.f) {
         m_bIsAlive = false;
         SetPos(m_vTarget);
         
@@ -167,13 +168,13 @@ void CWindowEvent::CircleMove(float _dt)
 
     m_Theta += m_fSpeed*_dt;
     if (m_bCW) {
-        vPos.x = m_Radius * cosf(m_Theta);
+        vPos.x = m_Radius * cosf(m_Theta) * m_vMonitorRes.y / 100;
     }
     else {
-        vPos.x = -m_Radius * cosf(m_Theta);
+        vPos.x = -m_Radius * cosf(m_Theta) * m_vMonitorRes.y / 100;
     }
     
-    vPos.y = m_Radius * sinf(m_Theta);
+    vPos.y = m_Radius * sinf(m_Theta) * m_vMonitorRes.y / 100;
 
     vPos -= m_vWinRes / 2.f;
 
@@ -201,22 +202,24 @@ void CWindowEvent::WindowQuake(float _dt)
 
 void CWindowEvent::UpAndDown(float _dt)
 {
-    Vec2 vPos = m_vWinPos;
+    // 100 * m_vTarget  / (m_vMonitorRes - m_vWinRes) =  _target;
+    Vec2 vPos = m_vTarget * 100 / (m_vMonitorRes - m_vWinRes);
     Vec2 vRes = m_vWinRes;
     m_AccTime += _dt;
 
-    if (m_Duration <= m_AccTime && m_curCount <= m_iUDCount) {
-        SetTarget({ vPos.x, vPos.y + m_fUDSize },0.1f);
+    if (0.16f <= m_AccTime && m_curCount <= m_iUDCount) {
+        SetTarget({ vPos.x , vPos.y + m_fUDSize },0.05f);
         m_fUDSize = -m_fUDSize;
         m_AccTime = 0;
         m_curCount++;
     }
+
     LinearMove(_dt);
 }
 
 void CWindowEvent::Jumping(float _dt)
 {
-    Vec2 vPos = m_vWinPos;
+    Vec2 vPos = m_vWinPos * 100 / (m_vMonitorRes - m_vWinRes);
     if (!m_IsUp) {
         SetTarget({ vPos.x, vPos.y - m_fUDSize }, m_Duration);
         m_vOrigin = vPos;
@@ -224,6 +227,7 @@ void CWindowEvent::Jumping(float _dt)
     }
 
     m_AccTime += _dt;
+
     if (m_Duration <= m_AccTime && !m_IsFall) {
         if (m_IsFlash) {
             CCamera::GetInst()->BlinkIn(0.2f);
@@ -253,7 +257,7 @@ void CWindowEvent::Wave(float _dt)
 {
     // y = asinbx
     // dy/dx = abcosbx
-    float prevY = m_fUDSize * sinf(m_AccTime / m_fFrequency);
+    float prevY = m_fUDSize * m_vMonitorRes.y / 1000 * sinf(m_AccTime / m_fFrequency);
 
 
     m_AccTime += m_fSpeed * _dt;
