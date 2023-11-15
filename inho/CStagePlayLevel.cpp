@@ -218,7 +218,12 @@ void CStagePlayLevel::tick()
 					break;
 
 				case WindowEventType::Disapear:
+					newEvent->SetDisappearSpeed(info.Speed);
+					newEvent->SetMode(info.Type);
+					newEvent->SetDisappearDistance(info.Size);
+					newEvent->SetDisappearDuration(info.Duration);
 					break;
+
 				case WindowEventType::Wave:
 					break;
 				case WindowEventType::PortalMove:

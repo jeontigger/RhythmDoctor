@@ -109,10 +109,10 @@ void CWindowEvent::SetMode(WindowEventType _type)
 
     case WindowEventType::Disapear:
         m_AccTime = 0;
-        m_vOrigin = m_vWinPos;
-        SetTarget({ m_vWinPos.x, m_vMonitorRes.y + m_vWinRes.y }, m_Duration);
+        m_vOrigin = m_vWinPos * 100 / (m_vMonitorRes - m_vWinRes);
+        SetTarget({ m_vOrigin.x, 200.f }, m_Duration);
         m_IsUp = false;
-        pFunc = &CWindowEvent::Disapear;
+        pFunc = &CWindowEvent::Disappear;
         break;
 
     case WindowEventType::Wave:
@@ -233,13 +233,13 @@ void CWindowEvent::Jumping(float _dt)
     LinearMove(_dt);
 }
 
-void CWindowEvent::Disapear(float _dt)
+void CWindowEvent::Disappear(float _dt)
 {
     m_AccTime += _dt;
-    if (m_Duration <= m_AccTime && !m_IsUp) {
+    if (m_DisappearDuration <= m_AccTime && !m_IsUp) {
         
-        SetPos({ m_vWinPos.x + m_Distance, m_vWinPos.y });
-        SetTarget({ m_vWinPos.x, m_vOrigin.y }, m_Duration);
+        SetPos({ m_vWinPos.x + m_Distance * m_vMonitorRes.y / 100, m_vWinPos.y});
+        SetTarget({ m_vOrigin.x + m_Distance, m_vOrigin.y }, m_Duration);
         m_AccTime = 0;
         m_IsUp = true;
     }
@@ -466,6 +466,32 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[SPEED]")) {
                 fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            _out.push_back(info);
+        }
+
+        else if (!wcscmp(szRead, L"[DISAPEAR]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (WindowEventType)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SIZE]")) {
+                fwscanf_s(pFile, L"%f", &info.Size);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                 fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[DURATION]")) {
+                fwscanf_s(pFile, L"%f", &info.Duration);
             }
             _out.push_back(info);
         }

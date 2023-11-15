@@ -57,7 +57,8 @@ private:
 
 private:
     float m_Distance;
-    void Disapear(float _dt);
+    float m_DisappearDuration;
+    void Disappear(float _dt);
 
 private:
     float m_fFrequency;

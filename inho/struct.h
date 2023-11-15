@@ -172,7 +172,7 @@ enum class WindowEventType {
     /// </summary>
     Disapear,
     /// <summary>
-    /// 출렁이는 움직임. Set WaveSpeed, WaveFrequency, WaveSize가 필요함
+    /// 출렁이는 움직임. Set WaveSpeed, WaveFrequency, WaveSize가 필요함 SetSpeed는 setmode보다 먼저 해야만 함
     /// </summary>
     Wave,
     /// <summary>
@@ -197,4 +197,5 @@ struct WinInfo {
     float QuakeAmount = 1;
     float Size;
     float Count;
+    float Duration;
 };
