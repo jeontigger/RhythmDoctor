@@ -116,7 +116,10 @@ void CWindowEvent::SetMode(WindowEventType _type)
         break;
 
     case WindowEventType::Wave:
+        if (!m_IsPersist) {
         m_AccTime = 0;
+            m_IsPersist = false;
+        }
         pFunc = &CWindowEvent::Wave;
         break;
     case WindowEventType::PortalMove:
@@ -495,8 +498,36 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             }
             _out.push_back(info);
         }
+        else if (!wcscmp(szRead, L"[WAVE]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (WindowEventType)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SIZE]")) {
+                fwscanf_s(pFile, L"%f", &info.Size);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[DURATION]")) {
+                fwscanf_s(pFile, L"%f", &info.Duration);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[PERSIST]")) {
+                fwscanf_s(pFile, L"%f", &info.CW);
+            }
             _out.push_back(info);
         }
+        
     }
     
     fclose(pFile);

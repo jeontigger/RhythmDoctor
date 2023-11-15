@@ -225,9 +225,16 @@ void CStagePlayLevel::tick()
 					break;
 
 				case WindowEventType::Wave:
+					newEvent->SetMode(info.Type);
+					newEvent->SetWaveSpeed(info.Speed);
+					newEvent->SetWaveFrequency(info.Duration);
+					newEvent->SetWaveSize(info.Size);
+					newEvent->SetWavePersist(info.CW);
 					break;
+
 				case WindowEventType::PortalMove:
 					break;
+
 				case WindowEventType::END:
 					break;
 				default:
