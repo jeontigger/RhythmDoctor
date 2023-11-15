@@ -107,7 +107,7 @@ void CStagePlayLevel::init()
 	m_listBarInfo.push_back(barinfo);
 
 
-	newEvent->LoadEventData(L"AllTheTimes.txt", m_listWinInfo);
+	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);
 
 }
 
@@ -161,7 +161,7 @@ void CStagePlayLevel::tick()
 				m_listNoteInfo.pop_front();
 				CCamera::GetInst()->Zoom(20.f, 0.2f);
 
-				m_NoteJudgeTime = noteinfo->StartTime + noteinfo->JudgeTime;
+				m_NoteJudgeTime = noteinfo->StartTime + noteinfo->JudgeTime + audioDelay;
 				m_newNote = true;
 
 				delete noteinfo;
@@ -340,8 +340,8 @@ void CStagePlayLevel::tick()
 
 		if (KEY_TAP(A)) {
 			newEvent->SetMode(WindowEventType::Disapear);
-			newEvent->SetDisapearSpeed(0.3f);
-			newEvent->SetDisapearDistance(300.f);
+			newEvent->SetDisappearSpeed(0.3f);
+			newEvent->SetDisappearDistance(300.f);
 		}
 		if (KEY_TAP(S)) {
 			newEvent->SetPos({ 0, 540 - 198 });
@@ -403,16 +403,16 @@ void CStagePlayLevel::AnyPress()
 
 void CStagePlayLevel::Judge()
 {
-	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime+ m_NoteJudgeTimeOffset 
-		&& m_AccTime + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
+	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime + audioDelay + m_NoteJudgeTimeOffset 
+		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"빠름");
 			m_newNote = false;
 			m_UnitBar->Incorrect(JudgeBeatType::Left);
 		}
 	}
-	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime + m_NoteJudgeTimeOffset 
-		&& m_AccTime + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
+	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime + audioDelay + m_NoteJudgeTimeOffset
+		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"판정!");
 			m_newNote = false;
@@ -420,15 +420,15 @@ void CStagePlayLevel::Judge()
 			m_UnitBar->Correct();
 		}
 	}
-	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset
-		&& m_AccTime + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset) {
+	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + audioDelay + m_NoteJudgeTimeOffset
+		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE)) {
 			LOG(ERR, L"느림");
 			m_newNote = false;
 			m_UnitBar->Incorrect(JudgeBeatType::Right);
 		}
 	}
-	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset) {
+	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime + audioDelay + m_NoteJudgeTimeOffset) {
 		if (m_newNote) {
 			LOG(ERR, L"놓침");
 			m_newNote = false;
