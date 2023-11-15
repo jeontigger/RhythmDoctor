@@ -227,6 +227,18 @@ void CStagePlayLevel::tick()
 				m_listWinInfo.pop_front();
 			}
 		}
+		if (KEY_TAP(_1)) {
+			SetMusic(-60);
+		}
+		if (KEY_TAP(_2)) {
+			SetMusic(60);
+		}
+		if (KEY_TAP(_3)) {
+			SetMusic(-10);
+		}
+		if (KEY_TAP(_4)) {
+			SetMusic(10);
+		}
 
 		Judge();
 
@@ -347,6 +359,11 @@ void CStagePlayLevel::tick()
 	}
 
 	
+void CStagePlayLevel::SetMusic(float _time)
+{
+	m_curTime += _time;
+	m_AccTime = m_curTime;
+	m_BGSound->SetPosition(m_curTime * 100 / 230.7f);
 }
 
 void CStagePlayLevel::AnyPress()

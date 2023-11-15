@@ -145,6 +145,7 @@ void CSound::SetPosition(float _fPosition)
 
 	DWORD dwBytes = (DWORD)((_fPosition / 100.f) * (float)m_tBuffInfo.dwBufferBytes);
 	m_pSoundBuffer->SetCurrentPosition(dwBytes);
+	m_pSoundBuffer->Play(0, 0, 0);
 }
 
 int CSound::GetDecibel(float _fVolume)

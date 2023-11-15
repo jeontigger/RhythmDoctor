@@ -30,6 +30,10 @@ private:
 
     class CSound* m_BGSound;
 
+private:
+    float m_curTime;
+    void SetMusic(float _time);
+
 public:
     void AnyPress();
     void Judge();
