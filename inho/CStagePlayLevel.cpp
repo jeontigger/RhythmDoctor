@@ -134,7 +134,7 @@ void CStagePlayLevel::exit()
 {
 }
 
-float audioDelay = 0.0f;
+float audioDelay = 0.3f;
 
 void CStagePlayLevel::tick()
 {
@@ -235,6 +235,9 @@ void CStagePlayLevel::tick()
 					break;
 
 				case WindowEventType::PortalMove:
+					newEvent->SetMode(info.Type);
+					newEvent->SetPortalDirection(info.Target);
+					newEvent->SetSpeed(info.Speed);
 					break;
 
 				case WindowEventType::END:
@@ -315,7 +318,7 @@ void CStagePlayLevel::tick()
 			newEvent->SetUpDownCount(3);
 		}
 		if (KEY_TAP(C)) {
-			newEvent->SetMode(WindowEventType::Jumping);
+			newEvent->SetMode(WindowEventType::Jumping); 
 			newEvent->SetJumpingSpeed(0.1f);
 			newEvent->SetJumpingSize(200.f);
 		}
@@ -350,33 +353,8 @@ void CStagePlayLevel::tick()
 			newEvent->SetWaveFrequency(60.f);
 			newEvent->SetWaveSize(240.f);
 		}
-
-		if (KEY_TAP(D)) {
-			newEvent->SetMode(WindowEventType::PortalMove);
-			newEvent->SetPortalDirection(PortalDirection::Right);
-			newEvent->SetSpeed(800.f);
-		}
-
-		if (KEY_TAP(F)) {
-			newEvent->SetMode(WindowEventType::PortalMove);
-			newEvent->SetPortalDirection(PortalDirection::Bottom);
-			newEvent->SetSpeed(800.f);
-		}
-		if (KEY_TAP(G)) {
-			newEvent->SetMode(WindowEventType::PortalMove);
-			newEvent->SetPortalDirection(PortalDirection::Left);
-			newEvent->SetSpeed(800.f);
-		}
-		if (KEY_TAP(H)) {
-			newEvent->SetMode(WindowEventType::PortalMove);
-			newEvent->SetPortalDirection(PortalDirection::Top);
-			newEvent->SetSpeed(800.f);
-		}
-
 #pragma endregion
 	}
-
-	
 }
 
 void CStagePlayLevel::SetMusic(float _time)

@@ -106,7 +106,7 @@ void CWindowEvent::SetMode(WindowEventType _type)
 
     case WindowEventType::Jumping:
         m_IsUp = false;
-        m_IsFall = false;
+        m_IsFall = false; 
         m_AccTime = 0;
         pFunc = &CWindowEvent::Jumping;
         break;
@@ -296,31 +296,9 @@ void CWindowEvent::Portal(float _dt)
     LinearMove(_dt);
 }
 
-void CWindowEvent::SetPortalDirection(PortalDirection _dir)
+void CWindowEvent::SetPortalDirection(Vec2 _dir)
 {
-    switch (_dir)
-    {
-    case PortalDirection::Left:
-        SetTarget({ -m_vWinRes.x - 10.f, m_vWinPos.y });
-        break;
-
-    case PortalDirection::Top:
-        SetTarget({ m_vWinPos.x, -m_vWinRes.y - 10.f });
-        break;
-
-    case PortalDirection::Right:
-        SetTarget({ m_vMonitorRes.x + 10.f, m_vWinPos.y });
-        break;
-
-    case PortalDirection::Bottom:
-        SetTarget({ m_vWinPos.x , m_vMonitorRes.y + 10.f });
-        break;
-
-    case PortalDirection::END:
-        break;
-    default:
-        break;
-    }
+    SetTarget(_dir);
 }
 
 void CWindowEvent::Stop(float _dt)
@@ -489,8 +467,7 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             }
             _out.push_back(info);
         }
-
-        else if (!wcscmp(szRead, L"[DISAPEAR]")) {
+        else if (!wcscmp(szRead, L"[DISAPPEAR]")) {
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[TYPE]")) {
                 int type = 0;
@@ -541,6 +518,30 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[PERSIST]")) {
                 fwscanf_s(pFile, L"%f", &info.CW);
+            }
+            _out.push_back(info);
+            }
+        else if (!wcscmp(szRead, L"[PORTAL]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (WindowEventType)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TARGET]")) {
+                Vec2 target;
+                fwscanf_s(pFile, L"%f", &target.x);
+                fwscanf_s(pFile, L"%f", &target.y);
+                info.Target = target;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                fwscanf_s(pFile, L"%f", &info.Speed);
             }
             _out.push_back(info);
             }

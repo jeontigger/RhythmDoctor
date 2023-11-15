@@ -1,12 +1,6 @@
 ﻿#pragma once
 #include "CEvent.h"
-enum class PortalDirection {
-    Left,
-    Top,
-    Right,
-    Bottom,
-    END
-};
+
 
 
 
@@ -97,8 +91,8 @@ public:
     void SetWaveSpeed(float _speed) { m_fSpeed = _speed; }
     void SetWaveFrequency(float _freq) { m_fFrequency = _freq; }
     void SetWavePersist(bool _b) { m_IsPersist = _b; }
-
-    void SetPortalDirection(PortalDirection _dir);
+    
+    void SetPortalDirection(Vec2 _dir);
 
 public:
     void SetMode(WindowEventType _type);
