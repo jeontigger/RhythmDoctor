@@ -62,6 +62,7 @@ private:
 
 private:
     float m_fFrequency;
+    bool m_IsPersist;
     void Wave(float _dt);
 
 private:
@@ -88,12 +89,14 @@ public:
     void SetJumpingSpeed(float _time) { m_Duration = _time; }
     void SetFlash(bool _flash) { m_IsFlash = _flash; }
 
-    void SetDisapearSpeed(float _time) { m_Duration = _time; }
-    void SetDisapearDistance(float _dist) { m_Distance = _dist; }
+    void SetDisappearSpeed(float _time) { m_Duration = _time; }
+    void SetDisappearDistance(float _dist) { m_Distance = _dist; }
+    void SetDisappearDuration(float _duration) { m_DisappearDuration = _duration; }
 
     void SetWaveSize(float _size) { m_fUDSize = _size; }
     void SetWaveSpeed(float _speed) { m_fSpeed = _speed; }
     void SetWaveFrequency(float _freq) { m_fFrequency = _freq; }
+    void SetWavePersist(bool _b) { m_IsPersist = _b; }
 
     void SetPortalDirection(PortalDirection _dir);
 

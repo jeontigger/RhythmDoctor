@@ -195,6 +195,7 @@ struct WinInfo {
     bool CW;
     float Decrease;
     float QuakeAmount = 1;
+    bool Flash;
     float Size;
     float Count;
     float Duration;

@@ -185,6 +185,7 @@ void CStagePlayLevel::tick()
 				case WindowEventType::LinearMove:
 					newEvent->SetMode(info.Type);
 					newEvent->SetTarget(info.Target, info.Speed);
+					newEvent->SetFlash(info.Flash);
 					break;
 				case WindowEventType::CircleMove:
 					newEvent->SetMode(info.Type);
@@ -200,6 +201,7 @@ void CStagePlayLevel::tick()
 					break;
 
 				case WindowEventType::Quake:
+					newEvent->SetFlash(info.Flash);
 					newEvent->SetMode(info.Type);
 					newEvent->SetQuakeAmount(info.QuakeAmount);
 					break;

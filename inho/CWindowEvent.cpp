@@ -74,7 +74,6 @@ void CWindowEvent::SetTarget(Vec2 _target, float _time)
     float len = vDir.Length();
     m_fSpeed = len / _time;
 
-    m_Duration = _time;
 
 }
 
@@ -92,6 +91,10 @@ void CWindowEvent::SetMode(WindowEventType _type)
 
     case WindowEventType::Quake:
         m_vOrigin = m_vWinPos;
+        if (m_IsFlash) {
+            CCamera::GetInst()->BlinkIn(0.2f);
+            m_IsFlash = false;
+        }
         pFunc = &CWindowEvent::WindowQuake;
         break;
 
@@ -118,7 +121,7 @@ void CWindowEvent::SetMode(WindowEventType _type)
 
     case WindowEventType::Wave:
         if (!m_IsPersist) {
-        m_AccTime = 0;
+            m_AccTime = 0;
             m_IsPersist = false;
         }
         pFunc = &CWindowEvent::Wave;
@@ -143,6 +146,10 @@ void CWindowEvent::LinearMove(float _dt)
     }
 
     if (m_fSpeed == 0) {
+        if (m_IsFlash) {
+            CCamera::GetInst()->BlinkIn(0.2f);
+            m_IsFlash = false;
+        }
         SetPos(m_vTarget);
         m_bIsAlive = false;
         return;
@@ -224,15 +231,13 @@ void CWindowEvent::Jumping(float _dt)
         SetTarget({ vPos.x, vPos.y - m_fUDSize }, m_Duration);
         m_vOrigin = vPos;
         m_IsUp = true;
+        CCamera::GetInst()->BlinkIn(0.2f);
+        m_IsFlash = true;
     }
 
     m_AccTime += _dt;
 
     if (m_Duration <= m_AccTime && !m_IsFall) {
-        if (m_IsFlash) {
-            CCamera::GetInst()->BlinkIn(0.2f);
-            m_IsFlash = false;
-        }
         SetTarget(m_vOrigin, m_Duration);
         m_IsFall = true;
     }
@@ -371,6 +376,10 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             if (!wcscmp(szRead, L"[SPEED]")) {
                 fwscanf_s(pFile, L"%f", &info.Speed);
             }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[FLASH]")) {
+                fwscanf_s(pFile, L"%d", &info.Flash);
+            }
             _out.push_back(info);
         }
         else if (!wcscmp(szRead, L"[CIRCLE_MOVE]")) {
@@ -420,6 +429,10 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[QUAKE_AMOUNT]")) {
                 fwscanf_s(pFile, L"%f", &info.QuakeAmount);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[FLASH]")) {
+                fwscanf_s(pFile, L"%d", &info.Flash);
             }
             _out.push_back(info);
         }
@@ -530,7 +543,7 @@ void CWindowEvent::LoadEventData(const wstring& _strRelativePath, list<WinInfo>&
                 fwscanf_s(pFile, L"%f", &info.CW);
             }
             _out.push_back(info);
-        }
+            }
         
     }
     
