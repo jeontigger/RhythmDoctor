@@ -34,6 +34,8 @@ private:
     class CCharacter* m_Hand;
     class CCharacter* m_Ting;
     class CCharacter* m_Cole;
+    class CCharacter* m_Boss;
+    class CCharacter* m_Stage;
 
 private:
     bool m_bAnyPressed;

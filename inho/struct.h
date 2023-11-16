@@ -150,6 +150,8 @@ enum class StageObj {
     TVeil,
     TingBG,
     ColeBG,
+    Boss,
+    Stage,
     END,
 };
 

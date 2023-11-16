@@ -116,6 +116,27 @@ void CStagePlayLevel::init()
 	pAnimator->Play(L"ColeIdle", true);
 	AddObject(PLAYER, m_Cole);
 
+	m_Boss = new CCharacter;
+	m_Boss->SetPos({ vRes.x / 2.f - 485.f, vRes.y / 2.f - 50.f });
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Boss", L"texture\\Boss.png");
+	pAnimator = m_Boss->GetComponent<CAnimator>();
+	pAnimator->CreateAnimation(L"Boss", pAtlas, Vec2(0, 0), Vec2(154, 41), Vec2(0, 0), 0.1f, 1);
+	pAnimator->SaveAnimation(L"animdata");
+	//pAnimator->LoadAnimation(L"animdata\\Boss.txt");
+	pAnimator->Play(L"Boss", true);
+	AddObject(STAGE, m_Boss);
+
+	m_Stage = new CCharacter;
+	m_Stage->SetPos({ vRes.x / 2.f + 470.f, vRes.y / 2.f + 13.f });
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Stage", L"texture\\Stage.png");
+	pAnimator = m_Stage->GetComponent<CAnimator>();
+	pAnimator->CreateAnimation(L"Stage", pAtlas, Vec2(0, 0), Vec2(186, 59), Vec2(0, 0), 0.1f, 1);
+	pAnimator->SaveAnimation(L"animdata");
+	//pAnimator->LoadAnimation(L"animdata\\Stage.txt");
+	pAnimator->Play(L"Stage", true);
+	AddObject(STAGE, m_Stage);
+
+
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
 	float height = pAtlas->GetHeight();
@@ -273,9 +294,20 @@ void CStagePlayLevel::tick()
 
 				case StageObj::TingBG:
 					m_vecBackGrounds[(UINT)BackgroundIndex::Ting]->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
+
 				case StageObj::ColeBG:
 					m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront]->SetMove(objinfo.Pos, objinfo.Speed);
 					m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack]->SetMove(objinfo.Pos - 132.f, objinfo.Speed);
+					break;
+
+				case StageObj::Boss:
+					m_Boss->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
+
+				case StageObj::Stage:
+					m_Stage->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
 
 				case StageObj::END:
 					break;
