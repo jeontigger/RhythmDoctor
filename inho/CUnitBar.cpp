@@ -203,6 +203,7 @@ void CUnitBar::GoGetSetBeat(float _speed)
 
 void CUnitBar::HideAll()
 {
+	m_IsShow = false;
 	m_Character->Hide();
 	m_Heart->Hide();
 	for (int i = 0; i < m_vecBars.size(); ++i) {
@@ -212,6 +213,7 @@ void CUnitBar::HideAll()
 
 void CUnitBar::ShowAll()
 {
+	m_IsShow = true;
 	m_Character->Show();
 	m_Heart->Show();
 	for (int i = 0; i < m_vecBars.size(); ++i) {

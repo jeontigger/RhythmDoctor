@@ -135,9 +135,35 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
         else if (!wcscmp(szRead, L"[MOVE]")) {
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[TYPE]")) {
-                int type = 0;
-                fwscanf_s(pFile, L"%d", &type);
-                info.Type = (StageObj)type;
+                fwscanf_s(pFile, L"%s", szRead, 256);
+                if (!wcscmp(szRead, L"[HAND]")) {
+                    info.Type = StageObj::Hand;
+                }
+                else if (!wcscmp(szRead, L"[TING]")) {
+                    info.Type = StageObj::Ting;
+                }
+                else if (!wcscmp(szRead, L"[COLE]")) {
+                    info.Type = StageObj::Cole;
+                }
+                else if (!wcscmp(szRead, L"[BVEIL]")) {
+                    info.Type = StageObj::BVeil;
+                }
+                else if (!wcscmp(szRead, L"[TVEIL]")) {
+                    info.Type = StageObj::TVeil;
+                }
+                
+                else if (!wcscmp(szRead, L"[TINGBG]")) {
+                    info.Type = StageObj::TingBG;
+                }
+                else if (!wcscmp(szRead, L"[COLEBG]")) {
+                    info.Type = StageObj::ColeBG;
+                }
+                else if (!wcscmp(szRead, L"[BOSS]")) {
+                    info.Type = StageObj::Boss;
+                }
+                else if (!wcscmp(szRead, L"[STAGE]")) {
+                    info.Type = StageObj::Stage;
+                }
             }
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[START_TIME]")) {
@@ -187,7 +213,24 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
             }
             _out.push_back(info);
         }
-        
+        else if (!wcscmp(szRead, L"[SHOW]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                fwscanf_s(pFile, L"%s", szRead, 256);
+                if (!wcscmp(szRead, L"[BAR]")) {
+                    info.Type = StageObj::Bar;
+                }
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SHOW]")) {
+                fwscanf_s(pFile, L"%d", &info.Show);
+            }
+            _out.push_back(info);
+            }
     }
 
     fclose(pFile);

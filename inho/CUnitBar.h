@@ -43,6 +43,8 @@ private:
     float m_AccTime;
     float m_fQuakeDuration;
 
+    bool m_IsShow;
+
 public:
     class CCharacter* GetSpaceBarSprite() { return m_SpaceBarSprite; }
 
@@ -61,6 +63,7 @@ public:
     void GoGetSetBeat(float _speed);
     void HideAll();
     void ShowAll();
+    bool IsShow() { return m_IsShow; }
     void ShowCharacter();
     void Incorrect(JudgeBeatType _type);
     void Correct();

@@ -162,6 +162,7 @@ struct ObjInfo {
     float Duration;
     Vec2 Pos;
     Vec2 Scale;
+    bool Show;
 };
 
 enum class WindowEventType {

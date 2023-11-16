@@ -45,7 +45,7 @@ void CStagePlayLevel::init()
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBG", L"texture\\TingBG.png");
-	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
+	pBG->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f });
 	pBG->SetScale({ pAtlas->GetWidth() + 8, pAtlas->GetHeight() + 2 });
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
@@ -95,7 +95,7 @@ void CStagePlayLevel::init()
 	
 
 	m_Ting = new CCharacter;
-	m_Ting->SetPos({ vRes.x / 2.f + 70.f, vRes.y / 2.f });
+	m_Ting->SetPos({ vRes.x / 2.f - 370.f, vRes.y / 2.f -1000.f});
 	m_Ting->SetScale({ 40, 40 });
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingAtlas", L"texture\\Ting.png");
 	pAnimator = m_Ting->GetComponent<CAnimator>();
@@ -181,9 +181,6 @@ void CStagePlayLevel::init()
 
 	m_listObjInfo.push_back(barinfo);*/
 
-
-	
-
 }
 
 void CStagePlayLevel::enter()
@@ -201,7 +198,6 @@ void CStagePlayLevel::enter()
 
 	m_UnitBar->HideAll();
 }
-
 
 void CStagePlayLevel::exit()
 {
@@ -253,15 +249,10 @@ void CStagePlayLevel::tick()
 					break;
 
 				case StageObj::Bar:
-					/*[BAR]
-						[TYPE]
-						1
-						[START_TIME]
-						0
-						[SPEED]
-						40
-						[DURATION]
-						0.5*/
+					if (objinfo.Show && !m_UnitBar->IsShow()) {
+						m_UnitBar->ShowAll();
+						break;
+					}
 					if (objinfo.Speed == 0) {
 						m_UnitBar->SetMoving(false);
 					}
