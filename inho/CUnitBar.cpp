@@ -64,7 +64,7 @@ CUnitBar::CUnitBar():
 	}
 
 	m_GetSetBeat = new CGetSetBeat;
-	m_GetSetBeat->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[0] * 3.f + 25.f, m_Judgebar->GetPos().y - 3.f });
+	m_GetSetBeat->SetPos({ m_vecBars[0]->GetPos().x + StartPoint[0] * 3.f + 25.f, m_Judgebar->GetPos().y  });
 	m_GetSetBeat->SetBar(this);
 	m_GetSetBeat->Hide();
 
