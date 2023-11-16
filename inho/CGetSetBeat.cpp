@@ -37,7 +37,9 @@ void CGetSetBeat::PlayGoAnim()
 
 void CGetSetBeat::tick(float _dt)
 {
-
+	if (!m_bar->IsShow()) {
+		return;
+	}
 	if (GetAlpha() == 0) {
 		return;
 	}

@@ -130,6 +130,9 @@ void CUnitBar::tick(float _dt)
 	if (!m_IsStart) {
 		return;
 	}
+	if (!m_IsShow) {
+		return;
+	}
 	if (KEY_TAP(SPACE)) {
 		m_SpaceBarSprite->SetFadeAway(0.3f);
 	}

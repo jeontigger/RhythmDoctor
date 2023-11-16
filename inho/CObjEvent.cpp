@@ -130,6 +130,7 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
             if (!wcscmp(szRead, L"[DURATION]")) {
                 fwscanf_s(pFile, L"%f", &info.Duration);
             }
+            info.Show = true;
             _out.push_back(info);
         }
         else if (!wcscmp(szRead, L"[MOVE]")) {

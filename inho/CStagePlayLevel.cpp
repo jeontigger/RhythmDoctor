@@ -253,6 +253,10 @@ void CStagePlayLevel::tick()
 						m_UnitBar->ShowAll();
 						break;
 					}
+					else if (!objinfo.Show && m_UnitBar->IsShow()) {
+						m_UnitBar->HideAll();
+						break;
+					}
 					if (objinfo.Speed == 0) {
 						m_UnitBar->SetMoving(false);
 					}
