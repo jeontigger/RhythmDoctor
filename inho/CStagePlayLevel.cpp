@@ -38,18 +38,28 @@ void CStagePlayLevel::init()
 {
 	CTexture* pAtlas;
 	CAnimator* pAnimator;
+	CBackground* pBG;
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 
 	m_vecBackGrounds.resize((UINT)BackgroundIndex::END);
 
-	CBackground* pBG;
+	pBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBG", L"texture\\TingBG.png");
+	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
+	pBG->SetScale({ pAtlas->GetWidth() + 8, pAtlas->GetHeight() + 2 });
+	pBG->SetTexture(pAtlas);
+	AddObject(BACKGROUND, pBG);
+
+	m_vecBackGrounds[(UINT)BackgroundIndex::Ting] = pBG;
+
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBGBG", L"texture\\ColeBGBG.png");
 	pAnimator = pBG->GetComponent<CAnimator>();
 	pAnimator->CreateAnimation(L"ColeBGBG", pAtlas, Vec2(0, 0), Vec2(352, 119), Vec2(0, 0), 0.1f, 3);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"ColeBGBG", true);
-	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f -55.f });
+	//pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f -55.f });
+	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f - 55.f - 400.f });
 	pBG->SetScale({ 352, 119 });
 	AddObject(BACKGROUND, pBG);
 
@@ -57,33 +67,23 @@ void CStagePlayLevel::init()
 	
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
-	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
+	//pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
+	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f - 400.f});
 	pBG->SetScale({ pAtlas->GetWidth(), pAtlas->GetHeight() });
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
 	
 	m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront] = pBG;
 
-	pBG = new CBackground;
-	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBG", L"texture\\TingBG.png");
-	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
-	pBG->SetScale({ pAtlas->GetWidth()+8, pAtlas->GetHeight() +2 });
-	pBG->SetTexture(pAtlas);
-	AddObject(BACKGROUND, pBG);
 
-	m_vecBackGrounds[(UINT)BackgroundIndex::Ting] = pBG;
 
-	for (int i = 0; i < (UINT) BackgroundIndex::Ting; ++i) {
-		m_vecBackGrounds[i]->Hide();
-	}
-	m_vecBackGrounds[(UINT)BackgroundIndex::Ting]->Show();
 
 	for (int i = 0; i < 3; i++) {
 		pBG = new CBackground;
 		pAtlas = CAssetMgr::GetInst()->LoadTexture(L"blackPixel", L"texture\\blackPixel.png");
 		pBG->SetScale({ vRes .x, 50.f});
 		pBG->SetTexture(pAtlas);
-		AddObject(BACKGROUND, pBG);
+		AddObject(STAGE, pBG);
 		m_vecBackGrounds[(UINT)BackgroundIndex::BVeil + i] = pBG;
 	}
 	m_vecBackGrounds[(UINT)BackgroundIndex::BVeil] ->SetPos({ vRes.x / 2.f, vRes.y + 360.f});
@@ -92,6 +92,7 @@ void CStagePlayLevel::init()
 
 	m_UnitBar = new CUnitBar;
 	AddObject(PLAYER, m_UnitBar);
+	
 
 	m_Ting = new CCharacter;
 	m_Ting->SetPos({ vRes.x / 2.f + 70.f, vRes.y / 2.f });
@@ -103,6 +104,17 @@ void CStagePlayLevel::init()
 	pAnimator->LoadAnimation(L"animdata\\Ting.txt");
 	pAnimator->Play(L"Ting", true);
 	AddObject(PLAYER, m_Ting);
+
+	m_Cole = new CCharacter;
+	m_Cole->SetPos({ vRes.x / 2.f - 1150.f, vRes.y / 2.f  - 1120.f});
+	m_Cole->SetScale({ 40, 40 });
+	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeAtlas", L"texture\\Cole.png");
+	pAnimator = m_Cole->GetComponent<CAnimator>();
+	//pAnimator->CreateAnimation(L"Ting", pAtlas, Vec2(0, 0), Vec2(40, 40), Vec2(0, 0), 0.1f, 6);
+	//pAnimator->SaveAnimation(L"animdata");
+	pAnimator->LoadAnimation(L"animdata\\ColeIdle.txt");
+	pAnimator->Play(L"ColeIdle", true);
+	AddObject(PLAYER, m_Cole);
 
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
@@ -220,6 +232,15 @@ void CStagePlayLevel::tick()
 					break;
 
 				case StageObj::Bar:
+					/*[BAR]
+						[TYPE]
+						1
+						[START_TIME]
+						0
+						[SPEED]
+						40
+						[DURATION]
+						0.5*/
 					if (objinfo.Speed == 0) {
 						m_UnitBar->SetMoving(false);
 					}
@@ -230,12 +251,16 @@ void CStagePlayLevel::tick()
 					m_UnitBar->SetMovingDuration(objinfo.Duration);
 					break;
 				case StageObj::Ting:
+					m_Ting->SetMove(objinfo.Pos, objinfo.Speed);
 					break;
+
 				case StageObj::Cole:
+					m_Cole->SetMove(objinfo.Pos, objinfo.Speed);
+					
 					break;
 				case StageObj::BVeil:
 					m_vecBackGrounds[(UINT)BackgroundIndex::BVeil]->SetMove(objinfo.Pos, objinfo.Speed); 
-					break;
+					break;	
 
 				case StageObj::MVeil:
 					m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetMove(objinfo.Pos, objinfo.Speed);
@@ -245,6 +270,12 @@ void CStagePlayLevel::tick()
 				case StageObj::TVeil:
 					m_vecBackGrounds[(UINT)BackgroundIndex::TVeil]->SetMove(objinfo.Pos, objinfo.Speed);
 					break;
+
+				case StageObj::TingBG:
+					m_vecBackGrounds[(UINT)BackgroundIndex::Ting]->SetMove(objinfo.Pos, objinfo.Speed);
+				case StageObj::ColeBG:
+					m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront]->SetMove(objinfo.Pos, objinfo.Speed);
+					m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack]->SetMove(objinfo.Pos - 132.f, objinfo.Speed);
 
 				case StageObj::END:
 					break;
@@ -371,7 +402,6 @@ void CStagePlayLevel::AnyPress()
 		m_BGSound->PlayToBGM(false);
 		m_UnitBar->Start(true);
 		m_bAnyPressed = true;
-		m_UnitBar->ShowAll();
 	}
 	return;
 	

@@ -33,6 +33,7 @@ private:
     class CUnitBar* m_UnitBar;
     class CCharacter* m_Hand;
     class CCharacter* m_Ting;
+    class CCharacter* m_Cole;
 
 private:
     bool m_bAnyPressed;

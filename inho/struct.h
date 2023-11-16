@@ -148,6 +148,8 @@ enum class StageObj {
     BVeil,
     MVeil,
     TVeil,
+    TingBG,
+    ColeBG,
     END,
 };
 

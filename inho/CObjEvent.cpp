@@ -132,31 +132,7 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
             }
             _out.push_back(info);
         }
-        else if (!wcscmp(szRead, L"[HAND]")) {
-            fwscanf_s(pFile, L"%s", szRead, 256);
-            if (!wcscmp(szRead, L"[TYPE]")) {
-                int type = 0;
-                fwscanf_s(pFile, L"%d", &type);
-                info.Type = (StageObj)type;
-            }
-            fwscanf_s(pFile, L"%s", szRead, 256);
-            if (!wcscmp(szRead, L"[START_TIME]")) {
-                fwscanf_s(pFile, L"%f", &info.StartTime);
-            }
-            fwscanf_s(pFile, L"%s", szRead, 256);
-            if (!wcscmp(szRead, L"[TARGET]")) {
-                Vec2 target;
-                fwscanf_s(pFile, L"%f", &target.x);
-                fwscanf_s(pFile, L"%f", &target.y);
-                info.Pos = target;
-            }
-            fwscanf_s(pFile, L"%s", szRead, 256);
-            if (!wcscmp(szRead, L"[SPEED]")) {
-                fwscanf_s(pFile, L"%f", &info.Speed);
-            }
-            _out.push_back(info);
-        }
-        else if (!wcscmp(szRead, L"[BVEIL]")) {
+        else if (!wcscmp(szRead, L"[MOVE]")) {
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[TYPE]")) {
                 int type = 0;
@@ -211,6 +187,7 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
             }
             _out.push_back(info);
         }
+        
     }
 
     fclose(pFile);

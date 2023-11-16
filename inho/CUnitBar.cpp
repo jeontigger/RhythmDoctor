@@ -219,6 +219,11 @@ void CUnitBar::ShowAll()
 	}
 }
 
+void CUnitBar::ShowCharacter()
+{
+	m_Character->Show();
+}
+
 void CUnitBar::Incorrect(JudgeBeatType _type)
 {
 	if (_type == JudgeBeatType::Left) {

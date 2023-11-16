@@ -30,7 +30,7 @@ private:
     class CHeart* m_Heart;
     vector<class CNormalBeat*> m_NormalBeats;
     vector<class CNormalBeat*> m_IncorrectBeats;
-    CNormalBeat* m_CorrectBeat;
+    class CNormalBeat* m_CorrectBeat;
 
     class CGetSetBeat* m_GetSetBeat;
 
@@ -61,6 +61,7 @@ public:
     void GoGetSetBeat(float _speed);
     void HideAll();
     void ShowAll();
+    void ShowCharacter();
     void Incorrect(JudgeBeatType _type);
     void Correct();
 

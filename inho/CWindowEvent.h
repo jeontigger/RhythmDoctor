@@ -17,7 +17,6 @@ private:
 private:
     Vec2 m_vTarget;
     float m_fSpeed;
-    bool m_bIsAlive;
     void LinearMove(float _dt);
 
 private:

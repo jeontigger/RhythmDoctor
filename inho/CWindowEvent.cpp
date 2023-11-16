@@ -56,12 +56,10 @@ void CWindowEvent::tick(float _dt)
 
 void CWindowEvent::SetTarget(Vec2 _target, float _time)
 {
-    m_bIsAlive = true;
      m_vTarget = (m_vMonitorRes - m_vWinRes) * _target/100;
 
     if ((m_vTarget - GetPos()).Length() <= 1.f) {
         m_fSpeed = 0;
-        m_bIsAlive = false;
         return;
     }
 
@@ -141,32 +139,29 @@ void CWindowEvent::SetMode(WindowEventType _type)
 
 void CWindowEvent::LinearMove(float _dt)
 {
-    if (!m_bIsAlive) {
-        return;
-    }
-
+   
     if (m_fSpeed == 0) {
         if (m_IsFlash) {
             CCamera::GetInst()->BlinkIn(0.2f);
             m_IsFlash = false;
         }
         SetPos(m_vTarget);
-        m_bIsAlive = false;
         return;
     }
 
     Vec2 vPos = GetPos();
+    if ((vPos - m_vTarget).Length() <= 10.f) {
+        SetPos(m_vTarget);
+        return;
+    }
+    
 
     Vec2 vDir = m_vTarget - vPos;
     vDir.Normalize();
     vPos += vDir * m_fSpeed * _dt;
     SetPos(vPos);
 
-    if ((vPos - m_vTarget).Length() <= 10.f) {
-        m_bIsAlive = false;
-        SetPos(m_vTarget);
-        
-    }
+
 }
 
 void CWindowEvent::CircleMove(float _dt)
