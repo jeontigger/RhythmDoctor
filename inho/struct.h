@@ -145,6 +145,9 @@ enum class StageObj {
     Bar,
     Ting,
     Cole,
+    BVeil,
+    MVeil,
+    TVeil,
     END,
 };
 
@@ -153,7 +156,8 @@ struct ObjInfo {
     float StartTime;
     float Speed;
     float Duration;
-    Vec2 Target;
+    Vec2 Pos;
+    Vec2 Scale;
 };
 
 enum class WindowEventType {

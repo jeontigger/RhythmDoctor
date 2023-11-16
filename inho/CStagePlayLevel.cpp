@@ -73,11 +73,22 @@ void CStagePlayLevel::init()
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::Ting] = pBG;
 
-	for (int i = 0; i < m_vecBackGrounds.size(); ++i) {
+	for (int i = 0; i < (UINT) BackgroundIndex::Ting; ++i) {
 		m_vecBackGrounds[i]->Hide();
 	}
 	m_vecBackGrounds[(UINT)BackgroundIndex::Ting]->Show();
 
+	for (int i = 0; i < 3; i++) {
+		pBG = new CBackground;
+		pAtlas = CAssetMgr::GetInst()->LoadTexture(L"blackPixel", L"texture\\blackPixel.png");
+		pBG->SetScale({ vRes .x, 50.f});
+		pBG->SetTexture(pAtlas);
+		AddObject(BACKGROUND, pBG);
+		m_vecBackGrounds[(UINT)BackgroundIndex::BVeil + i] = pBG;
+	}
+	m_vecBackGrounds[(UINT)BackgroundIndex::BVeil] ->SetPos({ vRes.x / 2.f, vRes.y + 360.f});
+	m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
+	m_vecBackGrounds[(UINT)BackgroundIndex::TVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
 
 	m_UnitBar = new CUnitBar;
 	AddObject(PLAYER, m_UnitBar);
@@ -203,7 +214,9 @@ void CStagePlayLevel::tick()
 				switch (objinfo.Type)
 				{
 				case StageObj::Hand:
-					m_Hand->SetMove(objinfo.Target, objinfo.Speed);
+					if (-1000.f <= objinfo.Pos.x) {
+						m_Hand->SetMove(objinfo.Pos, objinfo.Speed);
+					}
 					break;
 
 				case StageObj::Bar:
@@ -220,6 +233,19 @@ void CStagePlayLevel::tick()
 					break;
 				case StageObj::Cole:
 					break;
+				case StageObj::BVeil:
+					m_vecBackGrounds[(UINT)BackgroundIndex::BVeil]->SetMove(objinfo.Pos, objinfo.Speed); 
+					break;
+
+				case StageObj::MVeil:
+					m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetMove(objinfo.Pos, objinfo.Speed);
+					m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetScaleMove(objinfo.Scale, objinfo.Speed);
+					break;
+
+				case StageObj::TVeil:
+					m_vecBackGrounds[(UINT)BackgroundIndex::TVeil]->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
+
 				case StageObj::END:
 					break;
 				default:

@@ -69,7 +69,9 @@ private:
     float m_Duration;
     float m_AccTime;
     Vec2 m_Target;
+    Vec2 m_ScaleTarget;
     float m_Speed;
+    float m_ScaleSpeed;
 
 private:
     void FadeAway(float _dt);
@@ -77,6 +79,7 @@ private:
 public:
     void SetFadeAway(float _duration);
     void SetMove(Vec2 _target, float _time);
+    void SetScaleMove(Vec2 _target, float _time);
 
   public:
      virtual void begin() {};

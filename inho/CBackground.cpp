@@ -76,7 +76,3 @@ void CBackground::render(HDC _dc)
 	}
 }
 
-void CBackground::tick(float _dt)
-{	
-}
-

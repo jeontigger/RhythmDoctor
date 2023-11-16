@@ -17,8 +17,6 @@ public:
 
 public:
     virtual void render(HDC _dc) override;
-    virtual void tick(float _dt) override;
-
 public:
 
     CLONE_DISABLE(CBackground);

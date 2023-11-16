@@ -44,17 +44,43 @@ void CObj::SetMove(Vec2 _target, float _time)
     pFunc = &CObj::Move;
 }
 
+
+void CObj::SetScaleMove(Vec2 _target, float _time)
+{
+    if (_time == 0) {
+        pFunc = nullptr;
+        SetPos(_target);
+    }
+
+    m_ScaleTarget = _target;
+
+    m_ScaleSpeed = (m_ScaleTarget - m_Scale).Length() / _time;
+}
+
+
 void CObj::Move(float _dt)
 {
     Vec2 vPos = m_Pos;
     if ((vPos - m_Target).Length() <= 5.f) {
         SetPos(m_Target);
+        if (m_ScaleTarget.x != -1)
+            SetScale(m_ScaleTarget);
         return;
     }
+
     Vec2 vDir = m_Target - vPos;
     vDir.Normalize();
     vPos += vDir * m_Speed * _dt;
     SetPos(vPos);
+
+    if (m_ScaleTarget.x == -1)
+        return;
+
+    Vec2 vScale = m_Scale;
+    vDir = m_ScaleTarget - vScale;
+    vDir.Normalize();
+    vScale += vDir * m_ScaleSpeed * _dt;
+    SetScale(vScale);
 }
 
 void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _out)
@@ -122,7 +148,62 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
                 Vec2 target;
                 fwscanf_s(pFile, L"%f", &target.x);
                 fwscanf_s(pFile, L"%f", &target.y);
-                info.Target = target;
+                info.Pos = target;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[BVEIL]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (StageObj)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TARGET]")) {
+                Vec2 target;
+                fwscanf_s(pFile, L"%f", &target.x);
+                fwscanf_s(pFile, L"%f", &target.y);
+                info.Pos = target;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SPEED]")) {
+                fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[MVEIL]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TYPE]")) {
+                int type = 0;
+                fwscanf_s(pFile, L"%d", &type);
+                info.Type = (StageObj)type;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TARGET]")) {
+                Vec2 target;
+                fwscanf_s(pFile, L"%f", &target.x);
+                fwscanf_s(pFile, L"%f", &target.y);
+                info.Pos = target;
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[SCALE]")) {
+                Vec2 target;
+                fwscanf_s(pFile, L"%f", &target.x);
+                fwscanf_s(pFile, L"%f", &target.y);
+                info.Scale = target;
             }
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[SPEED]")) {

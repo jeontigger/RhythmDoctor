@@ -8,7 +8,8 @@
 #include "CEngine.h"
 CObj::CObj(): 
     m_iLayerIdx(-1),
-    m_iAlpha(255)
+    m_iAlpha(255),
+    m_ScaleTarget{-1, -1}
 {}
 
 CObj::CObj(const CObj & _Origin):
