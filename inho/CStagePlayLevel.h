@@ -4,18 +4,24 @@
 constexpr float JudgeTime = 0.1f;
 constexpr float CorrectTime = 0.033f;
 
+enum class BackgroundIndex {
+    ColeBack,
+    ColeFront,
+    Ting,
+    END,
+};
+
 class CStagePlayLevel :
     public CLevel
 {
 
 private:
-    class CBackground* m_ColeBGBG;
-    class CBackground* m_ColeBG;
+    vector<class CBackground*> m_vecBackGrounds;
 
 private:
     list<WinInfo> m_listWinInfo;
     list<NoteInfo*> m_listNoteInfo;
-    list<BarInfo*> m_listBarInfo;
+    list<ObjInfo*> m_listObjInfo;
     float m_NoteJudgeTime;
     float m_NoteJudgeTimeOffset;
     bool m_newNote;
@@ -23,6 +29,7 @@ private:
 private:
     class CUnitBar* m_UnitBar;
     class CCharacter* m_Hand;
+    class CCharacter* m_Ting;
 
 private:
     bool m_bAnyPressed;

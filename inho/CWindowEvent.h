@@ -1,9 +1,6 @@
 ﻿#pragma once
 #include "CEvent.h"
 
-
-
-
 class CWindowEvent :
     public CEvent
 {

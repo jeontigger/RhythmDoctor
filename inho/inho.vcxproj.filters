@@ -104,6 +104,9 @@
     <Filter Include="Game\08. Event\Window">
       <UniqueIdentifier>{507aa1af-ebe6-44a7-a8d0-ef6e5146d703}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\08. Event\Object">
+      <UniqueIdentifier>{adcf0496-9e28-41ee-8075-1314c273dcf0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inho.h">
@@ -311,6 +314,7 @@
     <ClInclude Include="CWindowEvent.h">
       <Filter>Game\08. Event\Window</Filter>
     </ClInclude>
+    <ClInclude Include="CObjEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -513,5 +517,6 @@
     <ClCompile Include="CWindowEvent.cpp">
       <Filter>Game\08. Event\Window</Filter>
     </ClCompile>
+    <ClCompile Include="CObjEvent.cpp" />
   </ItemGroup>
 </Project>

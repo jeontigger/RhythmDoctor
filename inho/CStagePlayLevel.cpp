@@ -43,29 +43,58 @@ void CStagePlayLevel::init()
 	CAnimator* pAnimator;
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 
-	m_ColeBGBG = new CBackground;
+	m_vecBackGrounds.resize((UINT)BackgroundIndex::END);
+
+	CBackground* pBG;
+	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBGBG", L"texture\\ColeBGBG.png");
-	pAnimator = m_ColeBGBG->GetComponent<CAnimator>();
+	pAnimator = pBG->GetComponent<CAnimator>();
 	pAnimator->CreateAnimation(L"ColeBGBG", pAtlas, Vec2(0, 0), Vec2(352, 119), Vec2(0, 0), 0.1f, 3);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"ColeBGBG", true);
-	m_ColeBGBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f -55.f });
-	m_ColeBGBG->SetScale({ 352, 119 });
-	AddObject(BACKGROUND, m_ColeBGBG);
-	
+	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f -55.f });
+	pBG->SetScale({ 352, 119 });
+	AddObject(BACKGROUND, pBG);
 
-	m_ColeBG = new CBackground;
-	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
-	m_ColeBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
-	m_ColeBG->SetScale({ pAtlas->GetWidth(), pAtlas->GetHeight() });
-	m_ColeBG->SetTexture(pAtlas);
-	AddObject(BACKGROUND, m_ColeBG);
+	m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack] = pBG;
 	
+	pBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
+	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
+	pBG->SetScale({ pAtlas->GetWidth(), pAtlas->GetHeight() });
+	pBG->SetTexture(pAtlas);
+	AddObject(BACKGROUND, pBG);
+	
+	m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront] = pBG;
+
+	pBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBG", L"texture\\TingBG.png");
+	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
+	pBG->SetScale({ pAtlas->GetWidth()+8, pAtlas->GetHeight() +2 });
+	pBG->SetTexture(pAtlas);
+	AddObject(BACKGROUND, pBG);
+
+	m_vecBackGrounds[(UINT)BackgroundIndex::Ting] = pBG;
+
+	for (int i = 0; i < m_vecBackGrounds.size(); ++i) {
+		m_vecBackGrounds[i]->Hide();
+	}
+	m_vecBackGrounds[(UINT)BackgroundIndex::Ting]->Show();
 
 
 	m_UnitBar = new CUnitBar;
 	AddObject(PLAYER, m_UnitBar);
-	
+
+	m_Ting = new CCharacter;
+	m_Ting->SetPos({ vRes.x / 2.f + 70.f, vRes.y / 2.f });
+	m_Ting->SetScale({ 40, 40 });
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingAtlas", L"texture\\Ting.png");
+	pAnimator = m_Ting->GetComponent<CAnimator>();
+	//pAnimator->CreateAnimation(L"Ting", pAtlas, Vec2(0, 0), Vec2(40, 40), Vec2(0, 0), 0.1f, 6);
+	//pAnimator->SaveAnimation(L"animdata");
+	pAnimator->LoadAnimation(L"animdata\\Ting.txt");
+	pAnimator->Play(L"Ting", true);
+	AddObject(PLAYER, m_Ting);
 
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
@@ -98,13 +127,13 @@ void CStagePlayLevel::init()
 		m_listNoteInfo.push_back(noteinfo);
 	}
 
-	BarInfo* barinfo = new BarInfo;
+	ObjInfo* barinfo = new ObjInfo;
 	barinfo->Moving = true;
 	barinfo->StartTime = 12.7f;
 	barinfo->Speed = 40.f;
 	barinfo->Duration = 0.5f;
 
-	m_listBarInfo.push_back(barinfo);
+	m_listObjInfo.push_back(barinfo);
 
 
 	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);
@@ -124,8 +153,6 @@ void CStagePlayLevel::enter()
 	
 	event->SetPos(event->GetMonitorRes()/2 - event->GetWinRes() / 2);
 
-	m_ColeBGBG->Hide();
-	m_ColeBG->Hide();
 	m_UnitBar->HideAll();
 }
 
@@ -134,7 +161,7 @@ void CStagePlayLevel::exit()
 {
 }
 
-float audioDelay = 0.3f;
+float audioDelay = 0.f;
 
 void CStagePlayLevel::tick()
 {
@@ -168,8 +195,8 @@ void CStagePlayLevel::tick()
 			}
 		}
 
-		if (!m_listBarInfo.empty()) {
-			BarInfo* barinfo = m_listBarInfo.front();
+		if (!m_listObjInfo.empty()) {
+			ObjInfo* barinfo = m_listObjInfo.front();
 			if (barinfo->StartTime <= m_AccTime + audioDelay) {
 				m_UnitBar->SetMoving(barinfo->Moving);
 				m_UnitBar->SetMovingSpeed(barinfo->Speed);
@@ -177,6 +204,7 @@ void CStagePlayLevel::tick()
 			}
 		}
 
+		// 윈도우 이벤트 처리
 		if (!m_listWinInfo.empty()) {
 			WinInfo info = m_listWinInfo.front();
 			if (info.StartTime <= m_AccTime + audioDelay) {
@@ -248,6 +276,7 @@ void CStagePlayLevel::tick()
 				m_listWinInfo.pop_front();
 			}
 		}
+
 		if (KEY_TAP(_1)) {
 			SetMusic(-60);
 		}
@@ -274,86 +303,6 @@ void CStagePlayLevel::tick()
 			LOG(LOG_LEVEL::WARNING, L"보정 Offset 느리게");
 			m_NoteJudgeTimeOffset += 0.016f;
 		}
-
-#pragma region UseCase
-
-		
-		if (KEY_TAP(W)) {
-			newEvent->SetMode(WindowEventType::LinearMove);
-			newEvent->SetTarget({ 1200, 10 });
-		}
-		/*
-		if (KEY_TAP(E)) {
-			newEvent->SetMode(WindowEventType::LinearMove);
-			newEvent->SetTarget({ 1200, 600 });
-		}
-		if (KEY_TAP(R)) {
-			newEvent->SetMode(WindowEventType::LinearMove);
-			newEvent->SetTarget({ 10,600 });
-		}
-		if (KEY_TAP(A)) {
-			newEvent->SetMode(WindowEventType::LinearMove);
-			newEvent->SetTarget({ 10, 10 }, 1);
-		}
-		if (KEY_TAP(S)) {
-			newEvent->SetMode(WindowEventType::LinearMove);
-			newEvent->SetTarget({ 1200, 10 }, 1);
-		}
-		if (KEY_TAP(D)) {
-			newEvent->SetMode(WindowEventType::LinearMove);
-			newEvent->SetTarget({ 1200, 600 }, 1);
-		}
-		if (KEY_TAP(F)) {
-			newEvent->SetMode(WindowEventType::LinearMove);
-			newEvent->SetTarget({ 10, 600 }, 1);
-		}
-		if (KEY_TAP(Z)) {
-			newEvent->SetMode(WindowEventType::Quake);
-			newEvent->SetQuakeAmount(5);
-		}
-		if (KEY_TAP(X)) {
-			newEvent->SetMode(WindowEventType::UpAndDown);
-			newEvent->SetTarget({ 1200, 340 },0.1);
-			newEvent->SetUpDownSize(50);
-			newEvent->SetUpDownCount(3);
-		}
-		if (KEY_TAP(C)) {
-			newEvent->SetMode(WindowEventType::Jumping); 
-			newEvent->SetJumpingSpeed(0.1f);
-			newEvent->SetJumpingSize(200.f);
-		}
-		if (KEY_TAP(V)) {
-			CBeatNote* newNote = new CBeatNote;
-			newNote->SetBeatSpeed(60.f);
-			newNote->SetBar(m_UnitBar);
-			newNote->SetLoopCount(1);
-			CEventMgr::GetInst()->Play(newNote);
-		}
-		if (KEY_TAP(B)) {
-			CNormalNote* newNote = new CNormalNote;
-			newNote->SetBeatSpeed(0.3f);
-			newNote->SetBar(m_UnitBar);
-			CEventMgr::GetInst()->Play(newNote);
-		}
-		if (KEY_TAP(ESC)) {
-			ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
-		}
-		*/
-		
-
-		if (KEY_TAP(A)) {
-			newEvent->SetMode(WindowEventType::Disapear);
-			newEvent->SetDisappearSpeed(0.3f);
-			newEvent->SetDisappearDistance(300.f);
-		}
-		if (KEY_TAP(S)) {
-			newEvent->SetPos({ 0, 540 - 198 });
-			newEvent->SetMode(WindowEventType::Wave);
-			newEvent->SetWaveSpeed(200.f);
-			newEvent->SetWaveFrequency(60.f);
-			newEvent->SetWaveSize(240.f);
-		}
-#pragma endregion
 	}
 }
 
@@ -371,8 +320,6 @@ void CStagePlayLevel::AnyPress()
 		m_BGSound->PlayToBGM(false);
 		m_UnitBar->Start(true);
 		m_bAnyPressed = true;
-		m_ColeBGBG->Show();
-		m_ColeBG->Show();
 		m_UnitBar->ShowAll();
 	}
 	return;

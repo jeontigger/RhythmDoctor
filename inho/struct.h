@@ -140,7 +140,15 @@ struct NoteInfo {
     int Cnt;
 };
 
-struct BarInfo {
+enum StageObj {
+    Hand,
+    Bar,
+    Ting,
+    Cole,
+    END,
+};
+
+struct ObjInfo {
     float StartTime;
     bool Moving;
     float Speed;

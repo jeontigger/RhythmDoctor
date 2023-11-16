@@ -173,6 +173,7 @@
     <ClInclude Include="CNormalNote.h" />
     <ClInclude Include="CNote.h" />
     <ClInclude Include="CObj.h" />
+    <ClInclude Include="CObjEvent.h" />
     <ClInclude Include="components.h" />
     <ClInclude Include="CPaletteMgr.h" />
     <ClInclude Include="CPanelUI.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="CNormalNote.cpp" />
     <ClCompile Include="CNote.cpp" />
     <ClCompile Include="CObj.cpp" />
+    <ClCompile Include="CObjEvent.cpp" />
     <ClCompile Include="CPaletteMgr.cpp" />
     <ClCompile Include="CPanelUI.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
