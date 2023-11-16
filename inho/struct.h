@@ -140,7 +140,7 @@ struct NoteInfo {
     int Cnt;
 };
 
-enum StageObj {
+enum class StageObj {
     Hand,
     Bar,
     Ting,
@@ -149,11 +149,12 @@ enum StageObj {
 };
 
 struct ObjInfo {
+    StageObj Type;
     float StartTime;
-    bool Moving;
     float Speed;
     float Duration;
 };
+
 enum class WindowEventType {
     /// <summary>
     /// 선형 움직임. SetTarget이 필요함

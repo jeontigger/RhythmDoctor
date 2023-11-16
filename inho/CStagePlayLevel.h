@@ -21,7 +21,7 @@ private:
 private:
     list<WinInfo> m_listWinInfo;
     list<NoteInfo*> m_listNoteInfo;
-    list<ObjInfo*> m_listObjInfo;
+    list<ObjInfo> m_listObjInfo;
     float m_NoteJudgeTime;
     float m_NoteJudgeTimeOffset;
     bool m_newNote;

@@ -131,8 +131,7 @@ void CUnitBar::tick(float _dt)
 		return;
 	}
 	if (KEY_TAP(SPACE)) {
-		m_SpaceBarSprite->FadeAway(0.3f);
-		
+		m_SpaceBarSprite->SetFadeAway(0.3f);
 	}
 	if (m_IsMoving) {
 		float y = m_vecBars[0]->GetPos().y;

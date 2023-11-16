@@ -62,6 +62,16 @@ public:
     void Show() { m_iAlpha = 255; }
     void Hide() { m_iAlpha = 0; }
 
+private:
+    void(CObj::* pFunc)(float);
+    float m_Duration;
+    float m_AccTime;
+
+private:
+    void FadeAway(float _dt);
+public:
+    void SetFadeAway(float _duration);
+
   public:
      virtual void begin() {};
     virtual void tick(float _DT);

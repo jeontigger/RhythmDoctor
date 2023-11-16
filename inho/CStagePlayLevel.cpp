@@ -19,6 +19,7 @@
 #include "CBeatNote.h"
 #include "CWindowEvent.h"
 #include "CBackground.h"
+#include "CObjEvent.h"
 
 
 CStagePlayLevel::CStagePlayLevel(): 
@@ -31,10 +32,6 @@ CStagePlayLevel::~CStagePlayLevel()
 	for (auto iter = m_listNoteInfo.begin(); iter != m_listNoteInfo.end(); ++iter) {
 		delete* iter;
 	}
-	for (auto iter = m_listBarInfo.begin(); iter != m_listBarInfo.end(); ++iter) {
-		delete* iter;
-	}
-	
 }
 
 void CStagePlayLevel::init()
@@ -112,9 +109,14 @@ void CStagePlayLevel::init()
 
 	CWindowEvent* newEvent = new CWindowEvent;
 	CEventMgr::GetInst()->RegistWindowEvent(newEvent);
+	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);
+
 
 	CBeatNote* newNote = new CBeatNote;
 	CEventMgr::GetInst()->RegistNoteEvent(newNote);
+
+	CObjEvent* objEvent = new CObjEvent;
+	objEvent->LoadEventData(L"AllTheTimesObj.txt", m_listObjInfo);
 
 	for (int i = 0; i < 100; i++) {
 		NoteInfo* noteinfo = new NoteInfo;
@@ -127,16 +129,16 @@ void CStagePlayLevel::init()
 		m_listNoteInfo.push_back(noteinfo);
 	}
 
-	ObjInfo* barinfo = new ObjInfo;
+	/*ObjInfo* barinfo = new ObjInfo;
 	barinfo->Moving = true;
 	barinfo->StartTime = 12.7f;
 	barinfo->Speed = 40.f;
 	barinfo->Duration = 0.5f;
 
-	m_listObjInfo.push_back(barinfo);
+	m_listObjInfo.push_back(barinfo);*/
 
 
-	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);
+	
 
 }
 
@@ -196,11 +198,32 @@ void CStagePlayLevel::tick()
 		}
 
 		if (!m_listObjInfo.empty()) {
-			ObjInfo* barinfo = m_listObjInfo.front();
-			if (barinfo->StartTime <= m_AccTime + audioDelay) {
-				m_UnitBar->SetMoving(barinfo->Moving);
-				m_UnitBar->SetMovingSpeed(barinfo->Speed);
-				m_UnitBar->SetMovingDuration(barinfo->Duration);
+			ObjInfo objinfo = m_listObjInfo.front();
+			if (objinfo.StartTime <= m_AccTime + audioDelay) {
+				switch (objinfo.Type)
+				{
+				case StageObj::Hand:
+					break;
+				case StageObj::Bar:
+					if (objinfo.Speed == 0) {
+						m_UnitBar->SetMoving(false);
+					}
+					else {
+						m_UnitBar->SetMoving(true);
+					}
+					m_UnitBar->SetMovingSpeed(objinfo.Speed);
+					m_UnitBar->SetMovingDuration(objinfo.Duration);
+					break;
+				case StageObj::Ting:
+					break;
+				case StageObj::Cole:
+					break;
+				case StageObj::END:
+					break;
+				default:
+					break;
+				}
+				
 			}
 		}
 

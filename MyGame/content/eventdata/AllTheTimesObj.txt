@@ -1,0 +1,9 @@
+[BAR]
+[TYPE]
+1
+[START_TIME]
+1
+[SPEED]
+40
+[DURATION]
+0.5

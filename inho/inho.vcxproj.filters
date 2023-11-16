@@ -314,7 +314,9 @@
     <ClInclude Include="CWindowEvent.h">
       <Filter>Game\08. Event\Window</Filter>
     </ClInclude>
-    <ClInclude Include="CObjEvent.h" />
+    <ClInclude Include="CObjEvent.h">
+      <Filter>Game\08. Event\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -517,6 +519,8 @@
     <ClCompile Include="CWindowEvent.cpp">
       <Filter>Game\08. Event\Window</Filter>
     </ClCompile>
-    <ClCompile Include="CObjEvent.cpp" />
+    <ClCompile Include="CObjEvent.cpp">
+      <Filter>Game\08. Event\Object</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
