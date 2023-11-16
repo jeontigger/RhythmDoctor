@@ -46,10 +46,14 @@ CUnitBar::CUnitBar():
 	m_Character = new CCharacter;
 	m_Character->SetPos({ vRes.x / 2.f - 280.f, vRes.y / 2.f });
 	m_Character->SetScale({ 40, 40 });
-	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeAtlas", L"texture\\Cole.png");
+	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeAtlas", L"texture\\Cole.png");
 	pAnimator = m_Character->GetComponent<CAnimator>();
-	pAnimator->CreateAnimation(L"ColeIdle", pAtlas, Vec2(40, 0), Vec2(40, 40), Vec2(0, 0), 0.3f, 4);
-	pAnimator->SaveAnimation(L"animdata");
+	/*pAnimator->CreateAnimation(L"ColeIdle", pAtlas, Vec2(40, 0), Vec2(40, 40), Vec2(0, 0), 0.3f, 4);
+	pAnimator->SaveAnimation(L"animdata");*/
+	pAnimator->LoadAnimation(L"animdata\\ColeIdle.txt");
+	pAnimator->LoadAnimation(L"animdata\\ColeCorrect.txt");
+	pAnimator->LoadAnimation(L"animdata\\ColeIncorrect.txt");
+	pAnimator->LoadAnimation(L"animdata\\ColeMiss.txt");
 	pAnimator->Play(L"ColeIdle", true);
 	
 
@@ -136,6 +140,12 @@ void CUnitBar::tick(float _dt)
 	if (KEY_TAP(SPACE)) {
 		m_SpaceBarSprite->SetFadeAway(0.3f);
 	}
+
+	if (m_fDuration <= m_AccTime) {
+		m_Character->GetComponent<CAnimator>()->Play(L"ColeIdle", true);
+		m_fDuration = 230.7f;
+	}
+
 	if (m_IsMoving) {
 		float y = m_vecBars[0]->GetPos().y;
 		m_AccTime += _dt;
@@ -231,13 +241,23 @@ void CUnitBar::ShowCharacter()
 
 void CUnitBar::Incorrect(JudgeBeatType _type)
 {
+	CAnimator* pAnimator = m_Character->GetComponent<CAnimator>();
 	if (_type == JudgeBeatType::Left) {
 		m_IncorrectBeats[(UINT)JudgeBeatType::Left]->Show(0.3f);
 		HideBar((UINT)BeatPoint::Left, 0.3f);
+		pAnimator->Play(L"ColeIncorrect", false);
+		m_fDuration = m_AccTime + 1.1f;
+
 	}
 	else if(_type == JudgeBeatType::Right) {
 		m_IncorrectBeats[(UINT)JudgeBeatType::Right]->Show(0.3f);
 		HideBar((UINT)BeatPoint::Right, 0.3f);
+		pAnimator->Play(L"ColeIncorrect", false);
+		m_fDuration = m_AccTime + 1.1f;
+	}
+	else {
+		pAnimator->Play(L"ColeMiss", false);
+		m_fDuration = m_AccTime + 0.9f;
 	}
 	m_fQuakeDuration = m_AccTime + 0.3f;
 }
@@ -246,6 +266,8 @@ void CUnitBar::Correct()
 {
 	m_CorrectBeat->Show(0.3f);
 	HideBar((UINT)BeatPoint::Correct, 0.3f);
+	m_Character->GetComponent<CAnimator>()->Play(L"ColeCorrect", false);
+	m_fDuration = m_AccTime + 0.8f;
 }
 
 
