@@ -153,6 +153,7 @@ struct ObjInfo {
     float StartTime;
     float Speed;
     float Duration;
+    Vec2 Target;
 };
 
 enum class WindowEventType {

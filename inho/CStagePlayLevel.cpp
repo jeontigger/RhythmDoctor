@@ -203,7 +203,9 @@ void CStagePlayLevel::tick()
 				switch (objinfo.Type)
 				{
 				case StageObj::Hand:
+					m_Hand->SetMove(objinfo.Target, objinfo.Speed);
 					break;
+
 				case StageObj::Bar:
 					if (objinfo.Speed == 0) {
 						m_UnitBar->SetMoving(false);
@@ -223,7 +225,7 @@ void CStagePlayLevel::tick()
 				default:
 					break;
 				}
-				
+				m_listObjInfo.pop_front();
 			}
 		}
 

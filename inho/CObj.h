@@ -28,6 +28,7 @@ class CObj : public CEntity {
     int GetAlpha() { return m_iAlpha; }
     void SetAlpha(int _alpha) { m_iAlpha = _alpha; }
 
+#pragma region Component
   protected:
     template <typename T> T* AddComponent(const wstring& _strName = L"") {
         T* pNewCom = new T(this);
@@ -57,6 +58,7 @@ public:
             }
         }
     }
+#pragma endregion
 
 public:
     void Show() { m_iAlpha = 255; }
@@ -66,11 +68,15 @@ private:
     void(CObj::* pFunc)(float);
     float m_Duration;
     float m_AccTime;
+    Vec2 m_Target;
+    float m_Speed;
 
 private:
     void FadeAway(float _dt);
+    void Move(float _dt);
 public:
     void SetFadeAway(float _duration);
+    void SetMove(Vec2 _target, float _time);
 
   public:
      virtual void begin() {};
