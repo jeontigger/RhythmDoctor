@@ -162,10 +162,32 @@ void CStagePlayLevel::init()
 	CObjEvent* objEvent = new CObjEvent;
 	objEvent->LoadEventData(L"AllTheTimesObj.txt", m_listObjInfo);
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 48; i++) {
 		NoteInfo* noteinfo = new NoteInfo;
 		noteinfo->Bar = L"bar";
 		noteinfo->StartTime = 13.7f + i *1.657f;
+		noteinfo->Speed = 400.f;
+		noteinfo->GetDuration = 0.4f;
+		noteinfo->Cnt = 1;
+		noteinfo->JudgeTime = 0.7f;
+		m_listNoteInfo.push_back(noteinfo);
+	}
+
+	for (int i = 0; i < 32; i++) {
+		NoteInfo* noteinfo = new NoteInfo;
+		noteinfo->Bar = L"bar";
+		noteinfo->StartTime = 94.8f + i * 1.657f;
+		noteinfo->Speed = 400.f;
+		noteinfo->GetDuration = 0.4f;
+		noteinfo->Cnt = 1;
+		noteinfo->JudgeTime = 0.7f;
+		m_listNoteInfo.push_back(noteinfo);
+	}
+
+	for (int i = 0; i < 32; i++) {
+		NoteInfo* noteinfo = new NoteInfo;
+		noteinfo->Bar = L"bar";
+		noteinfo->StartTime = 161.8f + i * 1.657f;
 		noteinfo->Speed = 400.f;
 		noteinfo->GetDuration = 0.4f;
 		noteinfo->Cnt = 1;
@@ -251,10 +273,12 @@ void CStagePlayLevel::tick()
 				case StageObj::Bar:
 					if (objinfo.Show && !m_UnitBar->IsShow()) {
 						m_UnitBar->ShowAll();
+						m_UnitBar->SetMoving(true);
 						break;
 					}
 					else if (!objinfo.Show && m_UnitBar->IsShow()) {
 						m_UnitBar->HideAll();
+						m_UnitBar->SetMoving(false);
 						break;
 					}
 					if (objinfo.Speed == 0) {
@@ -263,6 +287,7 @@ void CStagePlayLevel::tick()
 					else {
 						m_UnitBar->SetMoving(true);
 					}
+					m_UnitBar->SetPosAll(objinfo.Pos);
 					m_UnitBar->SetMovingSpeed(objinfo.Speed);
 					m_UnitBar->SetMovingDuration(objinfo.Duration);
 					break;
@@ -293,7 +318,7 @@ void CStagePlayLevel::tick()
 
 				case StageObj::ColeBG:
 					m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront]->SetMove(objinfo.Pos, objinfo.Speed);
-					m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack]->SetMove(objinfo.Pos - 132.f, objinfo.Speed);
+					m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack]->SetMove({ objinfo.Pos.x - 0.f, objinfo.Pos.y - 132.f }, objinfo.Speed);
 					break;
 
 				case StageObj::Boss:

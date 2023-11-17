@@ -61,7 +61,7 @@ void CObj::SetScaleMove(Vec2 _target, float _time)
 void CObj::Move(float _dt)
 {
     Vec2 vPos = m_Pos;
-    if ((vPos - m_Target).Length() <= 5.f) {
+    if ((vPos - m_Target).Length() <= 1.f) {
         SetPos(m_Target);
         if (m_ScaleTarget.x != -1)
             SetScale(m_ScaleTarget);
@@ -125,6 +125,13 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[SPEED]")) {
                 fwscanf_s(pFile, L"%f", &info.Speed);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[TARGET]")) {
+                Vec2 target;
+                fwscanf_s(pFile, L"%f", &target.x);
+                fwscanf_s(pFile, L"%f", &target.y);
+                info.Pos = target;
             }
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[DURATION]")) {

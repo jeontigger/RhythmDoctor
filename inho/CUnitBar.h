@@ -57,6 +57,7 @@ public:
 
     void HideBar(int _idx, float _duration);
     void ShowNormalBeat(int _idx, float _duration);
+    void SetPosAll(Vec2 _target);
 
 public:
     void StayGetSetBeat();
