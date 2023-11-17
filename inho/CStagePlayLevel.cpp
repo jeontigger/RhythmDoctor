@@ -226,14 +226,6 @@ void CStagePlayLevel::init()
 	noteinfo->JudgeTime = 2.0f;
 	m_listNoteInfo.push_back(noteinfo);
 
-	/*ObjInfo* barinfo = new ObjInfo;
-	barinfo->Moving = true;
-	barinfo->StartTime = 12.7f;
-	barinfo->Speed = 40.f;
-	barinfo->Duration = 0.5f;
-
-	m_listObjInfo.push_back(barinfo);*/
-
 }
 
 void CStagePlayLevel::enter()
@@ -272,6 +264,8 @@ void CStagePlayLevel::tick()
 
 		m_AccTime += DT;
 		CLogMgr::GetInst()->SetAccTime(m_AccTime);
+
+		// 노트 이벤트 처리
 		if (!m_listNoteInfo.empty()) {
 			NoteInfo* noteinfo = m_listNoteInfo.front();
 			if (noteinfo->StartTime <= m_AccTime + audioDelay) {
@@ -290,6 +284,7 @@ void CStagePlayLevel::tick()
 			}
 		}
 
+		// 오브젝트 이벤트 처리
 		if (!m_listObjInfo.empty()) {
 			ObjInfo objinfo = m_listObjInfo.front();
 			if (objinfo.StartTime <= m_AccTime + audioDelay) {
@@ -494,7 +489,7 @@ void CStagePlayLevel::Judge()
 {
 	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime + audioDelay + m_NoteJudgeTimeOffset 
 		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
-		if (KEY_TAP(SPACE)) {
+		if (KEY_TAP(SPACE)&& m_newNote) {
 			LOG(ERR, L"빠름");
 			m_newNote = false;
 			m_UnitBar->Incorrect(JudgeBeatType::Left);
@@ -502,7 +497,7 @@ void CStagePlayLevel::Judge()
 	}
 	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime + audioDelay + m_NoteJudgeTimeOffset
 		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
-		if (KEY_TAP(SPACE)) {
+		if (KEY_TAP(SPACE) && m_newNote) {
 			LOG(ERR, L"판정!");
 			m_newNote = false;
 			CCamera::GetInst()->Judge(0.1f);
@@ -511,7 +506,7 @@ void CStagePlayLevel::Judge()
 	}
 	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + audioDelay + m_NoteJudgeTimeOffset
 		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset) {
-		if (KEY_TAP(SPACE)) {
+		if (KEY_TAP(SPACE) && m_newNote) {
 			LOG(ERR, L"느림");
 			m_newNote = false;
 			m_UnitBar->Incorrect(JudgeBeatType::Right);
