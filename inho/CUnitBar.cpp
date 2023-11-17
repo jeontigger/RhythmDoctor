@@ -149,10 +149,10 @@ void CUnitBar::tick(float _dt)
 		m_Character->GetComponent<CAnimator>()->Play(L"ColeIdle", true);
 		m_fDuration = 230.7f;
 	}
-
+	m_AccTime += _dt;
 	if (m_IsMoving) {
 		float y = m_vecBars[0]->GetPos().y;
-		m_AccTime += _dt;
+		
 		y = m_fSpeed * sinf(m_AccTime);
 		Vec2 vRes = CEngine::GetInst()->GetResolution();
 		
@@ -176,9 +176,6 @@ void CUnitBar::tick(float _dt)
 
 		}
 	}
-	else {
-	}
-	
 }
 
 void CUnitBar::HideBar(int _idx, float _duration)
@@ -280,5 +277,3 @@ void CUnitBar::Correct()
 	m_Character->GetComponent<CAnimator>()->Play(L"ColeCorrect", false);
 	m_fDuration = m_AccTime + 0.8f;
 }
-
-

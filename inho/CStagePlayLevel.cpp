@@ -184,16 +184,47 @@ void CStagePlayLevel::init()
 		m_listNoteInfo.push_back(noteinfo);
 	}
 
-	for (int i = 0; i < 32; i++) {
+	for (int i = 0; i < 12; i++) {
 		NoteInfo* noteinfo = new NoteInfo;
 		noteinfo->Bar = L"bar";
-		noteinfo->StartTime = 161.8f + i * 1.657f;
+		noteinfo->StartTime = 160.8f + i * 0.828f;
+		noteinfo->Speed = 400.f;
+		noteinfo->GetDuration = 0.3f;
+		noteinfo->Cnt = 1;
+		noteinfo->JudgeTime = 0.55f;
+		m_listNoteInfo.push_back(noteinfo);
+	}
+
+	for (int i = 0; i < 8; i++) {
+		NoteInfo* noteinfo = new NoteInfo;
+		noteinfo->Bar = L"bar";
+		noteinfo->StartTime = 170.8f + i * 0.414f;
+		noteinfo->Speed = 800.f;
+		noteinfo->GetDuration = 0.1f;
+		noteinfo->Cnt = 1;
+		noteinfo->JudgeTime = 0.25f;
+		m_listNoteInfo.push_back(noteinfo);
+	}
+
+	for (int i = 0; i < 19; i++) {
+		NoteInfo* noteinfo = new NoteInfo;
+		noteinfo->Bar = L"bar";
+		noteinfo->StartTime = 170.9f + i * 1.657f;
 		noteinfo->Speed = 400.f;
 		noteinfo->GetDuration = 0.4f;
 		noteinfo->Cnt = 1;
 		noteinfo->JudgeTime = 0.7f;
 		m_listNoteInfo.push_back(noteinfo);
 	}
+
+	NoteInfo* noteinfo = new NoteInfo;
+	noteinfo->Bar = L"bar";
+	noteinfo->StartTime = 201.9f;
+	noteinfo->Speed = 400.f;
+	noteinfo->GetDuration = 1.7f;
+	noteinfo->Cnt = 1;
+	noteinfo->JudgeTime = 2.0f;
+	m_listNoteInfo.push_back(noteinfo);
 
 	/*ObjInfo* barinfo = new ObjInfo;
 	barinfo->Moving = true;
