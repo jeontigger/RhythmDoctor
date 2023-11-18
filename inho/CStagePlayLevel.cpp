@@ -53,6 +53,15 @@ void CStagePlayLevel::init()
 	m_vecBackGrounds[(UINT)BackgroundIndex::Ting] = pBG;
 
 	pBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBGOpen", L"texture\\TingBGOpen.png");
+	pBG->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f });
+	pBG->SetScale({ pAtlas->GetWidth() + 8, pAtlas->GetHeight() + 2 });
+	pBG->SetTexture(pAtlas);
+	AddObject(BACKGROUND, pBG);
+
+	m_vecBackGrounds[(UINT)BackgroundIndex::TingOpen] = pBG;
+
+	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBGBG", L"texture\\ColeBGBG.png");
 	pAnimator = pBG->GetComponent<CAnimator>();
 	pAnimator->CreateAnimation(L"ColeBGBG", pAtlas, Vec2(0, 0), Vec2(352, 119), Vec2(0, 0), 0.1f, 3);
@@ -113,6 +122,9 @@ void CStagePlayLevel::init()
 	//pAnimator->CreateAnimation(L"Ting", pAtlas, Vec2(0, 0), Vec2(40, 40), Vec2(0, 0), 0.1f, 6);
 	//pAnimator->SaveAnimation(L"animdata");
 	pAnimator->LoadAnimation(L"animdata\\ColeIdle.txt");
+	pAnimator->LoadAnimation(L"animdata\\ColeRun.txt");
+	pAnimator->LoadAnimation(L"animdata\\ColeTired.txt");
+	pAnimator->LoadAnimation(L"animdata\\ColeLookUp.txt");
 	pAnimator->Play(L"ColeIdle", true);
 	AddObject(PLAYER, m_Cole);
 
@@ -173,7 +185,7 @@ void CStagePlayLevel::init()
 		m_listNoteInfo.push_back(noteinfo);
 	}
 
-	for (int i = 0; i < 32; i++) {
+	for (int i = 4; i < 32; i++) {
 		NoteInfo* noteinfo = new NoteInfo;
 		noteinfo->Bar = L"bar";
 		noteinfo->StartTime = 94.8f + i * 1.657f;
@@ -252,12 +264,14 @@ float audioDelay = 0.f;
 
 void CStagePlayLevel::tick()
 {
+	
 
 	CLevel::tick();
 
 	if (!m_bAnyPressed) {
 		AnyPress();
 	}
+
 	else {
 		auto newEvent = CEventMgr::GetInst()->GetWindowEvent();
 		auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[0]);
@@ -322,7 +336,10 @@ void CStagePlayLevel::tick()
 					break;
 
 				case StageObj::Cole:
-					m_Cole->SetMove(objinfo.Pos, objinfo.Speed);
+					if (objinfo.Str == L"")
+						m_Cole->SetMove(objinfo.Pos, objinfo.Speed);
+					else
+						m_Cole->GetComponent<CAnimator>()->Play(objinfo.Str, objinfo.Show);
 					
 					break;
 				case StageObj::BVeil:
@@ -342,6 +359,10 @@ void CStagePlayLevel::tick()
 					m_vecBackGrounds[(UINT)BackgroundIndex::Ting]->SetMove(objinfo.Pos, objinfo.Speed);
 					break;
 
+				case StageObj::TingBGOpen:
+					m_vecBackGrounds[(UINT)BackgroundIndex::TingOpen]->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
+
 				case StageObj::ColeBG:
 					m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront]->SetMove(objinfo.Pos, objinfo.Speed);
 					m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack]->SetMove({ objinfo.Pos.x - 0.f, objinfo.Pos.y - 132.f }, objinfo.Speed);
@@ -353,6 +374,22 @@ void CStagePlayLevel::tick()
 
 				case StageObj::Stage:
 					m_Stage->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
+
+				case StageObj::BlinkIn:
+					CCamera::GetInst()->BlinkIn(objinfo.Duration);
+					break;
+
+				case StageObj::BlinkOut:
+					CCamera::GetInst()->BlinkOut(objinfo.Duration);
+					break;
+					
+				case StageObj::FadeIn:
+					CCamera::GetInst()->FadeOut(objinfo.Duration);
+					break;
+
+				case StageObj::BarAnimation:
+					m_UnitBar->SetAnimation(objinfo.Str, objinfo.Duration);
 					break;
 
 				case StageObj::END:

@@ -45,6 +45,8 @@ private:
 
     bool m_IsShow;
 
+    bool m_Animating;
+
 public:
     class CCharacter* GetSpaceBarSprite() { return m_SpaceBarSprite; }
 
@@ -58,6 +60,7 @@ public:
     void HideBar(int _idx, float _duration);
     void ShowNormalBeat(int _idx, float _duration);
     void SetPosAll(Vec2 _target);
+    void SetAnimation(const wstring& _str, float _time);
 
 public:
     void StayGetSetBeat();

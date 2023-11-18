@@ -152,6 +152,11 @@ enum class StageObj {
     ColeBG,
     Boss,
     Stage,
+    BlinkIn,
+    BlinkOut,
+    TingBGOpen,
+    FadeIn,
+    BarAnimation,
     END,
 };
 
@@ -163,6 +168,7 @@ struct ObjInfo {
     Vec2 Pos;
     Vec2 Scale;
     bool Show;
+    wstring Str;
 };
 
 enum class WindowEventType {

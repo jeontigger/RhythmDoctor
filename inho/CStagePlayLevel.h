@@ -8,6 +8,7 @@ enum class BackgroundIndex {
     ColeBack,
     ColeFront,
     Ting,
+    TingOpen,
     BVeil,
     MVeil,
     TVeil,

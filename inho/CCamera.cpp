@@ -15,7 +15,7 @@ CCamera::CCamera():
     m_VeilAlpha(0.f)
 {
     Vec2 vResol = CEngine::GetInst()->GetResolution();
-    m_Veil = CAssetMgr::GetInst()->CreateTexture(L"VeilTex", vResol.x, vResol.y);
+    m_Veil = CAssetMgr::GetInst()->LoadTexture(L"blackPixel", L"texture\\blackPixel.png");
     m_Blink = CAssetMgr::GetInst()->LoadTexture(L"BlinkTex", L"texture\\Blink.png");
     m_Judge = CAssetMgr::GetInst()->LoadTexture(L"JudgeEffect", L"texture\\CameraJudgeEffect.png");
 }
@@ -183,11 +183,13 @@ void CCamera::render(HDC _dc)
     blend.AlphaFormat = AC_SRC_ALPHA;
 
     AlphaBlend(_dc
-        , 0, 0, m_Veil->GetWidth(), m_Veil->GetHeight()
+        , 0, 0, CEngine::GetInst()->GetResolution().x, CEngine::GetInst()->GetResolution().y
         , m_Veil->GetDC()
         , 0, 0
         , m_Veil->GetWidth(), m_Veil->GetHeight()
         , blend);
+
+
 
     blend.SourceConstantAlpha = m_BlinkAlpha;
 

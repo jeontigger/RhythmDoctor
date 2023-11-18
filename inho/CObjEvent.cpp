@@ -172,6 +172,9 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
                 else if (!wcscmp(szRead, L"[STAGE]")) {
                     info.Type = StageObj::Stage;
                 }
+                else if (!wcscmp(szRead, L"[TINGBGOPEN]")) {
+                    info.Type = StageObj::TingBGOpen;
+                }
             }
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[START_TIME]")) {
@@ -237,6 +240,66 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
             if (!wcscmp(szRead, L"[SHOW]")) {
                 fwscanf_s(pFile, L"%d", &info.Show);
             }
+            _out.push_back(info);
+            }
+        else if (!wcscmp(szRead, L"[BLINKIN]")) {
+                fwscanf_s(pFile, L"%s", szRead, 256);
+                if (!wcscmp(szRead, L"[START_TIME]")) {
+                    fwscanf_s(pFile, L"%f", &info.StartTime);
+                }
+                fwscanf_s(pFile, L"%s", szRead, 256);
+                if (!wcscmp(szRead, L"[DURATION]")) {
+                    fwscanf_s(pFile, L"%f", &info.Duration);
+                }
+                info.Type = StageObj::BlinkIn;
+                _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[BLINKOUT]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[DURATION]")) {
+                fwscanf_s(pFile, L"%f", &info.Duration);
+            }
+            info.Type = StageObj::BlinkOut;
+            _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[FADEIN]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[DURATION]")) {
+                fwscanf_s(pFile, L"%f", &info.Duration);
+            }
+            info.Type = StageObj::FadeIn;
+            _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[ANIM]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            info.Str = szRead;
+            fwscanf_s(pFile, L"%d", &info.Show);
+
+            info.Type = StageObj::Cole;
+            _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[BARANIM]")) {
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
+            }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            info.Str = szRead;
+            fwscanf_s(pFile, L"%f", &info.Duration);
+
+            info.Type = StageObj::BarAnimation;
             _out.push_back(info);
             }
     }
