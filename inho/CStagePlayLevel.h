@@ -39,10 +39,14 @@ private:
     class CCharacter* m_Stage;
 
 private:
+    bool m_Paused;
     bool m_bAnyPressed;
     float m_AccTime;
 
     class CSound* m_BGSound;
+
+private:
+    bool Pause();
 
 private:
     float m_curTime;

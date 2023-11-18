@@ -132,6 +132,11 @@ void CSound::Stop(bool _bReset)
 		m_pSoundBuffer->SetCurrentPosition(0);
 }
 
+void CSound::StopPlay()
+{
+	m_pSoundBuffer->Play(0, 0, 0);
+}
+
 
 void CSound::SetVolume(float _fVolume)
 {

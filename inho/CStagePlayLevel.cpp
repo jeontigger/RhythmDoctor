@@ -264,7 +264,9 @@ float audioDelay = 0.f;
 
 void CStagePlayLevel::tick()
 {
-	
+	if (Pause()) {
+		return;
+	}
 
 	CLevel::tick();
 
@@ -501,6 +503,26 @@ void CStagePlayLevel::tick()
 			m_NoteJudgeTimeOffset += 0.016f;
 		}
 	}
+}
+
+bool CStagePlayLevel::Pause()
+{
+	if (m_Paused) {
+		if (KEY_TAP(ESC)) {
+			m_Paused = false;
+			m_BGSound->StopPlay();
+		}
+
+		return true;
+	}
+	else {
+		if (KEY_TAP(ESC)) {
+			m_Paused = true;
+			m_BGSound->Stop();
+		}
+	}
+
+	return false;
 }
 
 void CStagePlayLevel::SetMusic(float _time)

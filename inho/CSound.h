@@ -22,6 +22,8 @@ public:
 
 	// 정지
 	void Stop(bool _bReset = false);
+	// 정지 풀기
+	void StopPlay();
 
 	// 볼륨 설정 (0 ~ 100)
 	void SetVolume(float _fVolume);
