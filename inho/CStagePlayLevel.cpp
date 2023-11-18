@@ -171,6 +171,19 @@ void CStagePlayLevel::init()
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::Noise] = pBG;
 
+	pBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Glitch", L"texture\\Glitch.png");
+	pAnimator = pBG->GetComponent<CAnimator>();
+	pAnimator->CreateAnimation(L"Glitch", pAtlas, Vec2(0, 0), Vec2(400, 200), Vec2(0, 0), 0.03f, 2);
+	pAnimator->SaveAnimation(L"animdata");
+	//pAnimator->LoadAnimation(L"animdata\\Glitch.txt");
+	pAnimator->Play(L"Glitch", true);
+	pBG->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f });
+	pBG->SetScale({ 310, 198 });
+	AddObject(STAGE, pBG);
+
+	m_vecBackGrounds[(UINT)BackgroundIndex::Glitch] = pBG;
+
 
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
@@ -427,6 +440,10 @@ void CStagePlayLevel::tick()
 
 				case StageObj::BlueSky:
 					m_vecBackGrounds[(UINT)BackgroundIndex::BlueSky]->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
+
+				case StageObj::Glitch:
+					m_vecBackGrounds[(UINT)BackgroundIndex::Glitch]->SetMove(objinfo.Pos, objinfo.Speed);
 					break;
 
 				case StageObj::END:

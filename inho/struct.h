@@ -159,6 +159,7 @@ enum class StageObj {
     BarAnimation,
     Noise,
     BlueSky,
+    Glitch,
     END,
 };
 
