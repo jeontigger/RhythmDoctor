@@ -35,6 +35,7 @@ private:
     class CGetSetBeat* m_GetSetBeat;
 
     class CCharacter* m_SpaceBarSprite;
+    class CCharacter* m_Correct;
 
     bool m_IsStart;
     bool m_IsMoving;

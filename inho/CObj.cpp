@@ -9,7 +9,9 @@
 CObj::CObj(): 
     m_iLayerIdx(-1),
     m_iAlpha(255),
-    m_ScaleTarget{-1, -1}
+    m_ScaleTarget{-1, -1},
+    m_InitAlpha(255)
+
 {}
 
 CObj::CObj(const CObj & _Origin):

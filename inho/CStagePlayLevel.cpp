@@ -549,7 +549,6 @@ void CStagePlayLevel::Judge()
 	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime + audioDelay + m_NoteJudgeTimeOffset 
 		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE)&& m_newNote) {
-			LOG(ERR, L"빠름");
 			m_newNote = false;
 			m_UnitBar->Incorrect(JudgeBeatType::Left);
 		}
@@ -557,7 +556,6 @@ void CStagePlayLevel::Judge()
 	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime + audioDelay + m_NoteJudgeTimeOffset
 		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE) && m_newNote) {
-			LOG(ERR, L"판정!");
 			m_newNote = false;
 			CCamera::GetInst()->Judge(0.1f);
 			m_UnitBar->Correct();
@@ -566,14 +564,12 @@ void CStagePlayLevel::Judge()
 	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + audioDelay + m_NoteJudgeTimeOffset
 		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE) && m_newNote) {
-			LOG(ERR, L"느림");
 			m_newNote = false;
 			m_UnitBar->Incorrect(JudgeBeatType::Right);
 		}
 	}
 	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime + audioDelay + m_NoteJudgeTimeOffset) {
 		if (m_newNote) {
-			LOG(ERR, L"놓침");
 			m_newNote = false;
 			m_UnitBar->Incorrect(JudgeBeatType::Miss);
 		}

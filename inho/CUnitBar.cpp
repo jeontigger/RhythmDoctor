@@ -84,6 +84,19 @@ CUnitBar::CUnitBar():
 	pAnimator->Play(L"ButtonSpacebarSprite", true);
 	
 	m_SpaceBarSprite->Hide();
+	m_SpaceBarSprite->SetInitAlpha(150);
+
+	
+	m_Correct = new CCharacter;
+	m_Correct->SetPos({ vRes.x / 2.f, vRes.y / 2.f - 60.f });
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Correct", L"texture\\Correct.png");
+	pAnimator = m_Correct->GetComponent<CAnimator>();
+	pAnimator->CreateAnimation(L"Correct", pAtlas, Vec2(0, 0), Vec2(81, 50), Vec2(0, 0), 0.3f, 1);
+	pAnimator->SaveAnimation(L"animdata");
+	pAnimator->Play(L"Correct", true);
+
+	m_Correct->Hide();
+
 
 	m_IncorrectBeats.resize(2);
 	CNormalBeat* ib = new CNormalBeat;
@@ -129,6 +142,7 @@ void CUnitBar::begin()
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_IncorrectBeats[(UINT)JudgeBeatType::Right]);
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_CorrectBeat);
 	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_SpaceBarSprite);
+	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Correct);
 	
 }
 
@@ -142,6 +156,7 @@ void CUnitBar::tick(float _dt)
 	}
 	if (KEY_TAP(SPACE)) {
 		m_SpaceBarSprite->SetFadeAway(0.3f);
+		
 	}
 
 	if (m_fDuration <= m_AccTime) {
@@ -288,6 +303,9 @@ void CUnitBar::Correct()
 {
 	m_CorrectBeat->Show(0.3f);
 	HideBar((UINT)BeatPoint::Correct, 0.3f);
+
+	m_Correct->SetFadeAway(0.7f);
+
 	if (!m_Animating) {
 		m_Character->GetComponent<CAnimator>()->Play(L"ColeCorrect", false);
 		m_fDuration = m_AccTime + 0.8f;
