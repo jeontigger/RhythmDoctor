@@ -174,15 +174,28 @@ void CStagePlayLevel::init()
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Glitch", L"texture\\Glitch.png");
 	pAnimator = pBG->GetComponent<CAnimator>();
-	pAnimator->CreateAnimation(L"Glitch", pAtlas, Vec2(0, 0), Vec2(400, 200), Vec2(0, 0), 0.03f, 2);
-	pAnimator->SaveAnimation(L"animdata");
-	//pAnimator->LoadAnimation(L"animdata\\Glitch.txt");
+	/*pAnimator->CreateAnimation(L"Glitch", pAtlas, Vec2(0, 0), Vec2(400, 200), Vec2(0, 0), 0.03f, 2);
+	pAnimator->SaveAnimation(L"animdata");*/
+	pAnimator->LoadAnimation(L"animdata\\Glitch.txt");
 	pAnimator->Play(L"Glitch", true);
 	pBG->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f });
 	pBG->SetScale({ 310, 198 });
 	AddObject(STAGE, pBG);
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::Glitch] = pBG;
+
+	pBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"StageHospital", L"texture\\BG.png");
+	pAnimator = pBG->GetComponent<CAnimator>();
+	pAnimator->CreateAnimation(L"StageHospital", pAtlas, Vec2(0, 0), Vec2(510, 148), Vec2(0, 0), 0.03f, 1);
+	pAnimator->SaveAnimation(L"animdata");
+	//pAnimator->LoadAnimation(L"animdata\\BG.txt");
+	pAnimator->Play(L"StageHospital", true);
+	pBG->SetPos({ vRes.x / 2.f  -1000.f, vRes.y / 2.f });
+	pBG->SetScale({ 310, 198 });
+	AddObject(BACKGROUND, pBG);
+
+	m_vecBackGrounds[(UINT)BackgroundIndex::Hospital] = pBG;
 
 
 	m_Hand = new CCharacter;
@@ -444,6 +457,10 @@ void CStagePlayLevel::tick()
 
 				case StageObj::Glitch:
 					m_vecBackGrounds[(UINT)BackgroundIndex::Glitch]->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
+
+				case StageObj::Hospital:
+					m_vecBackGrounds[(UINT)BackgroundIndex::Hospital]->SetMove(objinfo.Pos, objinfo.Speed);
 					break;
 
 				case StageObj::END:

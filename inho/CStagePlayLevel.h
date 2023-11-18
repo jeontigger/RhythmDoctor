@@ -15,6 +15,7 @@ enum class BackgroundIndex {
     Noise,
     BlueSky,
     Glitch,
+    Hospital,
 
     END,
 };

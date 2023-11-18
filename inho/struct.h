@@ -160,6 +160,7 @@ enum class StageObj {
     Noise,
     BlueSky,
     Glitch,
+    Hospital,
     END,
 };
 

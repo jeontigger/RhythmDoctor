@@ -184,6 +184,9 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
                 else if (!wcscmp(szRead, L"[GLITCH]")) {
                     info.Type = StageObj::Glitch;
                 }
+                else if (!wcscmp(szRead, L"[HOSPITAL]")) {
+                    info.Type = StageObj::Hospital;
+                }
             }
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[START_TIME]")) {
