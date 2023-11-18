@@ -260,7 +260,7 @@ void CStagePlayLevel::exit()
 {
 }
 
-float audioDelay = 0.f;
+float audioDelay = 0.3f;
 
 void CStagePlayLevel::tick()
 {
@@ -494,13 +494,30 @@ void CStagePlayLevel::tick()
 		if (KEY_TAP(SPACE)) {
 			m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
 		}
+		if (KEY_TAP(U)) {
+			audioDelay -= 0.1f;
+			wstring buffer = L"";
+			buffer += L"오디오 딜레이: " + std::to_wstring(audioDelay);
+			CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
+		}
+		if (KEY_TAP(I)) {
+			audioDelay += 0.1f;
+			wstring buffer = L"";
+			buffer += L"오디오 딜레이: " + std::to_wstring(audioDelay);
+			CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
+		}
+
 		if (KEY_TAP(O)) {
-			LOG(LOG_LEVEL::WARNING, L"보정 Offset 빠르게");
 			m_NoteJudgeTimeOffset -= 0.016f;
+			wstring buffer = L"";
+			buffer += L"노트 판정 보정 Offset: " + std::to_wstring(m_NoteJudgeTimeOffset);
+			CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
 		}
 		if (KEY_TAP(P)) {
-			LOG(LOG_LEVEL::WARNING, L"보정 Offset 느리게");
 			m_NoteJudgeTimeOffset += 0.016f;
+			wstring buffer = L""; 
+			buffer += L"노트 판정 보정 Offset: " + std::to_wstring(m_NoteJudgeTimeOffset);
+			CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
 		}
 	}
 }
