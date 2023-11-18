@@ -99,6 +99,7 @@ void CStagePlayLevel::init()
 	m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
 	m_vecBackGrounds[(UINT)BackgroundIndex::TVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
 
+
 	m_UnitBar = new CUnitBar;
 	AddObject(PLAYER, m_UnitBar);
 	
@@ -149,6 +150,18 @@ void CStagePlayLevel::init()
 	AddObject(STAGE, m_Stage);
 
 
+	pBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Noise", L"texture\\Noise.png");
+	pAnimator = pBG->GetComponent<CAnimator>();
+	pAnimator->LoadAnimation(L"animdata\\Noise.txt");
+	pAnimator->Play(L"Noise", true);
+	pBG->SetPos({ vRes.x / 2.f - 10000.f, vRes.y / 2.f });
+	pBG->SetScale({ 310, 198 });
+	AddObject(STAGE, pBG);
+
+	m_vecBackGrounds[(UINT)BackgroundIndex::Noise] = pBG;
+
+
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
 	float height = pAtlas->GetHeight();
@@ -160,6 +173,8 @@ void CStagePlayLevel::init()
 	pAnimator->LoadAnimation(L"animdata\\Hand.txt");
 	pAnimator->Play(L"Hand", false);
 	AddObject(PLAYER, m_Hand);
+
+
 
 
 
@@ -237,6 +252,8 @@ void CStagePlayLevel::init()
 	noteinfo->Cnt = 1;
 	noteinfo->JudgeTime = 2.0f;
 	m_listNoteInfo.push_back(noteinfo);
+
+
 
 }
 
@@ -392,6 +409,10 @@ void CStagePlayLevel::tick()
 
 				case StageObj::BarAnimation:
 					m_UnitBar->SetAnimation(objinfo.Str, objinfo.Duration);
+					break;
+
+				case StageObj::Noise:
+					m_vecBackGrounds[(UINT)BackgroundIndex::Noise]->SetMove(objinfo.Pos, objinfo.Speed);
 					break;
 
 				case StageObj::END:

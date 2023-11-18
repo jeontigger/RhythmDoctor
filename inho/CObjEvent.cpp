@@ -175,6 +175,9 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
                 else if (!wcscmp(szRead, L"[TINGBGOPEN]")) {
                     info.Type = StageObj::TingBGOpen;
                 }
+                else if (!wcscmp(szRead, L"[NOISE]")) {
+                    info.Type = StageObj::Noise;
+                }
             }
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[START_TIME]")) {

@@ -157,6 +157,7 @@ enum class StageObj {
     TingBGOpen,
     FadeIn,
     BarAnimation,
+    Noise,
     END,
 };
 

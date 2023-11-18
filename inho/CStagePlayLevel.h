@@ -12,6 +12,8 @@ enum class BackgroundIndex {
     BVeil,
     MVeil,
     TVeil,
+    Noise,
+
     END,
 };
 
