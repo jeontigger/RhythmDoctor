@@ -13,7 +13,7 @@ enum class BackgroundIndex {
     MVeil,
     TVeil,
     Noise,
-
+    BlueSky,
     END,
 };
 

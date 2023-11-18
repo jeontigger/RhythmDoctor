@@ -128,6 +128,7 @@ enum LAYER {
     WORLD_STATIC,
 
     STAGE,
+    HAND,
     UI = 31,
     END = 32,
 };

@@ -85,7 +85,17 @@ void CStagePlayLevel::init()
 	m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront] = pBG;
 
 
+	pBG = new CBackground;
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"blueskyPixel", L"texture\\blueskyPixel.png");
+	pAnimator = pBG->GetComponent<CAnimator>();
+	pAnimator->CreateAnimation(L"blueskyPixel", pAtlas, Vec2(0, 0), Vec2(4, 4), Vec2(0, 0), 0.1f, 1);
+	pAnimator->SaveAnimation(L"animdata");
+	pAnimator->Play(L"blueskyPixel", true);
+	pBG->SetPos({ vRes.x / 2.f -1000.f, vRes.y / 2.f });
+	pBG->SetScale({ 720, 398 });
+	AddObject(BACKGROUND, pBG);
 
+	m_vecBackGrounds[(UINT)BackgroundIndex::BlueSky] = pBG;
 
 	for (int i = 0; i < 3; i++) {
 		pBG = new CBackground;
@@ -172,7 +182,7 @@ void CStagePlayLevel::init()
 	//pAnimator->SaveAnimation(L"animdata");
 	pAnimator->LoadAnimation(L"animdata\\Hand.txt");
 	pAnimator->Play(L"Hand", false);
-	AddObject(PLAYER, m_Hand);
+	AddObject(HAND, m_Hand);
 
 
 
@@ -277,7 +287,7 @@ void CStagePlayLevel::exit()
 {
 }
 
-float audioDelay = 0.3f;
+float audioDelay = 0.0f;
 
 void CStagePlayLevel::tick()
 {
@@ -413,6 +423,10 @@ void CStagePlayLevel::tick()
 
 				case StageObj::Noise:
 					m_vecBackGrounds[(UINT)BackgroundIndex::Noise]->SetMove(objinfo.Pos, objinfo.Speed);
+					break;
+
+				case StageObj::BlueSky:
+					m_vecBackGrounds[(UINT)BackgroundIndex::BlueSky]->SetMove(objinfo.Pos, objinfo.Speed);
 					break;
 
 				case StageObj::END:

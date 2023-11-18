@@ -178,6 +178,9 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
                 else if (!wcscmp(szRead, L"[NOISE]")) {
                     info.Type = StageObj::Noise;
                 }
+                else if (!wcscmp(szRead, L"[BLUESKY]")) {
+                    info.Type = StageObj::BlueSky;
+                }
             }
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[START_TIME]")) {
