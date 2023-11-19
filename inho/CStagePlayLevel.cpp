@@ -41,7 +41,6 @@ void CStagePlayLevel::init()
 	CBackground* pBG;
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 
-	m_vecBackGrounds.resize((UINT)BackgroundIndex::END);
 	m_vecStageObjects.resize((UINT)StageObj::END);
 
 	pBG = new CBackground;
@@ -51,7 +50,6 @@ void CStagePlayLevel::init()
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
 
-	m_vecBackGrounds[(UINT)BackgroundIndex::Ting] = pBG;
 	m_vecStageObjects[(UINT)StageObj::TingBG] = pBG;
 
 	pBG = new CBackground;
@@ -61,7 +59,6 @@ void CStagePlayLevel::init()
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
 
-	m_vecBackGrounds[(UINT)BackgroundIndex::TingOpen] = pBG;
 	m_vecStageObjects[(UINT)StageObj::TingBGOpen] = pBG;
 
 	pBG = new CBackground;
@@ -75,7 +72,6 @@ void CStagePlayLevel::init()
 	pBG->SetScale({ 352, 119 });
 	AddObject(BACKGROUND, pBG);
 
-	m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack] = pBG;
 	m_vecStageObjects[(UINT)StageObj::ColeBGBack] = pBG;
 	
 	pBG = new CBackground;
@@ -86,7 +82,6 @@ void CStagePlayLevel::init()
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
 	
-	m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront] = pBG;
 	m_vecStageObjects[(UINT)StageObj::ColeBGFront	] = pBG;
 
 	pBG = new CBackground;
@@ -99,7 +94,6 @@ void CStagePlayLevel::init()
 	pBG->SetScale({ 720, 398 });
 	AddObject(BACKGROUND, pBG);
 
-	m_vecBackGrounds[(UINT)BackgroundIndex::BlueSky] = pBG;
 	m_vecStageObjects[(UINT)StageObj::BlueSky] = pBG;
 
 	for (int i = 0; i < 3; i++) {
@@ -108,12 +102,11 @@ void CStagePlayLevel::init()
 		pBG->SetScale({ vRes .x, 50.f});
 		pBG->SetTexture(pAtlas);
 		AddObject(STAGE, pBG);
-		m_vecBackGrounds[(UINT)BackgroundIndex::BVeil + i] = pBG;
 		m_vecStageObjects[(UINT)StageObj::BVeil + i] = pBG;
 	}
-	m_vecBackGrounds[(UINT)BackgroundIndex::BVeil] ->SetPos({ vRes.x / 2.f, vRes.y + 360.f});
-	m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
-	m_vecBackGrounds[(UINT)BackgroundIndex::TVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
+	m_vecStageObjects[(UINT)StageObj::BVeil] ->SetPos({ vRes.x / 2.f, vRes.y + 360.f});
+	m_vecStageObjects[(UINT)StageObj::MVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
+	m_vecStageObjects[(UINT)StageObj::TVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
 
 
 	m_UnitBar = new CUnitBar;
@@ -180,7 +173,6 @@ void CStagePlayLevel::init()
 	pBG->SetScale({ 310, 198 });
 	AddObject(STAGE, pBG);
 
-	m_vecBackGrounds[(UINT)BackgroundIndex::Noise] = pBG;
 	m_vecStageObjects[(UINT)StageObj::Noise] = pBG;
 
 
@@ -195,7 +187,6 @@ void CStagePlayLevel::init()
 	pBG->SetScale({ 310, 198 });
 	AddObject(STAGE, pBG);
 
-	m_vecBackGrounds[(UINT)BackgroundIndex::Glitch] = pBG;
 	m_vecStageObjects[(UINT)StageObj::Glitch] = pBG;
 
 	pBG = new CBackground;
@@ -209,7 +200,6 @@ void CStagePlayLevel::init()
 	pBG->SetScale({ 310, 198 });
 	AddObject(BACKGROUND, pBG);
 
-	m_vecBackGrounds[(UINT)BackgroundIndex::Hospital] = pBG;
 	m_vecStageObjects[(UINT)StageObj::Hospital] = pBG;
 
 	m_Hand = new CCharacter;
@@ -298,7 +288,6 @@ void CStagePlayLevel::init()
 	noteinfo->Cnt = 1;
 	noteinfo->JudgeTime = 2.0f;
 	m_listNoteInfo.push_back(noteinfo);
-
 
 
 }

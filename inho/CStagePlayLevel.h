@@ -25,7 +25,6 @@ class CStagePlayLevel :
 {
 
 private:
-    vector<class CBackground*> m_vecBackGrounds;
     vector<class CObj*> m_vecStageObjects;
 
 private:
