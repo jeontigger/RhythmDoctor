@@ -42,6 +42,7 @@ void CStagePlayLevel::init()
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 
 	m_vecBackGrounds.resize((UINT)BackgroundIndex::END);
+	m_vecStageObjects.resize((UINT)StageObj::END);
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBG", L"texture\\TingBG.png");
@@ -51,6 +52,7 @@ void CStagePlayLevel::init()
 	AddObject(BACKGROUND, pBG);
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::Ting] = pBG;
+	m_vecStageObjects[(UINT)StageObj::TingBG] = pBG;
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBGOpen", L"texture\\TingBGOpen.png");
@@ -60,6 +62,7 @@ void CStagePlayLevel::init()
 	AddObject(BACKGROUND, pBG);
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::TingOpen] = pBG;
+	m_vecStageObjects[(UINT)StageObj::TingBGOpen] = pBG;
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBGBG", L"texture\\ColeBGBG.png");
@@ -73,6 +76,7 @@ void CStagePlayLevel::init()
 	AddObject(BACKGROUND, pBG);
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack] = pBG;
+	m_vecStageObjects[(UINT)StageObj::ColeBGBack] = pBG;
 	
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
@@ -83,7 +87,7 @@ void CStagePlayLevel::init()
 	AddObject(BACKGROUND, pBG);
 	
 	m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront] = pBG;
-
+	m_vecStageObjects[(UINT)StageObj::ColeBGFront	] = pBG;
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"blueskyPixel", L"texture\\blueskyPixel.png");
@@ -96,6 +100,7 @@ void CStagePlayLevel::init()
 	AddObject(BACKGROUND, pBG);
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::BlueSky] = pBG;
+	m_vecStageObjects[(UINT)StageObj::BlueSky] = pBG;
 
 	for (int i = 0; i < 3; i++) {
 		pBG = new CBackground;
@@ -104,6 +109,7 @@ void CStagePlayLevel::init()
 		pBG->SetTexture(pAtlas);
 		AddObject(STAGE, pBG);
 		m_vecBackGrounds[(UINT)BackgroundIndex::BVeil + i] = pBG;
+		m_vecStageObjects[(UINT)StageObj::BVeil + i] = pBG;
 	}
 	m_vecBackGrounds[(UINT)BackgroundIndex::BVeil] ->SetPos({ vRes.x / 2.f, vRes.y + 360.f});
 	m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
@@ -112,6 +118,7 @@ void CStagePlayLevel::init()
 
 	m_UnitBar = new CUnitBar;
 	AddObject(PLAYER, m_UnitBar);
+	m_vecStageObjects[(UINT)StageObj::Bar] = m_UnitBar;
 	
 
 	m_Ting = new CCharacter;
@@ -124,6 +131,7 @@ void CStagePlayLevel::init()
 	pAnimator->LoadAnimation(L"animdata\\Ting.txt");
 	pAnimator->Play(L"Ting", true);
 	AddObject(PLAYER, m_Ting);
+	m_vecStageObjects[(UINT)StageObj::Ting] = m_Ting;
 
 	m_Cole = new CCharacter;
 	m_Cole->SetPos({ vRes.x / 2.f - 1150.f, vRes.y / 2.f  - 1120.f});
@@ -138,6 +146,7 @@ void CStagePlayLevel::init()
 	pAnimator->LoadAnimation(L"animdata\\ColeLookUp.txt");
 	pAnimator->Play(L"ColeIdle", true);
 	AddObject(PLAYER, m_Cole);
+	m_vecStageObjects[(UINT)StageObj::Cole] = m_Cole;
 
 	m_Boss = new CCharacter;
 	m_Boss->SetPos({ vRes.x / 2.f - 485.f, vRes.y / 2.f - 50.f });
@@ -148,6 +157,7 @@ void CStagePlayLevel::init()
 	//pAnimator->LoadAnimation(L"animdata\\Boss.txt");
 	pAnimator->Play(L"Boss", true);
 	AddObject(STAGE, m_Boss);
+	m_vecStageObjects[(UINT)StageObj::Boss] = m_Boss;
 
 	m_Stage = new CCharacter;
 	m_Stage->SetPos({ vRes.x / 2.f + 470.f, vRes.y / 2.f + 13.f });
@@ -158,6 +168,7 @@ void CStagePlayLevel::init()
 	//pAnimator->LoadAnimation(L"animdata\\Stage.txt");
 	pAnimator->Play(L"Stage", true);
 	AddObject(STAGE, m_Stage);
+	m_vecStageObjects[(UINT)StageObj::Stage] = m_Stage;
 
 
 	pBG = new CBackground;
@@ -170,6 +181,8 @@ void CStagePlayLevel::init()
 	AddObject(STAGE, pBG);
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::Noise] = pBG;
+	m_vecStageObjects[(UINT)StageObj::Noise] = pBG;
+
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Glitch", L"texture\\Glitch.png");
@@ -183,6 +196,7 @@ void CStagePlayLevel::init()
 	AddObject(STAGE, pBG);
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::Glitch] = pBG;
+	m_vecStageObjects[(UINT)StageObj::Glitch] = pBG;
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"StageHospital", L"texture\\BG.png");
@@ -196,7 +210,7 @@ void CStagePlayLevel::init()
 	AddObject(BACKGROUND, pBG);
 
 	m_vecBackGrounds[(UINT)BackgroundIndex::Hospital] = pBG;
-
+	m_vecStageObjects[(UINT)StageObj::Hospital] = pBG;
 
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
@@ -209,21 +223,17 @@ void CStagePlayLevel::init()
 	pAnimator->LoadAnimation(L"animdata\\Hand.txt");
 	pAnimator->Play(L"Hand", false);
 	AddObject(HAND, m_Hand);
-
-
-
-
+	m_vecStageObjects[(UINT)StageObj::Hand] = m_Hand;
 
 	CWindowEvent* newEvent = new CWindowEvent;
 	CEventMgr::GetInst()->RegistWindowEvent(newEvent);
 	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);
 
-
 	CBeatNote* newNote = new CBeatNote;
 	CEventMgr::GetInst()->RegistNoteEvent(newNote);
 
 	CObjEvent* objEvent = new CObjEvent;
-	objEvent->LoadEventData(L"AllTheTimesObj.txt", m_listObjInfo);
+	objEvent->LoadEventData(L"TestObj.txt", m_listObjInfo);
 
 	for (int i = 0; i < 48; i++) {
 		NoteInfo* noteinfo = new NoteInfo;
@@ -307,6 +317,7 @@ void CStagePlayLevel::enter()
 	event->SetPos(event->GetMonitorRes()/2 - event->GetWinRes() / 2);
 
 	m_UnitBar->HideAll();
+	
 }
 
 void CStagePlayLevel::exit()
@@ -359,111 +370,64 @@ void CStagePlayLevel::tick()
 			if (objinfo.StartTime <= m_AccTime + audioDelay) {
 				switch (objinfo.Type)
 				{
-				case StageObj::Hand:
-					if (-1000.f <= objinfo.Pos.x) {
-						m_Hand->SetMove(objinfo.Pos, objinfo.Speed);
+				case ObjEventType::Moving:
+					if (objinfo.Obj == StageObj::ColeBGFront) {
+						m_vecStageObjects[(UINT)StageObj::ColeBGFront]->SetMove({ objinfo.Pos.x - 0.f, objinfo.Pos.y}, objinfo.Speed);
+						m_vecStageObjects[(UINT)StageObj::ColeBGBack]->SetMove({ objinfo.Pos.x - 0.f, objinfo.Pos.y - 132.f }, objinfo.Speed);
+					}
+					else if (objinfo.Obj == StageObj::Bar) {
+						m_UnitBar->SetPosAll(objinfo.Pos);
+					}
+					else {
+						m_vecStageObjects[(UINT)objinfo.Obj]->SetMove(objinfo.Pos, objinfo.Speed);
 					}
 					break;
-
-				case StageObj::Bar:
-					if (objinfo.Show && !m_UnitBar->IsShow()) {
-						m_UnitBar->ShowAll();
-						m_UnitBar->SetMoving(true);
-						break;
-					}
-					else if (!objinfo.Show && m_UnitBar->IsShow()) {
-						m_UnitBar->HideAll();
-						m_UnitBar->SetMoving(false);
-						break;
-					}
+				case ObjEventType::Scale:
+					m_vecStageObjects[(UINT)objinfo.Obj]->SetScaleMove(objinfo.Scale, objinfo.Speed);
+					break;
+				case ObjEventType::BarMoving:
 					if (objinfo.Speed == 0) {
 						m_UnitBar->SetMoving(false);
 					}
 					else {
 						m_UnitBar->SetMoving(true);
+						m_UnitBar->SetMovingSpeed(objinfo.Speed);
+						m_UnitBar->SetMovingDuration(objinfo.Duration);
 					}
-					m_UnitBar->SetPosAll(objinfo.Pos);
-					m_UnitBar->SetMovingSpeed(objinfo.Speed);
-					m_UnitBar->SetMovingDuration(objinfo.Duration);
-					break;
-				case StageObj::Ting:
-					m_Ting->SetMove(objinfo.Pos, objinfo.Speed);
 					break;
 
-				case StageObj::Cole:
-					if (objinfo.Str == L"")
-						m_Cole->SetMove(objinfo.Pos, objinfo.Speed);
-					else
-						m_Cole->GetComponent<CAnimator>()->Play(objinfo.Str, objinfo.Show);
-					
-					break;
-				case StageObj::BVeil:
-					m_vecBackGrounds[(UINT)BackgroundIndex::BVeil]->SetMove(objinfo.Pos, objinfo.Speed); 
-					break;	
-
-				case StageObj::MVeil:
-					m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetMove(objinfo.Pos, objinfo.Speed);
-					m_vecBackGrounds[(UINT)BackgroundIndex::MVeil]->SetScaleMove(objinfo.Scale, objinfo.Speed);
+				case ObjEventType::Show:
+					if (objinfo.Obj == StageObj::Bar) {
+						if (objinfo.Show) {
+							m_UnitBar->ShowAll();
+						}
+						else {
+							m_UnitBar->HideAll();
+						}
+					}
 					break;
 
-				case StageObj::TVeil:
-					m_vecBackGrounds[(UINT)BackgroundIndex::TVeil]->SetMove(objinfo.Pos, objinfo.Speed);
+				case ObjEventType::Animation:
+					if (objinfo.Obj == StageObj::Bar) {
+						m_UnitBar->SetAnimation(objinfo.Str, objinfo.Duration);
+					}
+					else {
+						m_vecStageObjects[(UINT)objinfo.Obj]->GetComponent<CAnimator>()->Play(objinfo.Str, objinfo.Duration);
+					}
 					break;
 
-				case StageObj::TingBG:
-					m_vecBackGrounds[(UINT)BackgroundIndex::Ting]->SetMove(objinfo.Pos, objinfo.Speed);
+				case ObjEventType::BlinkOut:
+					CCamera::GetInst()->BlinkOut(objinfo.Duration);
 					break;
 
-				case StageObj::TingBGOpen:
-					m_vecBackGrounds[(UINT)BackgroundIndex::TingOpen]->SetMove(objinfo.Pos, objinfo.Speed);
-					break;
-
-				case StageObj::ColeBG:
-					m_vecBackGrounds[(UINT)BackgroundIndex::ColeFront]->SetMove(objinfo.Pos, objinfo.Speed);
-					m_vecBackGrounds[(UINT)BackgroundIndex::ColeBack]->SetMove({ objinfo.Pos.x - 0.f, objinfo.Pos.y - 132.f }, objinfo.Speed);
-					break;
-
-				case StageObj::Boss:
-					m_Boss->SetMove(objinfo.Pos, objinfo.Speed);
-					break;
-
-				case StageObj::Stage:
-					m_Stage->SetMove(objinfo.Pos, objinfo.Speed);
-					break;
-
-				case StageObj::BlinkIn:
+				case ObjEventType::BlinkIn:
 					CCamera::GetInst()->BlinkIn(objinfo.Duration);
 					break;
 
-				case StageObj::BlinkOut:
-					CCamera::GetInst()->BlinkOut(objinfo.Duration);
-					break;
-					
-				case StageObj::FadeIn:
+				case ObjEventType::FadeOut:
 					CCamera::GetInst()->FadeOut(objinfo.Duration);
-					break;
 
-				case StageObj::BarAnimation:
-					m_UnitBar->SetAnimation(objinfo.Str, objinfo.Duration);
-					break;
-
-				case StageObj::Noise:
-					m_vecBackGrounds[(UINT)BackgroundIndex::Noise]->SetMove(objinfo.Pos, objinfo.Speed);
-					break;
-
-				case StageObj::BlueSky:
-					m_vecBackGrounds[(UINT)BackgroundIndex::BlueSky]->SetMove(objinfo.Pos, objinfo.Speed);
-					break;
-
-				case StageObj::Glitch:
-					m_vecBackGrounds[(UINT)BackgroundIndex::Glitch]->SetMove(objinfo.Pos, objinfo.Speed);
-					break;
-
-				case StageObj::Hospital:
-					m_vecBackGrounds[(UINT)BackgroundIndex::Hospital]->SetMove(objinfo.Pos, objinfo.Speed);
-					break;
-
-				case StageObj::END:
+				case ObjEventType::END:
 					break;
 				default:
 					break;

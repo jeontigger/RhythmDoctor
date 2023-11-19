@@ -6,6 +6,9 @@ class CObjEvent :
 
     GENERATED_OBJECT(CEvent);
 
+private:
+    int SelectObj(const wchar_t* _str);
+
 public:
     void LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _out);
 

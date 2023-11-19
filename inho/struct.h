@@ -149,23 +149,31 @@ enum class StageObj {
     MVeil,
     TVeil,
     TingBG,
-    ColeBG,
+    ColeBGBack,
+    ColeBGFront,
     Boss,
     Stage,
-    BlinkIn,
-    BlinkOut,
     TingBGOpen,
-    FadeIn,
-    BarAnimation,
     Noise,
     BlueSky,
     Glitch,
     Hospital,
     END,
 };
-
+enum class ObjEventType {
+    Moving,
+    BarMoving,
+    Animation,
+    Scale,
+    Show,
+    BlinkIn,
+    BlinkOut,
+    FadeOut,
+    END
+};
 struct ObjInfo {
-    StageObj Type;
+    ObjEventType Type;
+    StageObj Obj;
     float StartTime;
     float Speed;
     float Duration;
