@@ -51,6 +51,8 @@ private:
 public:
     class CCharacter* GetSpaceBarSprite() { return m_SpaceBarSprite; }
 
+    CAnimator* GetCharacterAnimator();
+
 public:
     void Start(bool _b) { m_IsStart = _b; }
 

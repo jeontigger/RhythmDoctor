@@ -26,10 +26,11 @@ class CStagePlayLevel :
 
 private:
     vector<class CObj*> m_vecStageObjects;
+    vector<class CUnitBar*> m_vecBars;
 
 private:
     list<WinInfo> m_listWinInfo;
-    list<NoteInfo*> m_listNoteInfo;
+    list<NoteInfo> m_listNoteInfo;
     list<ObjInfo> m_listObjInfo;
     float m_NoteJudgeTime;
     float m_NoteJudgeTimeOffset;
@@ -71,5 +72,8 @@ public:
 public:
     CStagePlayLevel();
     ~CStagePlayLevel();
+
+private:
+    void MakeNotes();
 };
 

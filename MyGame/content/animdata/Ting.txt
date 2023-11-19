@@ -1,5 +1,5 @@
 [ANIM_NAME]
-Ting
+Idle
 
 [ATLAS_TEXTURE]
 TingAtlas

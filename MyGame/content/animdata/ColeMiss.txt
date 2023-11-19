@@ -1,5 +1,5 @@
 [ANIM_NAME]
-ColeMiss
+Miss
 
 [ATLAS_TEXTURE]
 ColeAtlas

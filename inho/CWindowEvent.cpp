@@ -152,6 +152,8 @@ void CWindowEvent::LinearMove(float _dt)
     Vec2 vPos = GetPos();
     if ((vPos - m_vTarget).Length() <= 10.f) {
         SetPos(m_vTarget);
+        m_vTarget = GetPos();
+
         return;
     }
     
@@ -160,7 +162,6 @@ void CWindowEvent::LinearMove(float _dt)
     vDir.Normalize();
     vPos += vDir * m_fSpeed * _dt;
     SetPos(vPos);
-
 
 }
 

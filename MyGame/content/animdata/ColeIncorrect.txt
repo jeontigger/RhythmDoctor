@@ -1,5 +1,5 @@
 [ANIM_NAME]
-ColeIncorrect
+Incorrect
 
 [ATLAS_TEXTURE]
 ColeAtlas

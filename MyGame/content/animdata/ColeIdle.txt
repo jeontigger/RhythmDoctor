@@ -1,5 +1,5 @@
 [ANIM_NAME]
-ColeIdle
+Idle
 
 [ATLAS_TEXTURE]
 ColeAtlas

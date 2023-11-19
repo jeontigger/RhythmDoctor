@@ -46,18 +46,7 @@ CUnitBar::CUnitBar():
 	m_Character = new CCharacter;
 	m_Character->SetPos({ vRes.x / 2.f - 280.f, vRes.y / 2.f });
 	m_Character->SetScale({ 40, 40 });
-	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeAtlas", L"texture\\Cole.png");
 	pAnimator = m_Character->GetComponent<CAnimator>();
-	/*pAnimator->CreateAnimation(L"ColeIdle", pAtlas, Vec2(40, 0), Vec2(40, 40), Vec2(0, 0), 0.3f, 4);
-	pAnimator->SaveAnimation(L"animdata");*/
-	pAnimator->LoadAnimation(L"animdata\\ColeIdle.txt");
-	pAnimator->LoadAnimation(L"animdata\\ColeCorrect.txt");
-	pAnimator->LoadAnimation(L"animdata\\ColeIncorrect.txt");
-	pAnimator->LoadAnimation(L"animdata\\ColeMiss.txt");
-	pAnimator->LoadAnimation(L"animdata\\ColeRun.txt");
-	
-
-	pAnimator->Play(L"ColeIdle", true);
 	
 
 	CNormalBeat* BeatImg;
@@ -160,7 +149,7 @@ void CUnitBar::tick(float _dt)
 	}
 
 	if (m_fDuration <= m_AccTime) {
-		m_Character->GetComponent<CAnimator>()->Play(L"ColeIdle", true);
+		m_Character->GetComponent<CAnimator>()->Play(L"Idle", true);
 		m_fDuration = 230.7f;
 		m_Animating = false;
 	}
@@ -191,6 +180,11 @@ void CUnitBar::tick(float _dt)
 
 		}
 	}
+}
+
+CAnimator* CUnitBar::GetCharacterAnimator()
+{
+	return m_Character->GetComponent<CAnimator>();
 }
 
 void CUnitBar::HideBar(int _idx, float _duration)
@@ -271,12 +265,14 @@ void CUnitBar::ShowCharacter()
 
 void CUnitBar::Incorrect(JudgeBeatType _type)
 {
+	if (!m_IsShow)
+		return;
 	CAnimator* pAnimator = m_Character->GetComponent<CAnimator>();
 	if (_type == JudgeBeatType::Left) {
 		m_IncorrectBeats[(UINT)JudgeBeatType::Left]->Show(0.3f);
 		HideBar((UINT)BeatPoint::Left, 0.3f);
 		if (!m_Animating) {
-			pAnimator->Play(L"ColeIncorrect", false);
+			pAnimator->Play(L"Incorrect", false);
 			m_fDuration = m_AccTime + 1.1f;
 			m_Animating = true;
 		}
@@ -286,13 +282,13 @@ void CUnitBar::Incorrect(JudgeBeatType _type)
 		m_IncorrectBeats[(UINT)JudgeBeatType::Right]->Show(0.3f);
 		HideBar((UINT)BeatPoint::Right, 0.3f);
 		if (!m_Animating) {
-			pAnimator->Play(L"ColeIncorrect", false);
+			pAnimator->Play(L"Incorrect", false);
 			m_fDuration = m_AccTime + 1.1f;
 		}
 	}
 	else {
 		if (!m_Animating) {
-			pAnimator->Play(L"ColeMiss", false);
+			pAnimator->Play(L"Miss", false);
 			m_fDuration = m_AccTime + 0.9f;
 		}
 	}
@@ -301,13 +297,15 @@ void CUnitBar::Incorrect(JudgeBeatType _type)
 
 void CUnitBar::Correct()
 {
-	m_CorrectBeat->Show(0.3f);
-	HideBar((UINT)BeatPoint::Correct, 0.3f);
+	if (m_IsShow) {
+		m_CorrectBeat->Show(0.3f);
+		HideBar((UINT)BeatPoint::Correct, 0.3f);
 
-	m_Correct->SetFadeAway(0.7f);
+		m_Correct->SetFadeAway(0.7f);
 
-	if (!m_Animating) {
-		m_Character->GetComponent<CAnimator>()->Play(L"ColeCorrect", false);
-		m_fDuration = m_AccTime + 0.8f;
+		if (!m_Animating) {
+			m_Character->GetComponent<CAnimator>()->Play(L"Correct", false);
+			m_fDuration = m_AccTime + 0.8f;
+		}
 	}
 }

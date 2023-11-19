@@ -131,18 +131,11 @@ struct FLog {
     float AccTime;
 };
 
-struct NoteInfo {
-    wstring Bar;
-    float StartTime;
-    float GetDuration;
-    float Speed;
-    float JudgeTime;
-    int Cnt;
-};
 
 enum class StageObj {
     Hand,
     Bar,
+    TingBar,
     Ting,
     Cole,
     BVeil,
@@ -181,6 +174,19 @@ struct ObjInfo {
     Vec2 Scale;
     bool Show;
     wstring Str;
+};
+enum class BarType {
+    Cole,
+    Ting,
+    END,
+};
+struct NoteInfo {
+    BarType Bar;
+    float StartTime;
+    float GetDuration;
+    float Speed;
+    float JudgeTime;
+    int Cnt;
 };
 
 enum class WindowEventType {
