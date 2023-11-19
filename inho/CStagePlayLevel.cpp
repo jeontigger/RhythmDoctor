@@ -232,6 +232,8 @@ void CStagePlayLevel::init()
 
 	CBeatNote* newNote = new CBeatNote;
 	CEventMgr::GetInst()->RegistNoteEvent(newNote);
+	newNote = new CBeatNote;
+	CEventMgr::GetInst()->RegistNoteEvent(newNote);
 
 	CObjEvent* objEvent = new CObjEvent;
 	objEvent->LoadEventData(L"TestObj.txt", m_listObjInfo);
@@ -278,7 +280,7 @@ void CStagePlayLevel::tick()
 
 	else {
 		auto newEvent = CEventMgr::GetInst()->GetWindowEvent();
-		auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[0]);
+		
 
 		m_AccTime += DT;
 		CLogMgr::GetInst()->SetAccTime(m_AccTime);
@@ -288,6 +290,7 @@ void CStagePlayLevel::tick()
 			NoteInfo noteinfo = m_listNoteInfo.front();
 			if (noteinfo.StartTime <= m_AccTime + audioDelay) {
 				CUnitBar* bar = m_vecBars[(UINT)noteinfo.Bar];
+				auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[(UINT)noteinfo.Bar]);
 				newNoteEvent->SetBar(bar);
 				newNoteEvent->SetBeatSpeed(noteinfo.Speed);
 				newNoteEvent->SetLoopCount(noteinfo.Cnt);
@@ -316,6 +319,9 @@ void CStagePlayLevel::tick()
 					else if (objinfo.Obj == StageObj::Bar) {
 						m_vecBars[(UINT)BarType::Cole]->SetPosAll(objinfo.Pos);
 					}
+					else if (objinfo.Obj == StageObj::TingBar) {
+						m_vecBars[(UINT)BarType::Ting]->SetPosAll(objinfo.Pos);
+					}
 					else {
 						m_vecStageObjects[(UINT)objinfo.Obj]->SetMove(objinfo.Pos, objinfo.Speed);
 					}
@@ -341,6 +347,14 @@ void CStagePlayLevel::tick()
 						}
 						else {
 							m_vecBars[(UINT)BarType::Cole]->HideAll();
+						}
+					}
+					else if(objinfo.Obj == StageObj::TingBar) {
+						if (objinfo.Show) {
+							m_vecBars[(UINT)BarType::Ting]->ShowAll();
+						}
+						else {
+							m_vecBars[(UINT)BarType::Ting]->HideAll();
 						}
 					}
 					break;
@@ -526,6 +540,7 @@ void CStagePlayLevel::AnyPress()
 		m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
 		m_BGSound->PlayToBGM(false);
 		m_vecBars[(UINT)BarType::Cole]->Start(true);
+		m_vecBars[(UINT)BarType::Ting]->Start(true);
 		m_bAnyPressed = true;
 	}
 	return;
@@ -583,7 +598,49 @@ void CStagePlayLevel::MakeNotes()
 		m_listNoteInfo.push_back(noteinfo);
 	}
 
-	for (int i = 4; i < 32; i++) {
+	for (int i = 0; i < 4; i++) {
+		NoteInfo noteinfo = {};
+		noteinfo.Bar = BarType::Ting;
+		noteinfo.StartTime = 94.8f + i * 1.657f;
+		noteinfo.Speed = 400.f;
+		noteinfo.GetDuration = 0.4f;
+		noteinfo.Cnt = 1;
+		noteinfo.JudgeTime = 0.7f;
+		m_listNoteInfo.push_back(noteinfo);
+	}
+
+	for (int i = 4; i < 8; i++) {
+		NoteInfo noteinfo = {};
+		noteinfo.Bar = BarType::Cole;
+		noteinfo.StartTime = 94.8f + i * 1.657f;
+		noteinfo.Speed = 400.f;
+		noteinfo.GetDuration = 0.4f;
+		noteinfo.Cnt = 1;
+		noteinfo.JudgeTime = 0.7f;
+		m_listNoteInfo.push_back(noteinfo);
+	}
+
+	for (int i = 8; i < 16; i++) {
+		NoteInfo noteinfo = {};
+		noteinfo.Bar = BarType::Cole;
+		noteinfo.StartTime = 94.8f + i * 1.657f;
+		noteinfo.Speed = 400.f;
+		noteinfo.GetDuration = 0.4f;
+		noteinfo.Cnt = 1;
+		noteinfo.JudgeTime = 0.7f;
+		m_listNoteInfo.push_back(noteinfo);
+
+		NoteInfo noteinfo2 = {};
+		noteinfo2.Bar = BarType::Ting;
+		noteinfo2.StartTime = 94.8f + i * 1.657f;
+		noteinfo2.Speed = 400.f;
+		noteinfo2.GetDuration = 0.4f;
+		noteinfo2.Cnt = 1;
+		noteinfo2.JudgeTime = 0.7f;
+		m_listNoteInfo.push_back(noteinfo2);
+	}
+
+	for (int i =16; i < 32; i++) {
 		NoteInfo noteinfo = {};
 		noteinfo.Bar = BarType::Cole;
 		noteinfo.StartTime = 94.8f + i * 1.657f;

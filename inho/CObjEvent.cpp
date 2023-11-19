@@ -93,6 +93,9 @@ int CObjEvent::SelectObj(const wchar_t* szRead)
     else if (!wcscmp(szRead, L"BAR")) {
         return (UINT)StageObj::Bar;
     }
+    else if (!wcscmp(szRead, L"TINGBAR")) {
+        return (UINT)StageObj::TingBar;
+    }
     else if (!wcscmp(szRead, L"TING")) {
         return (UINT)StageObj::Ting;
     }
@@ -214,6 +217,8 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
         }
         else if (!wcscmp(szRead, L"[BARMOVE]")) {
             info.Type = ObjEventType::BarMoving;
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            info.Obj = (StageObj)SelectObj(szRead);
             fwscanf_s(pFile, L"%s", szRead, 256);
             if (!wcscmp(szRead, L"[START_TIME]")) {
                 fwscanf_s(pFile, L"%f", &info.StartTime);
