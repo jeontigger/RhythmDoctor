@@ -3,6 +3,7 @@
 #include "CLogMgr.h"
 
 #include "CTimeMgr.h"
+#include "CEngine.h"
 
 CLogMgr::CLogMgr(): m_LogMaxLife(5.f)
 {}
@@ -23,10 +24,12 @@ void CLogMgr::tick(HDC _dc) {
 	}
 
 	iter = m_LogList.begin();
-	wstring acctime = L"Time: ";
-	acctime += std::to_wstring(m_AccTime);
-	SetTextColor(_dc, RGB(255, 0, 0));
-	TextOut(_dc, 600, 10, acctime.c_str(), acctime.length());
+	if (DEBUG_RENDER) {
+		wstring acctime = L"Time: ";
+		acctime += std::to_wstring(m_AccTime);
+		SetTextColor(_dc, RGB(255, 0, 0));
+		TextOut(_dc, 600, 10, acctime.c_str(), acctime.length());
+	}
 	POINT LT = { 120, 10 };
 	int i = 0;
 	for (; iter != m_LogList.end(); ++iter, ++i)
