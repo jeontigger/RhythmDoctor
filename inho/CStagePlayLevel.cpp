@@ -368,7 +368,7 @@ void CStagePlayLevel::tick()
 				m_listNoteInfo.pop_front();
 				CCamera::GetInst()->Zoom(20.f, 0.2f);
 
-				m_NoteJudgeTime = noteinfo.StartTime + noteinfo.JudgeTime + audioDelay;
+				m_NoteJudgeTime = noteinfo.StartTime + noteinfo.JudgeTime - audioDelay;
 				m_newNote = true;
 
 			}
@@ -588,6 +588,7 @@ bool CStagePlayLevel::Pause()
 		if (KEY_TAP(ESC)) {
 			m_Paused = false;
 			m_BGSound->StopPlay();
+			CEventMgr::GetInst()->SetStop();
 		}
 
 		return true;
@@ -596,6 +597,7 @@ bool CStagePlayLevel::Pause()
 		if (KEY_TAP(ESC)) {
 			m_Paused = true;
 			m_BGSound->Stop();
+			CEventMgr::GetInst()->SetStop();
 		}
 	}
 
@@ -613,7 +615,7 @@ void CStagePlayLevel::AnyPress()
 {
 	if (KEY_TAP(SPACE)) {
 		m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
-		m_BGSound->PlayToBGM(false);
+		m_BGSound->Play();
 		m_vecBars[(UINT)BarType::Cole]->Start(true);
 		m_vecBars[(UINT)BarType::Ting]->Start(true);
 		m_bAnyPressed = true;
@@ -624,16 +626,16 @@ void CStagePlayLevel::AnyPress()
 
 void CStagePlayLevel::Judge()
 {
-	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime + audioDelay + m_NoteJudgeTimeOffset 
-		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
+	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime + m_NoteJudgeTimeOffset 
+		&& m_AccTime  + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE)&& m_newNote) {
 			m_newNote = false;
 			m_vecBars[(UINT)BarType::Cole]->Incorrect(JudgeBeatType::Left);
 			m_vecBars[(UINT)BarType::Ting]->Incorrect(JudgeBeatType::Left);
 		}
 	}
-	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime + audioDelay + m_NoteJudgeTimeOffset
-		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
+	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime  + m_NoteJudgeTimeOffset
+		&& m_AccTime  + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE) && m_newNote) {
 			m_newNote = false;
 			CCamera::GetInst()->Judge(0.1f);
@@ -642,15 +644,15 @@ void CStagePlayLevel::Judge()
 
 		}
 	}
-	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + audioDelay + m_NoteJudgeTimeOffset
-		&& m_AccTime + audioDelay + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset) {
+	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime  + m_NoteJudgeTimeOffset
+		&& m_AccTime + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE) && m_newNote) {
 			m_newNote = false;
 			m_vecBars[(UINT)BarType::Cole]->Incorrect(JudgeBeatType::Right);
 			m_vecBars[(UINT)BarType::Ting]->Incorrect(JudgeBeatType::Right);
 		}
 	}
-	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime + audioDelay + m_NoteJudgeTimeOffset) {
+	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime  + m_NoteJudgeTimeOffset) {
 		if (m_newNote) {
 			m_newNote = false;
 			m_vecBars[(UINT)BarType::Cole]->Incorrect(JudgeBeatType::Miss);
