@@ -359,7 +359,7 @@ void CStageSelectLevel::tick()
 
     CLevel::tick();
     if (m_isSelect) {
-        if (KEY_TAP(ENTER)) {
+        if (KEY_TAP(ENTER) || KEY_TAP(SPACE)) {
             CCamera::GetInst()->BlinkIn(.5f);
             ChangeLevel(LEVEL_TYPE::STAGE_PLAY_LEVEL);
         }
@@ -375,15 +375,13 @@ void CStageSelectLevel::tick()
             StageCursorPrev();
         }
 
-        if (KEY_TAP(ENTER)) {
+        if (KEY_TAP(ENTER) || KEY_TAP(SPACE)) {
             StageSelect();
         }
         if (KEY_TAP(ESC)) {
             ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);
         }
-
     }
-
 }
 
 

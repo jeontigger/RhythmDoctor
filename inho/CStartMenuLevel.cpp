@@ -175,7 +175,7 @@ void CStartMenuLevel::tick()
 		m_AnyPress->SetBlink(0.f, 1.f);
 	}
 	else if (m_bOpen) {
-		if (KEY_TAP(ENTER)) {
+		if (KEY_TAP(ENTER)||KEY_TAP(SPACE)) {
 			m_curMenu->LBtnClicked({ 0,0 });
 		}
 
