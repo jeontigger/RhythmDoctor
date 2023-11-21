@@ -81,7 +81,18 @@ CUnitBar::CUnitBar():
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Correct", L"texture\\Correct.png");
 	pAnimator = m_Correct->GetComponent<CAnimator>();
 	pAnimator->CreateAnimation(L"Correct", pAtlas, Vec2(0, 0), Vec2(81, 50), Vec2(0, 0), 0.3f, 1);
+	
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Fast", L"texture\\Fast.png");
+	pAnimator->CreateAnimation(L"Fast", pAtlas, Vec2(0, 0), Vec2(76, 46), Vec2(0, 0), 0.3f, 1);
+	
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Slow", L"texture\\Slow.png");
+	pAnimator->CreateAnimation(L"Slow", pAtlas, Vec2(0, 0), Vec2(86, 60), Vec2(0, 0), 0.3f, 1);
+	
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Miss", L"texture\\Miss.png");
+	pAnimator->CreateAnimation(L"Miss", pAtlas, Vec2(0, 0), Vec2(83, 60), Vec2(0, 0), 0.3f, 1);
 	pAnimator->SaveAnimation(L"animdata");
+
+
 	pAnimator->Play(L"Correct", true);
 
 	m_Correct->Hide();
@@ -140,12 +151,10 @@ void CUnitBar::tick(float _dt)
 	if (!m_IsStart) {
 		return;
 	}
-	if (!m_IsShow) {
-		return;
-	}
-	if (KEY_TAP(SPACE)) {
+	
+	tickAll(_dt);
+	if (KEY_TAP(SPACE)&& m_IsShow) {
 		m_SpaceBarSprite->SetFadeAway(0.3f);
-		
 	}
 
 	if (m_fDuration <= m_AccTime) {
@@ -271,6 +280,8 @@ void CUnitBar::Incorrect(JudgeBeatType _type)
 	if (_type == JudgeBeatType::Left) {
 		m_IncorrectBeats[(UINT)JudgeBeatType::Left]->Show(0.3f);
 		HideBar((UINT)BeatPoint::Left, 0.3f);
+		m_Correct->GetComponent<CAnimator>()->Play(L"Fast", true);
+		m_Correct->SetFadeAway(0.7f);
 		if (!m_Animating) {
 			pAnimator->Play(L"Incorrect", false);
 			m_fDuration = m_AccTime + 1.1f;
@@ -281,12 +292,16 @@ void CUnitBar::Incorrect(JudgeBeatType _type)
 	else if(_type == JudgeBeatType::Right) {
 		m_IncorrectBeats[(UINT)JudgeBeatType::Right]->Show(0.3f);
 		HideBar((UINT)BeatPoint::Right, 0.3f);
+		m_Correct->GetComponent<CAnimator>()->Play(L"Slow", true);
+		m_Correct->SetFadeAway(0.7f);
 		if (!m_Animating) {
 			pAnimator->Play(L"Incorrect", false);
 			m_fDuration = m_AccTime + 1.1f;
 		}
 	}
 	else {
+		m_Correct->GetComponent<CAnimator>()->Play(L"Miss", true);
+		m_Correct->SetFadeAway(0.7f);
 		if (!m_Animating) {
 			pAnimator->Play(L"Miss", false);
 			m_fDuration = m_AccTime + 0.9f;
@@ -301,6 +316,7 @@ void CUnitBar::Correct()
 		m_CorrectBeat->Show(0.3f);
 		HideBar((UINT)BeatPoint::Correct, 0.3f);
 
+		m_Correct->GetComponent<CAnimator>()->Play(L"Correct", true);
 		m_Correct->SetFadeAway(0.7f);
 
 		if (!m_Animating) {
