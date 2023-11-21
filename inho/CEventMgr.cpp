@@ -27,6 +27,8 @@ CEventMgr::~CEventMgr()
 
 void CEventMgr::tick()
 {
+	if (stop)
+		return;
 	float _dt = DT;
 	for (int i = 0; i < m_vecNotes.size(); ++i) {
 		if (m_vecNotes[i] != nullptr) {
