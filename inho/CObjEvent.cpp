@@ -138,6 +138,9 @@ int CObjEvent::SelectObj(const wchar_t* szRead)
     else if (!wcscmp(szRead, L"HOSPITAL")) {
         return (UINT)StageObj::Hospital;
     }
+    else if (!wcscmp(szRead, L"THERMOMETER")) {
+        return (UINT)StageObj::Thermometer;
+    }
     return -1;
 }
 

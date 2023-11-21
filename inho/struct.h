@@ -151,6 +151,7 @@ enum class StageObj {
     BlueSky,
     Glitch,
     Hospital,
+    Thermometer,
     END,
 };
 enum class ObjEventType {

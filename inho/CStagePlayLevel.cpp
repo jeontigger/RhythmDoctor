@@ -20,6 +20,7 @@
 #include "CWindowEvent.h"
 #include "CBackground.h"
 #include "CObjEvent.h"
+#include "CThermometer.h"
 
 
 CStagePlayLevel::CStagePlayLevel(): 
@@ -226,6 +227,12 @@ void CStagePlayLevel::init()
 	AddObject(HAND, m_Hand);
 	m_vecStageObjects[(UINT)StageObj::Hand] = m_Hand;
 
+	CThermometer* bossHealth = new CThermometer;
+	bossHealth->SetPos({ vRes.x / 2.f  - 70.f, vRes.y -470.f });
+	bossHealth->SetScale({ 256, 14 });
+	AddObject(STAGE, bossHealth);
+	m_vecStageObjects[(UINT)StageObj::Thermometer] = bossHealth;
+
 	CWindowEvent* newEvent = new CWindowEvent;
 	CEventMgr::GetInst()->RegistWindowEvent(newEvent);
 	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);
@@ -281,7 +288,6 @@ void CStagePlayLevel::tick()
 	else {
 		auto newEvent = CEventMgr::GetInst()->GetWindowEvent();
 		
-
 		m_AccTime += DT;
 		CLogMgr::GetInst()->SetAccTime(m_AccTime);
 

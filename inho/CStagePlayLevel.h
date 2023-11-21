@@ -4,22 +4,6 @@
 constexpr float JudgeTime = 0.1f;
 constexpr float CorrectTime = 0.033f;
 
-enum class BackgroundIndex {
-    ColeBack,
-    ColeFront,
-    Ting,
-    TingOpen,
-    BVeil,
-    MVeil,
-    TVeil,
-    Noise,
-    BlueSky,
-    Glitch,
-    Hospital,
-
-    END,
-};
-
 class CStagePlayLevel :
     public CLevel
 {
