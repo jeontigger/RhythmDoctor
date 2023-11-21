@@ -1,10 +1,10 @@
 [ANIM_NAME]
-bar
+Ending
 
 [ATLAS_TEXTURE]
-bar
+Ending
 
-texture\bar.png
+texture\Ending.png
 
 [FRAME_COUNT]
 1
@@ -14,9 +14,9 @@ texture\bar.png
 [LEFT_TOP]
 0.000000 0.000000
 [CUT_SIZE]
-3.000000 3.000000
+401.000000 262.000000
 [OFFSET]
 0.000000 0.000000
 [DURATION]
-0.300000
+0.150000
 
