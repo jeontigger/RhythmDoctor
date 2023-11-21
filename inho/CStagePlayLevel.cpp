@@ -311,7 +311,7 @@ void CStagePlayLevel::enter()
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
 
-	m_BGSound = CAssetMgr::GetInst()->LoadSound(L"BGM_Intro", L"sound\\sndAllTheTimes.wav");
+	m_BGSound = CAssetMgr::GetInst()->LoadSound(L"BGM_allthetimes", L"sound\\sndAllTheTimes.wav");
 	
 	CWindowEvent* event =  CEventMgr::GetInst()->GetWindowEvent();
 	
