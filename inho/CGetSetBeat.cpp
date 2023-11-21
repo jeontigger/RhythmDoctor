@@ -14,8 +14,8 @@ CGetSetBeat::CGetSetBeat():
 	m_Animator = AddComponent<CAnimator>();
 	CTexture* pAtlas;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"GetSetBeat", L"texture\\GetSetBeat.png");
-	m_Animator->CreateAnimation(L"GetSetBeatGo", pAtlas, Vec2(0, 0), Vec2(36, 43), Vec2(0, 0), 0.1f, 3);
-	m_Animator->CreateAnimation(L"GetSetBeatStay", pAtlas, Vec2(108, 0), Vec2(36, 43), Vec2(0, 0), 0.1f, 4);
+	m_Animator->CreateAnimation(L"GetSetBeatGo", pAtlas, Vec2(0, 0), Vec2(36, 45), Vec2(0, 0), 0.1f, 3);
+	m_Animator->CreateAnimation(L"GetSetBeatStay", pAtlas, Vec2(108, 0), Vec2(36, 45), Vec2(0, 0), 0.1f, 4);
 	m_Animator->SaveAnimation(L"animdata");
 	//m_Animator->LoadAnimation(L"animdata\\GetSetBeat.txt");
 	SetScale({ 72, 32 });

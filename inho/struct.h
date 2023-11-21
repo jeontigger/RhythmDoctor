@@ -155,6 +155,8 @@ enum class StageObj {
     ScriptBox,
     Ian,
     wait,
+    Veil,
+    Ending,
     END,
 };
 enum class ObjEventType {
@@ -166,6 +168,7 @@ enum class ObjEventType {
     BlinkIn,
     BlinkOut,
     FadeOut,
+    FadeIn,
     END
 };
 struct ObjInfo {

@@ -150,6 +150,9 @@ int CObjEvent::SelectObj(const wchar_t* szRead)
     else if (!wcscmp(szRead, L"SCRIPT")) {
         return (UINT)StageObj::wait;
     }
+    else if (!wcscmp(szRead, L"ENDING")) {
+        return (UINT)StageObj::Ending;
+    }
     return -1;
 }
 
@@ -310,7 +313,19 @@ void CObjEvent::LoadEventData(const wstring& _strRelativePath, list<ObjInfo>& _o
                 fwscanf_s(pFile, L"%f", &info.Duration);
             }
             _out.push_back(info);
+        }
+        else if (!wcscmp(szRead, L"[FADE_IN]")) {
+            info.Type = ObjEventType::FadeIn;
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[START_TIME]")) {
+                fwscanf_s(pFile, L"%f", &info.StartTime);
             }
+            fwscanf_s(pFile, L"%s", szRead, 256);
+            if (!wcscmp(szRead, L"[DURATION]")) {
+                fwscanf_s(pFile, L"%f", &info.Duration);
+            }
+            _out.push_back(info);
+        }
     }
 
     fclose(pFile);

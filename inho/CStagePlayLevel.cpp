@@ -270,6 +270,22 @@ void CStagePlayLevel::init()
 	AddObject(STAGE, wait);
 	m_vecStageObjects[(UINT)StageObj::wait] = wait;
 
+
+
+	CCharacter* ending = new CCharacter;
+	pAnimator = ending->GetComponent<CAnimator>();
+	/*pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Ending", L"texture\\Ending.png");
+	pAnimator->CreateAnimation(L"Ending", pAtlas, Vec2(0, 0), Vec2(401, 262), Vec2(0, 0), 0.15f, 1);
+	pAnimator->SaveAnimation(L"animdata");*/
+	pAnimator->LoadAnimation(L"animdata\\Ending.txt");
+	pAnimator->Play(L"Ending", false);
+	ending->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f });
+	
+
+	AddObject(STAGE, ending);
+	m_vecStageObjects[(UINT)StageObj::Ending] = ending;
+
+
 	CWindowEvent* newEvent = new CWindowEvent;
 	CEventMgr::GetInst()->RegistWindowEvent(newEvent);
 	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);
@@ -314,6 +330,15 @@ void CStagePlayLevel::tick()
 {
 	if (Pause()) {
 		return;
+	}
+
+	if (225.f <= m_AccTime) {
+		if (CKeyMgr::GetInst()->IsAnyKeyTap()) {
+			::ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
+		}
+		else {
+			return;
+		}
 	}
 
 	CLevel::tick();
@@ -421,9 +446,15 @@ void CStagePlayLevel::tick()
 
 				case ObjEventType::FadeOut:
 					CCamera::GetInst()->FadeOut(objinfo.Duration);
+					break;
+
+				case ObjEventType::FadeIn:
+					CCamera::GetInst()->FadeIn(objinfo.Duration);
+					break;
 
 				case ObjEventType::END:
 					break;
+
 				default:
 					break;
 				}
