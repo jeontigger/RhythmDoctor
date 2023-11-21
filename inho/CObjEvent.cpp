@@ -141,6 +141,15 @@ int CObjEvent::SelectObj(const wchar_t* szRead)
     else if (!wcscmp(szRead, L"THERMOMETER")) {
         return (UINT)StageObj::Thermometer;
     }
+    else if (!wcscmp(szRead, L"IAN")) {
+        return (UINT)StageObj::Ian;
+    }
+    else if (!wcscmp(szRead, L"SCRIPTBOX")) {
+        return (UINT)StageObj::ScriptBox;
+    }
+    else if (!wcscmp(szRead, L"SCRIPT")) {
+        return (UINT)StageObj::wait;
+    }
     return -1;
 }
 

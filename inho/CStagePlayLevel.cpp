@@ -233,6 +233,43 @@ void CStagePlayLevel::init()
 	AddObject(STAGE, bossHealth);
 	m_vecStageObjects[(UINT)StageObj::Thermometer] = bossHealth;
 
+	CCharacter* ScriptBox = new CCharacter;
+	pAnimator = ScriptBox->GetComponent<CAnimator>();
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ScriptBox", L"texture\\ScriptBox.png");
+ 	pAnimator->CreateAnimation(L"ScriptBox", pAtlas, Vec2(0, 0), Vec2(98, 21), Vec2(0, 0), 0.1f, 1);
+	pAnimator->SaveAnimation(L"animdata");
+	pAnimator->Play(L"ScriptBox", false);
+	ScriptBox->SetPos({ vRes.x / 2.f - 1000.f, vRes.y /2.f + 120.f });
+	ScriptBox->SetScale({ 560 , 100});
+	ScriptBox->SetAlpha(200);
+	AddObject(STAGE, ScriptBox);
+	m_vecStageObjects[(UINT)StageObj::ScriptBox] = ScriptBox;
+
+	CCharacter* Ian = new CCharacter;
+	pAnimator = Ian->GetComponent<CAnimator>();
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"IanAtlas", L"texture\\Ian.png");
+	pAnimator->CreateAnimation(L"IanIdle", pAtlas, Vec2(64, 36), Vec2(32, 30), Vec2(0, 0), 0.15f, 3);
+	pAnimator->SaveAnimation(L"animdata");
+	pAnimator->Play(L"IanIdle", true);
+	Ian->SetPos({ vRes.x / 2.f - 1260.f, vRes.y / 2.f + 93.f });
+	Ian->SetScale({ 120, 110 });
+	
+	AddObject(STAGE, Ian);
+	m_vecStageObjects[(UINT)StageObj::Ian] = Ian;
+
+	CCharacter* wait = new CCharacter;
+	pAnimator = wait->GetComponent<CAnimator>();
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Wait", L"texture\\wait.png");
+	/*pAnimator->CreateAnimation(L"wait", pAtlas, Vec2(0, 0), Vec2(322, 48), Vec2(0, 0), 0.15f, 1);
+	pAnimator->SaveAnimation(L"animdata");*/
+	pAnimator->LoadAnimation(L"animdata\\Wait.txt");
+	pAnimator->Play(L"Wait", false);
+	wait->SetPos({ vRes.x / 2.f - 1020.f, vRes.y / 2.f + 100.f });
+	wait->SetScale({ 30, 4 });
+
+	AddObject(STAGE, wait);
+	m_vecStageObjects[(UINT)StageObj::wait] = wait;
+
 	CWindowEvent* newEvent = new CWindowEvent;
 	CEventMgr::GetInst()->RegistWindowEvent(newEvent);
 	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);

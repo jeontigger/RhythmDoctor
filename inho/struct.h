@@ -152,6 +152,9 @@ enum class StageObj {
     Glitch,
     Hospital,
     Thermometer,
+    ScriptBox,
+    Ian,
+    wait,
     END,
 };
 enum class ObjEventType {

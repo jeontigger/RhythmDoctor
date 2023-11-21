@@ -193,6 +193,7 @@
     <ClInclude Include="CTaskMgr.h" />
     <ClInclude Include="CTextUI.h" />
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CThermometer.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTimeMgr.h" />
     <ClInclude Include="CTransform.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="CTaskMgr.cpp" />
     <ClCompile Include="CTextUI.cpp" />
     <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CThermometer.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTimeMgr.cpp" />
     <ClCompile Include="CTransform.cpp" />
