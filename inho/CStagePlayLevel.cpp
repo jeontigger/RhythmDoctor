@@ -296,6 +296,7 @@ void CStagePlayLevel::init()
 	CEventMgr::GetInst()->RegistNoteEvent(newNote);
 
 	CObjEvent* objEvent = new CObjEvent;
+	CEventMgr::GetInst()->RegistObjEvent(objEvent);
 	objEvent->LoadEventData(L"TestObj.txt", m_listObjInfo);
 
 	MakeNotes();

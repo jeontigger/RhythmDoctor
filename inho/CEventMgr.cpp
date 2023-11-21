@@ -22,6 +22,7 @@ CEventMgr::~CEventMgr()
 			delete m_vecNotes[i];
 		}
 	}
+	delete m_ObjEvent;
 }
 
 void CEventMgr::tick()

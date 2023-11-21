@@ -78,6 +78,11 @@ public:
 public:
     virtual void begin() override;
     virtual void tick(float _dt) override;
+    virtual void render(HDC _dc) override;
+    virtual void finaltick(float _dt)override;
+    void finaltickAll(float _dt);
+    void renderAll(HDC _dc);
+    void tickAll(float _dt) ;
 
 public:
     CLONE_DISABLE(CUnitBar);

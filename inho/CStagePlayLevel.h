@@ -7,6 +7,8 @@ constexpr float CorrectTime = 0.033f;
 class CStagePlayLevel :
     public CLevel
 {
+private:
+    class CObjEvent* objEvent;
 
 private:
     vector<class CObj*> m_vecStageObjects;

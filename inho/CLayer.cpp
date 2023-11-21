@@ -47,6 +47,7 @@ void CLayer::render(HDC _dc) {
 void CLayer::DeleteAllObjects()
 {
     for (size_t i = 0; i < m_vecObjects.size(); ++i) {
+        if(m_vecObjects[i] != nullptr)
         delete m_vecObjects[i];
     }
 

@@ -21,7 +21,7 @@ CUnitBar::CUnitBar():
 {
 	CJudgeBar* m_Judgebar = new CJudgeBar;
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
-	Vec2 vBarScale = { 550, 1 };
+	Vec2 vBarScale = { 550, 3 };
 	m_Judgebar->SetPos({ vRes.x / 2.f - 270.f, vRes.y / 2.f });
 	/*m_Judgebar->SetScale(vBarScale);
 	AddObject(PLAYER, m_Judgebar);*/
@@ -123,31 +123,33 @@ CUnitBar::CUnitBar():
 
 CUnitBar::~CUnitBar()
 {
+	for (int i = 0; i < m_vecBars.size(); ++i) {
+		delete m_vecBars[i];
+	}
+	delete m_Heart;
+	delete m_Character;
+	for (int i = 0; i < m_NormalBeats.size(); ++i) {
+		delete m_NormalBeats[i];
+	}
+	delete m_GetSetBeat;
+	delete m_SpaceBarSprite;
+	delete m_Correct;
+
+	for (int i = 0; i < m_IncorrectBeats.size(); ++i) {
+		delete m_IncorrectBeats[i];
+	}
+
+	delete m_CorrectBeat;
 }
 
 void CUnitBar::begin()
 {
-	for (int i = 0; i < 180; i++) {
-		CLevelMgr::GetInst()->GetCurLevel()->GetLayer((int)LAYER::PLAYER)->AddObject(m_vecBars[i]);
-	}
 
-	for (int i = 0; i < 6; ++i) {
-		CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_NormalBeats[i]);
-	}
-
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_GetSetBeat);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Heart);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Character);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_IncorrectBeats[(UINT)JudgeBeatType::Left]);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_IncorrectBeats[(UINT)JudgeBeatType::Right]);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_CorrectBeat);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_SpaceBarSprite);
-	CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::PLAYER)->AddObject(m_Correct);
-	
 }
 
 void CUnitBar::tick(float _dt)
 {
+	Super::tick(_dt);
 	if (!m_IsStart) {
 		return;
 	}
@@ -189,6 +191,81 @@ void CUnitBar::tick(float _dt)
 
 		}
 	}
+}
+
+void CUnitBar::render(HDC _dc)
+{
+	Super::render(_dc);
+	renderAll(_dc);
+}
+
+void CUnitBar::finaltick(float _dt)
+{
+	Super::finaltick(_dt);
+	finaltickAll(_dt);
+}
+
+void CUnitBar::finaltickAll(float _dt)
+{
+	for (int i = 0; i < m_vecBars.size(); ++i) {
+		m_vecBars[i]->finaltick(_dt);
+	}
+	m_Heart->finaltick(_dt);
+	m_Character->finaltick(_dt);
+	for (int i = 0; i < m_NormalBeats.size(); ++i) {
+		m_NormalBeats[i]->finaltick(_dt);
+	}
+	m_GetSetBeat->finaltick(_dt);
+	m_SpaceBarSprite->finaltick(_dt);
+	m_Correct->finaltick(_dt);
+
+	for (int i = 0; i < m_IncorrectBeats.size(); ++i) {
+		m_IncorrectBeats[i]->finaltick(_dt);
+	}
+
+	m_CorrectBeat->finaltick(_dt);
+}
+
+void CUnitBar::renderAll(HDC _dc)
+{
+	for (int i = 0; i < m_vecBars.size(); ++i) {
+		m_vecBars[i]->render(_dc);
+	}
+	m_Heart->render(_dc);
+	m_Character->render(_dc);
+	for (int i = 0; i < m_NormalBeats.size(); ++i) {
+		m_NormalBeats[i]->render(_dc);
+	}
+	m_GetSetBeat->render(_dc);
+	m_SpaceBarSprite->render(_dc);
+	m_Correct->render(_dc);
+
+	for (int i = 0; i < m_IncorrectBeats.size(); ++i) {
+		m_IncorrectBeats[i]->render(_dc);
+	}
+
+	m_CorrectBeat->render(_dc);
+}
+
+void CUnitBar::tickAll(float _dt)
+{
+	for (int i = 0; i < m_vecBars.size(); ++i) {
+		m_vecBars[i]->tick(_dt);
+	}
+	m_Heart->tick(_dt);
+	m_Character->tick(_dt);
+	for (int i = 0; i < m_NormalBeats.size(); ++i) {
+		m_NormalBeats[i]->tick(_dt);
+	}
+	m_GetSetBeat->tick(_dt);
+	m_SpaceBarSprite->tick(_dt);
+	m_Correct->tick(_dt);
+
+	for (int i = 0; i < m_IncorrectBeats.size(); ++i) {
+		m_IncorrectBeats[i]->tick(_dt);
+	}
+
+	m_CorrectBeat->tick(_dt);
 }
 
 CAnimator* CUnitBar::GetCharacterAnimator()
