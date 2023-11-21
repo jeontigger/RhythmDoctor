@@ -33,7 +33,6 @@ void CStartMenuLevel::init()
 	m_AnyPress->SetPos({ 260.f,300.f });
 	m_AnyPress->SetText(L"아무 버튼이나 누르세요");
 	AddObject(UI, m_AnyPress);
-	m_AnyPress->SetBlink(0.6f, 0.2f);
 
 	// 모니터 생성
 	m_Monitor = new CAnimUI;
@@ -105,22 +104,32 @@ void CStartMenuLevel::init()
 	m_Cursor->GetAnimator()->Play(L"Cursor", true);
 	AddObject(UI, m_Cursor);
 
-	
+	m_sndBGM = CAssetMgr::GetInst()->LoadSound(L"BGM_Intro", L"sound\\Intro.wav");
+	m_sndCursorMove = CAssetMgr::GetInst()->LoadSound(L"sndCursorMove", L"sound\\sndCursorMove.wav");
+	m_sndMenuEnter = CAssetMgr::GetInst()->LoadSound(L"sndMenuEnter", L"sound\\sndMenuEnter.wav");
+	m_sndMenuCancel = CAssetMgr::GetInst()->LoadSound(L"sndMenuCancel", L"sound\\sndMenuCancel.wav");
 
-
-	m_bOpen = false;
 }
 
 void CStartMenuLevel::enter()
 {
-	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_Intro", L"sound\\Intro.wav");
-	m_sndCursorMove = CAssetMgr::GetInst()->LoadSound(L"sndCursorMove", L"sound\\sndCursorMove.wav");
-	m_sndMenuEnter = CAssetMgr::GetInst()->LoadSound(L"sndMenuEnter", L"sound\\sndMenuEnter.wav");
-	m_sndMenuCancel = CAssetMgr::GetInst()->LoadSound(L"sndMenuCancel", L"sound\\sndMenuCancel.wav");
-	pSound->SetVolume(80);
-	pSound->SetPosition(0.f);
-	pSound->PlayToBGM(true);
+
+	m_sndBGM->SetVolume(80);
+	m_sndBGM->SetPosition(0.f);
+	m_sndBGM->Play();
+
+	m_bOpen = false;
+
+	m_Monitor->SetPos({ 354, 185 });
+	// 메뉴 버튼들 생성
+	for (int i = 0; i < StartMenuSize; ++i) {
+		m_vecMenus[i]->SetPos({ 750.f, 92.f + i * 30.f });
+	}
 	m_Monitor->GetAnimator()->Play(L"MonitorFallDown", false);
+	m_Cursor->SetPos({ 740.f, 100.f });
+
+	m_AnyPress->SetBlink(0.6f, 0.2f);
+	
 	// 카메라 설정
 	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
 	vLookAt /= 2.f;
@@ -130,6 +139,7 @@ void CStartMenuLevel::enter()
 void CStartMenuLevel::exit()
 {
 	//DeleteAllObjects();
+	m_sndBGM->Stop(true);
 }
 
 void CStartMenuLevel::tick()
