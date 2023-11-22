@@ -42,7 +42,12 @@ private:
 
     Vec2 SpotlightPos;
     Vec2 PhonePos;
-    
+
+    class CSound* m_BGM;
+    class CSound* m_sndCursorMove;
+    class CSound* m_sndMenuEnter;
+    class CSound* m_sndMenuCancel;
+    class CSound* m_sndMenuSelect;
 
 private:
     int m_cursorIdx;

@@ -4,11 +4,9 @@
 #include "CEngine.h"
 #include "CKeyMgr.h"
 
+//
 #include "CAssetMgr.h"
 #include "CSound.h"
-
-
-//
 #include "CBackground.h"
 #include "CStage.h"
 #include "CAnimUI.h"
@@ -337,7 +335,11 @@ void CStageSelectLevel::init()
     vLookAt /= 2.f;
     CCamera::GetInst()->SetLookAt(vLookAt);
     
-    
+    m_BGM = CAssetMgr::GetInst()->LoadSound(L"sndLounge", L"sound\\sndLounge.wav");
+    m_sndCursorMove = CAssetMgr::GetInst()->LoadSound(L"sndCursorMove", L"sound\\sndCursorMove.wav");
+    m_sndMenuEnter = CAssetMgr::GetInst()->LoadSound(L"sndPagerOpen", L"sound\\sndPagerOpen.wav");
+    m_sndMenuCancel = CAssetMgr::GetInst()->LoadSound(L"sndMenuCancel", L"sound\\sndMenuCancel.wav");
+    m_sndMenuSelect = CAssetMgr::GetInst()->LoadSound(L"sndMenuSelectBoss", L"sound\\sndMenuSelectBoss.wav");
 }
 
 void CStageSelectLevel::enter()
@@ -347,10 +349,12 @@ void CStageSelectLevel::enter()
     CCamera::GetInst()->FadeIn(1.0f);
     StageCursorNext();
     StageCursorPrev();
+    m_BGM->Play(true);
 }
 
 void CStageSelectLevel::exit()
 {
+    m_BGM->Stop();
     /*DeleteAllObjects();*/
 }
 
@@ -361,24 +365,30 @@ void CStageSelectLevel::tick()
     if (m_isSelect) {
         if (KEY_TAP(ENTER) || KEY_TAP(SPACE)) {
             CCamera::GetInst()->BlinkIn(.5f);
+            m_sndMenuSelect->Play(false);
             ChangeLevel(LEVEL_TYPE::STAGE_PLAY_LEVEL);
         }
         if (KEY_TAP(ESC)) {
+            m_sndMenuCancel->Play(false);
             StageSelectCancel();
         }
     }
     else {
         if (KEY_TAP(RIGHT)) {
+            m_sndCursorMove->Play(false);
             StageCursorNext();
         }
         if (KEY_TAP(LEFT)) {
+            m_sndCursorMove->Play(false);
             StageCursorPrev();
         }
 
         if (KEY_TAP(ENTER) || KEY_TAP(SPACE)) {
+            m_sndMenuEnter->Play(false);
             StageSelect();
         }
         if (KEY_TAP(ESC)) {
+            
             ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);
         }
     }

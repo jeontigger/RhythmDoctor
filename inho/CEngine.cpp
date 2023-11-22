@@ -27,7 +27,7 @@ CEngine::CEngine():
     m_hWnd(nullptr), 
     m_ptResolution{}, 
     m_dc(nullptr),
-    m_bDebugRender(true) 
+    m_bDebugRender(false) 
 
 {}
 
