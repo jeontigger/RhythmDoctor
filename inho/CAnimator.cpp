@@ -38,8 +38,10 @@ CAnimator::~CAnimator() {
 void CAnimator::finaltick(float _DT) {
 	m_AccTime += _DT;
 	if (m_Duration <= m_AccTime) {
-		Play(m_WaitName, m_WaitRepeat);
-		m_Duration = 100000.f;
+		if (m_WaitName != L"") {
+			Play(m_WaitName, m_WaitRepeat);
+			m_Duration = 100000.f;
+		}
 	}
 	if (IsValid(m_CurAnim)) {
 		if (m_bRepeat && m_CurAnim->IsFinish()) {

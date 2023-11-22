@@ -37,6 +37,10 @@ private:
     bool m_isStageSelectLeft;
     float m_fSelectCameraOffset;
 
+    class CTexture* m_StageTex;
+    Vec2 m_vTexOffset;
+
+    bool m_isHover;
 
 public:
     virtual void tick(float _dt) override;
@@ -59,6 +63,11 @@ public:
     float GetSelectOffset() { return m_fSelectCameraOffset; }
     bool isLeft() { return m_isStageSelectLeft; }
     void SetIsLeft(bool _left) { m_isStageSelectLeft = _left; }
+
+    void SetTexture(class CTexture* _tex) { m_StageTex = _tex; }
+    void SetTextureOffset(Vec2 _v) { m_vTexOffset = _v; }
+
+    void SetHover(bool _b) { m_isHover = _b; }
 
 public:
     CLONE_DISABLE(CStage);

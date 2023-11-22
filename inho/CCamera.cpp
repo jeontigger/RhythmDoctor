@@ -50,7 +50,7 @@ void CCamera::tick() {
     
 
     Vec2 vDir = m_TargetAt - m_vLookAt;
-    if (vDir.Length() <= 5.f) {
+    if (vDir.Length() <= 10.f) {
         m_vLookAt = m_TargetAt;
    
     }

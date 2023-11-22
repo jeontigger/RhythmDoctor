@@ -76,7 +76,9 @@ void CStageSelectLevel::init()
     pStage->SetDescription(L"환자의 심장에 가해지던 압력이 해소됨. 클럽에서는 그나마 가벼운 갑옷을 착용하라고 권장하였음.");
     pStage->SetRank(Stage_Rank::A);
     pStage->SetCameraOffset({ 100.f,0.f });
-  
+    pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"SamuraiTechno", L"texture\\SamuraiTechno.png"));
+    pStage->SetTextureOffset({ -280.f, -145.f });
+
     CAnimator* pAnimator = pStage->GetComponent<CAnimator>();
     //CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"SamuraiAtlas", L"texture\\Samurai.png");
     //pAnimator->CreateAnimation(L"SamuraiIdle", pAtlas, Vec2(0, 0), Vec2(40, 40), Vec2(0, 0), 0.3f, 2);
@@ -99,6 +101,9 @@ void CStageSelectLevel::init()
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
     pStage->SetCameraOffset({ 100.f,0.f });
     pStage->SetIsLeft(false);
+    pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"BattlewornInsomniac", L"texture\\BattlewornInsomniac.png"));
+    pStage->SetTextureOffset({ -300.f, -175.f });
+    
 
     pAnimator = pStage->GetComponent<CAnimator>();
     pAnimator->LoadAnimation(L"animdata\\InsomniacIdle.txt");
@@ -119,6 +124,10 @@ void CStageSelectLevel::init()
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
     pStage->SetCameraOffset({ 100.f,0.f });
     pStage->SetIsLeft(false);
+    pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"SupraventricularTachycardia", L"texture\\SupraventricularTachycardia.png"));
+    pStage->SetTextureOffset({ -280.f, -165.f });
+    
+    
 
     AddObject(STAGE, pStage);
     m_vecStages[(UINT)Stage::Ting] = pStage;
@@ -146,6 +155,8 @@ void CStageSelectLevel::init()
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
     pStage->SetCameraOffset({ 100.f,0.f });
     pStage->SetIsLeft(false);
+    pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"AllTheTimes", L"texture\\AllTheTimesNo.png"));
+    pStage->SetTextureOffset({ -260.f, -175.f });
 
     AddObject(STAGE, pStage);
     m_vecStages[(UINT)Stage::AllTheTime] = pStage;
@@ -160,9 +171,13 @@ void CStageSelectLevel::init()
     pStage->SetCharacterName(L"콜 브루");
     pStage->SetDescription(L"환자의 심장 박동이 안정됨. 커피 섭취를 반드시 줄이도록 권고할 것.");
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
-    pStage->SetCameraOffset({ 100.f,0.f });
+    pStage->SetCameraOffset({ -100.f,0.f });
     pStage->SetIsLeft(false);
+    pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"PuffPiece", L"texture\\PuffPiece.png"));
+    pStage->SetTextureOffset({ -260.f, -145.f });
 
+
+    
     AddObject(STAGE, pStage);
     m_vecStages[(UINT)Stage::Cole] = pStage;
 
@@ -474,11 +489,14 @@ void CStageSelectLevel::tick()
 
 void CStageSelectLevel::StageCursorNext()
 {
+    
+    m_vecStages[m_cursorIdx]->SetHover(false);
     m_cursorIdx++;
     if (m_vecStages.size() <= m_cursorIdx) {
         m_cursorIdx = 0;
     }
     CStage* pStage = m_vecStages[m_cursorIdx];
+    pStage->SetHover(true);
 
     m_StageArrow->MoveTo(pStage->GetPos());
     CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x + pStage->GetCameraOffsetX(), float(CEngine::GetInst()->GetResolution().y / 2.f)}, 0.15f);
@@ -489,11 +507,13 @@ void CStageSelectLevel::StageCursorNext()
 
 void CStageSelectLevel::StageCursorPrev()
 {
+    m_vecStages[m_cursorIdx]->SetHover(false);
     m_cursorIdx--;
     if (m_cursorIdx < 0) {
         m_cursorIdx = m_vecStages.size()-1;
     }
     CStage* pStage = m_vecStages[m_cursorIdx];
+    pStage->SetHover(true);
 
     m_StageArrow->MoveTo(pStage->GetPos());
     CCamera::GetInst()->SetLinearLookAt({ pStage->GetPos().x + pStage->GetCameraOffsetX(), float(CEngine::GetInst()->GetResolution().y / 2.f) }, 0.15f);

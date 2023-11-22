@@ -645,7 +645,7 @@ void CStagePlayLevel::Judge()
 		&& m_AccTime  + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE) && m_newNote) {
 			m_newNote = false;
-			CCamera::GetInst()->Judge(0.1f);
+			CCamera::GetInst()->Judge(0.3f);
 			m_vecBars[(UINT)BarType::Cole]->Correct();
 			m_vecBars[(UINT)BarType::Ting]->Correct();
 

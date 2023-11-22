@@ -27,6 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE     hInstance,
 
     // 엔진 초기화
     CEngine::GetInst()->init(g_hWnd, POINT{704, 396});
+    //CEngine::GetInst()->init(g_hWnd, POINT{ 1600, 900});
 
     // 단축키 테이블 참조
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_INHO));
