@@ -14,7 +14,13 @@ private:
 
     bool  m_bRepeat;
 
+    float m_AccTime;
+    float m_Duration;
+    wstring m_WaitName;
+    bool m_WaitRepeat;
+
 public:
+    void WaitPlay(const wstring& _strName, bool _b, float _time) { m_WaitName = _strName; m_WaitRepeat = _b; m_AccTime = 0; m_Duration = _time; }
     void Play(const wstring& _strName, bool _bRepeat);
     void Stop();
 

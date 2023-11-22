@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "CLevel.h"
 
-constexpr int Stage_YPosValue = 260;
+constexpr float Stage_YPosValue = 260;
 enum class Phone_Text{
     StageName,
     CharacterName,
@@ -29,6 +29,15 @@ enum class Phone_Anim {
     END
 };
 
+enum class Stage {
+    Samurai,
+    SamuraiBoss,
+    Ting,
+    AllTheTime,
+    Cole,
+    END,
+};
+
 class CStageSelectLevel : public CLevel {
 
 private:
@@ -39,6 +48,9 @@ private:
     vector<class CStage*> m_vecStages;
     bool m_isSelect;
     class CBackground* m_Veil;
+
+    class CCharacter* m_Ting;
+    class CCharacter* m_Cole;
 
     Vec2 SpotlightPos;
     Vec2 PhonePos;
@@ -68,4 +80,7 @@ private:
 public:
     CStageSelectLevel();
     ~CStageSelectLevel();
+
+private:
+    void TingColeMove();
 };

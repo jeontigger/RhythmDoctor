@@ -6,10 +6,11 @@
 #include "CPathMgr.h"
 #include "CLogMgr.h"
 
-CAnimator::CAnimator(CObj* _Owner):
+CAnimator::CAnimator(CObj* _Owner) :
 	CComponent(_Owner),
 	m_CurAnim(nullptr),
-	m_bRepeat(false)
+	m_bRepeat(false),
+	m_Duration(100000.f)
 {}
 
 CAnimator::CAnimator(const CAnimator & _Origin):
@@ -35,7 +36,11 @@ CAnimator::~CAnimator() {
 }
 
 void CAnimator::finaltick(float _DT) {
-	
+	m_AccTime += _DT;
+	if (m_Duration <= m_AccTime) {
+		Play(m_WaitName, m_WaitRepeat);
+		m_Duration = 100000.f;
+	}
 	if (IsValid(m_CurAnim)) {
 		if (m_bRepeat && m_CurAnim->IsFinish()) {
 			m_CurAnim->Reset();

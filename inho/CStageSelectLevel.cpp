@@ -11,6 +11,7 @@
 #include "CStage.h"
 #include "CAnimUI.h"
 #include "CTextUI.h"
+#include "CCharacter.h"
 //
 CStageSelectLevel::CStageSelectLevel():
     m_cursorIdx(0),
@@ -62,10 +63,11 @@ void CStageSelectLevel::init()
 #pragma endregion
 
 #pragma region 스테이지 생성
+    m_vecStages.resize((UINT)Stage::END);
 
     // 사무라이
     CStage* pStage = new CStage;
-    pStage->SetPos({-200, Stage_YPosValue });
+    pStage->SetPos({-200.f, Stage_YPosValue });
     pStage->SetScale({ 40, 40 });
     pStage->SetBoss(false);
     pStage->SetLevel(L"1-1");
@@ -83,11 +85,11 @@ void CStageSelectLevel::init()
     pAnimator->Play(L"SamuraiIdle", true);
 
     AddObject(STAGE, pStage);
-    m_vecStages.push_back(pStage);
+    m_vecStages[(UINT)Stage::Samurai] = pStage;
 
     // 인섬니악 생성
     pStage = new CStage;
-    pStage->SetPos({ 100, Stage_YPosValue });
+    pStage->SetPos({ 100.f, Stage_YPosValue });
     pStage->SetScale({ 42, 42 });
     pStage->SetBoss(true);
     pStage->SetLevel(L"1-XN");
@@ -103,7 +105,77 @@ void CStageSelectLevel::init()
     pAnimator->Play(L"InsomniacIdle", true);
 
     AddObject(STAGE, pStage);
-    m_vecStages.push_back(pStage);
+    m_vecStages[(UINT)Stage::SamuraiBoss] = pStage;
+
+    // 팅
+    pStage = new CStage;
+    pStage->SetPos({ 400.f, Stage_YPosValue });
+    pStage->SetScale({ 42, 42 });
+    pStage->SetBoss(true);
+    pStage->SetLevel(L"2-2");
+    pStage->SetStageName(L"SupraventricularTachycardia");
+    pStage->SetCharacterName(L"콜 브루");
+    pStage->SetDescription(L"환자의 심장 박동이 안정됨. 커피 섭취를 반드시 줄이도록 권고할 것.");
+    pStage->SetRank(Stage_Rank::UNCOMPLETED);
+    pStage->SetCameraOffset({ 100.f,0.f });
+    pStage->SetIsLeft(false);
+
+    AddObject(STAGE, pStage);
+    m_vecStages[(UINT)Stage::Ting] = pStage;
+
+    m_Ting = new CCharacter;
+    m_Ting->SetPos({ 400.f, Stage_YPosValue });
+    m_Ting->SetScale({ 40, 40 });
+    pAnimator = m_Ting->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\Ting.txt");
+    pAnimator->LoadAnimation(L"animdata\\TingWalk.txt");
+    pAnimator->LoadAnimation(L"animdata\\TingWalkLeft.txt");
+    pAnimator->Play(L"Idle", true);
+
+    AddObject(HAND, m_Ting);
+
+    // All The Times
+    pStage = new CStage;
+    pStage->SetPos({ 700.f, Stage_YPosValue });
+    pStage->SetScale({ 42, 42 });
+    pStage->SetBoss(true);
+    pStage->SetLevel(L"2-2");
+    pStage->SetStageName(L"SupraventricularTachycardia");
+    pStage->SetCharacterName(L"콜 브루");
+    pStage->SetDescription(L"환자의 심장 박동이 안정됨. 커피 섭취를 반드시 줄이도록 권고할 것.");
+    pStage->SetRank(Stage_Rank::UNCOMPLETED);
+    pStage->SetCameraOffset({ 100.f,0.f });
+    pStage->SetIsLeft(false);
+
+    AddObject(STAGE, pStage);
+    m_vecStages[(UINT)Stage::AllTheTime] = pStage;
+
+    // 콜
+    pStage = new CStage;
+    pStage->SetPos({ 1000.f, Stage_YPosValue });
+    pStage->SetScale({ 42, 42 });
+    pStage->SetBoss(true);
+    pStage->SetLevel(L"2-2");
+    pStage->SetStageName(L"SupraventricularTachycardia");
+    pStage->SetCharacterName(L"콜 브루");
+    pStage->SetDescription(L"환자의 심장 박동이 안정됨. 커피 섭취를 반드시 줄이도록 권고할 것.");
+    pStage->SetRank(Stage_Rank::UNCOMPLETED);
+    pStage->SetCameraOffset({ 100.f,0.f });
+    pStage->SetIsLeft(false);
+
+    AddObject(STAGE, pStage);
+    m_vecStages[(UINT)Stage::Cole] = pStage;
+
+    m_Cole = new CCharacter;
+    m_Cole->SetPos({ 1000.f, Stage_YPosValue });
+    m_Cole->SetScale({ 40, 40 });
+    pAnimator = m_Cole->GetComponent<CAnimator>();
+    pAnimator->LoadAnimation(L"animdata\\ColeIdle.txt");
+    pAnimator->LoadAnimation(L"animdata\\ColeRun.txt");
+    pAnimator->LoadAnimation(L"animdata\\ColeRunLeft.txt");
+    pAnimator->Play(L"Idle", true);
+
+    AddObject(HAND, m_Cole);
 
     // 스테이지 커서 생성
     m_StageArrow = new CAnimUI;
@@ -193,6 +265,7 @@ void CStageSelectLevel::init()
     pAnimator = pAUI->GetComponent<CAnimator>();
     pAnimator->LoadAnimation(L"animdata\\BattlewornInsomniac.txt");
     pAnimator->LoadAnimation(L"animdata\\SamuraiTechno.txt");
+    pAnimator->LoadAnimation(L"animdata\\SupraventricularTachycardia.txt");
     pAnimator->Play(L"SamuraiTechno", true);
     pAUI->SetScale({ 21, 24 });
     pAUI->SetPos({ -95,-39 });
@@ -374,13 +447,16 @@ void CStageSelectLevel::tick()
         }
     }
     else {
+        
         if (KEY_TAP(RIGHT)) {
             m_sndCursorMove->Play(false);
             StageCursorNext();
+            TingColeMove();
         }
         if (KEY_TAP(LEFT)) {
             m_sndCursorMove->Play(false);
             StageCursorPrev();
+            TingColeMove();
         }
 
         if (KEY_TAP(ENTER) || KEY_TAP(SPACE)) {
@@ -438,6 +514,7 @@ void CStageSelectLevel::StageSelect()
         m_Veil->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() + SpotlightPos.x - 400.f, SpotlightPos.y });
         m_vecPhones[0]->SetPos({ pStage->GetPos().x + pStage->GetSelectOffset() - 520.f, PhonePos.y });
     }
+
     m_vecPhoneTexts[(UINT)Phone_Text::StageName]->SetText(pStage->GetStageName());
     m_vecPhoneTexts[(UINT)Phone_Text::CharacterName]->SetText(pStage->GetCharcaterName());
     m_vecPhoneTexts[(UINT)Phone_Text::Description]->SetText(pStage->GetDescription());
@@ -479,3 +556,29 @@ void CStageSelectLevel::SetPhoneUIAlpha(int _alpha)
     }
 }
 
+void CStageSelectLevel::TingColeMove()
+{
+    float walkSpeed = 1.f;
+    static bool together = false;
+    if (m_cursorIdx == (UINT)Stage::AllTheTime) {
+        m_Cole->SetMove({ m_vecStages[(UINT)Stage::AllTheTime]->GetPos().x+ 30.f, Stage_YPosValue }, walkSpeed);
+        m_Cole->GetComponent<CAnimator>()->Play(L"ColeRunLeft", true);
+        m_Cole->GetComponent<CAnimator>()->WaitPlay(L"Idle", true, walkSpeed);
+
+        m_Ting->SetMove({ m_vecStages[(UINT)Stage::AllTheTime]->GetPos().x - 30.f, Stage_YPosValue }, walkSpeed);
+        m_Ting->GetComponent<CAnimator>()->Play(L"TingWalk", true);
+        m_Ting->GetComponent<CAnimator>()->WaitPlay(L"Idle", true, walkSpeed);
+        together = true;
+    }
+    else if(together){
+        m_Cole->SetMove({ m_vecStages[(UINT)Stage::Cole]->GetPos().x, Stage_YPosValue }, walkSpeed);
+        m_Cole->GetComponent<CAnimator>()->Play(L"ColeRun", true);
+        m_Cole->GetComponent<CAnimator>()->WaitPlay(L"Idle", true, walkSpeed);
+
+        m_Ting->SetMove({ m_vecStages[(UINT)Stage::Ting]->GetPos().x, Stage_YPosValue }, walkSpeed);
+        m_Ting->GetComponent<CAnimator>()->Play(L"TingWalkLeft", true);
+        m_Ting->GetComponent<CAnimator>()->WaitPlay(L"Idle", true, walkSpeed);
+
+        together = false;
+    }
+}
