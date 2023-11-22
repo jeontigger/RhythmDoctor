@@ -195,8 +195,10 @@ void CUnitBar::tick(float _dt)
 
 void CUnitBar::render(HDC _dc)
 {
-	Super::render(_dc);
-	renderAll(_dc);
+	if (m_IsShow) {
+		Super::render(_dc);
+		renderAll(_dc);
+	}
 }
 
 void CUnitBar::finaltick(float _dt)

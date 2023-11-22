@@ -54,7 +54,7 @@ public:
     CAnimator* GetCharacterAnimator();
 
 public:
-    void Start(bool _b) { m_IsStart = _b; }
+    void Start(bool _b) { m_IsStart = _b; m_AccTime = 0; m_fQuakeDuration = 0; }
 
     void SetMovingSpeed(float _speed) { m_fSpeed = _speed; }
     void SetMoving(bool _b) { m_IsMoving = _b; }

@@ -36,6 +36,7 @@ void CObj::SetMove(Vec2 _target, float _time)
     if (_time == 0) {
         pFunc = nullptr;
         SetPos(_target);
+        m_Target = _target;
     }
 
     m_Target = _target;
@@ -49,7 +50,8 @@ void CObj::SetScaleMove(Vec2 _target, float _time)
 {
     if (_time == 0) {
         pFunc = nullptr;
-        SetPos(_target);
+        SetScale(_target);
+        m_ScaleTarget = _target;
     }
 
     m_ScaleTarget = _target;

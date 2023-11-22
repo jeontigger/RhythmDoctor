@@ -43,20 +43,16 @@ void CStagePlayLevel::init()
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBG", L"texture\\TingBG.png");
-	pBG->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f });
 	pBG->SetScale({ pAtlas->GetWidth() + 8, pAtlas->GetHeight() + 2 });
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
-
 	m_vecStageObjects[(UINT)StageObj::TingBG] = pBG;
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"TingBGOpen", L"texture\\TingBGOpen.png");
-	pBG->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f });
 	pBG->SetScale({ pAtlas->GetWidth() + 8, pAtlas->GetHeight() + 2 });
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
-
 	m_vecStageObjects[(UINT)StageObj::TingBGOpen] = pBG;
 
 	pBG = new CBackground;
@@ -65,21 +61,15 @@ void CStagePlayLevel::init()
 	pAnimator->CreateAnimation(L"ColeBGBG", pAtlas, Vec2(0, 0), Vec2(352, 119), Vec2(0, 0), 0.1f, 3);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"ColeBGBG", true);
-	//pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f -55.f });
-	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f - 55.f - 400.f });
 	pBG->SetScale({ 352, 119 });
 	AddObject(BACKGROUND, pBG);
-
 	m_vecStageObjects[(UINT)StageObj::ColeBGBack] = pBG;
 	
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
-	//pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f });
-	pBG->SetPos({ vRes.x / 2.f, vRes.y / 2.f + 77.f - 400.f});
 	pBG->SetScale({ pAtlas->GetWidth(), pAtlas->GetHeight() });
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
-	
 	m_vecStageObjects[(UINT)StageObj::ColeBGFront	] = pBG;
 
 	pBG = new CBackground;
@@ -88,10 +78,8 @@ void CStagePlayLevel::init()
 	pAnimator->CreateAnimation(L"blueskyPixel", pAtlas, Vec2(0, 0), Vec2(4, 4), Vec2(0, 0), 0.1f, 1);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"blueskyPixel", true);
-	pBG->SetPos({ vRes.x / 2.f -1000.f, vRes.y / 2.f });
 	pBG->SetScale({ 720, 398 });
 	AddObject(BACKGROUND, pBG);
-
 	m_vecStageObjects[(UINT)StageObj::BlueSky] = pBG;
 
 	for (int i = 0; i < 3; i++) {
@@ -102,9 +90,6 @@ void CStagePlayLevel::init()
 		AddObject(STAGE, pBG);
 		m_vecStageObjects[(UINT)StageObj::BVeil + i] = pBG;
 	}
-	m_vecStageObjects[(UINT)StageObj::BVeil] ->SetPos({ vRes.x / 2.f, vRes.y + 360.f});
-	m_vecStageObjects[(UINT)StageObj::MVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
-	m_vecStageObjects[(UINT)StageObj::TVeil]->SetPos({ vRes.x / 2.f, vRes.y - 100.f});
 
 	m_vecBars.resize((UINT)BarType::END);
 
@@ -130,7 +115,6 @@ void CStagePlayLevel::init()
 	m_vecBars[(UINT)BarType::Cole] = m_UnitBar;
 
 	m_Ting = new CCharacter;
-	m_Ting->SetPos({ vRes.x / 2.f - 370.f, vRes.y / 2.f -1000.f});
 	m_Ting->SetScale({ 40, 40 });
 	pAnimator = m_Ting->GetComponent<CAnimator>();
 	pAnimator->LoadAnimation(L"animdata\\Ting.txt");
@@ -139,7 +123,6 @@ void CStagePlayLevel::init()
 	m_vecStageObjects[(UINT)StageObj::Ting] = m_Ting;
 
 	m_Cole = new CCharacter;
-	m_Cole->SetPos({ vRes.x / 2.f - 1150.f, vRes.y / 2.f  - 1120.f});
 	m_Cole->SetScale({ 40, 40 });
 	//pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeAtlas", L"texture\\Cole.png");
 	pAnimator = m_Cole->GetComponent<CAnimator>();
@@ -154,7 +137,6 @@ void CStagePlayLevel::init()
 	m_vecStageObjects[(UINT)StageObj::Cole] = m_Cole;
 
 	m_Boss = new CCharacter;
-	m_Boss->SetPos({ vRes.x / 2.f - 485.f, vRes.y / 2.f - 50.f });
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Boss", L"texture\\Boss.png");
 	pAnimator = m_Boss->GetComponent<CAnimator>();
 	pAnimator->CreateAnimation(L"Boss", pAtlas, Vec2(0, 0), Vec2(154, 41), Vec2(0, 0), 0.1f, 1);
@@ -164,8 +146,8 @@ void CStagePlayLevel::init()
 	AddObject(STAGE, m_Boss);
 	m_vecStageObjects[(UINT)StageObj::Boss] = m_Boss;
 
+
 	m_Stage = new CCharacter;
-	m_Stage->SetPos({ vRes.x / 2.f + 470.f, vRes.y / 2.f + 13.f });
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Stage", L"texture\\Stage.png");
 	pAnimator = m_Stage->GetComponent<CAnimator>();
 	pAnimator->CreateAnimation(L"Stage", pAtlas, Vec2(0, 0), Vec2(186, 59), Vec2(0, 0), 0.1f, 1);
@@ -181,10 +163,8 @@ void CStagePlayLevel::init()
 	pAnimator = pBG->GetComponent<CAnimator>();
 	pAnimator->LoadAnimation(L"animdata\\Noise.txt");
 	pAnimator->Play(L"Noise", true);
-	pBG->SetPos({ vRes.x / 2.f - 10000.f, vRes.y / 2.f });
 	pBG->SetScale({ 310, 198 });
 	AddObject(STAGE, pBG);
-
 	m_vecStageObjects[(UINT)StageObj::Noise] = pBG;
 
 
@@ -195,10 +175,8 @@ void CStagePlayLevel::init()
 	pAnimator->SaveAnimation(L"animdata");*/
 	pAnimator->LoadAnimation(L"animdata\\Glitch.txt");
 	pAnimator->Play(L"Glitch", true);
-	pBG->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f });
 	pBG->SetScale({ 310, 198 });
 	AddObject(STAGE, pBG);
-
 	m_vecStageObjects[(UINT)StageObj::Glitch] = pBG;
 
 	pBG = new CBackground;
@@ -208,16 +186,13 @@ void CStagePlayLevel::init()
 	pAnimator->SaveAnimation(L"animdata");
 	//pAnimator->LoadAnimation(L"animdata\\BG.txt");
 	pAnimator->Play(L"StageHospital", true);
-	pBG->SetPos({ vRes.x / 2.f  -1000.f, vRes.y / 2.f });
 	pBG->SetScale({ 310, 198 });
 	AddObject(BACKGROUND, pBG);
-
 	m_vecStageObjects[(UINT)StageObj::Hospital] = pBG;
 
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
 	float height = pAtlas->GetHeight();
-	m_Hand->SetPos({ vRes.x / 2.f +  100.f, vRes.y - height / 2.f + 12.f });
 	m_Hand->SetScale({ 300, 42 });
 	pAnimator = m_Hand->GetComponent<CAnimator>();
 	//pAnimator->CreateAnimation(L"Hand", pAtlas, Vec2(0, 0), Vec2(307, 42), Vec2(0, 0), 0.1f, 3);
@@ -228,7 +203,6 @@ void CStagePlayLevel::init()
 	m_vecStageObjects[(UINT)StageObj::Hand] = m_Hand;
 
 	CThermometer* bossHealth = new CThermometer;
-	bossHealth->SetPos({ vRes.x / 2.f  - 70.f, vRes.y -470.f });
 	bossHealth->SetScale({ 256, 14 });
 	AddObject(STAGE, bossHealth);
 	m_vecStageObjects[(UINT)StageObj::Thermometer] = bossHealth;
@@ -239,7 +213,6 @@ void CStagePlayLevel::init()
  	pAnimator->CreateAnimation(L"ScriptBox", pAtlas, Vec2(0, 0), Vec2(98, 21), Vec2(0, 0), 0.1f, 1);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"ScriptBox", false);
-	ScriptBox->SetPos({ vRes.x / 2.f - 1000.f, vRes.y /2.f + 120.f });
 	ScriptBox->SetScale({ 560 , 100});
 	ScriptBox->SetAlpha(200);
 	AddObject(STAGE, ScriptBox);
@@ -251,11 +224,10 @@ void CStagePlayLevel::init()
 	pAnimator->CreateAnimation(L"IanIdle", pAtlas, Vec2(64, 36), Vec2(32, 30), Vec2(0, 0), 0.15f, 3);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"IanIdle", true);
-	Ian->SetPos({ vRes.x / 2.f - 1260.f, vRes.y / 2.f + 93.f });
 	Ian->SetScale({ 120, 110 });
-	
 	AddObject(STAGE, Ian);
 	m_vecStageObjects[(UINT)StageObj::Ian] = Ian;
+	
 
 	CCharacter* wait = new CCharacter;
 	pAnimator = wait->GetComponent<CAnimator>();
@@ -264,12 +236,10 @@ void CStagePlayLevel::init()
 	pAnimator->SaveAnimation(L"animdata");*/
 	pAnimator->LoadAnimation(L"animdata\\Wait.txt");
 	pAnimator->Play(L"Wait", false);
-	wait->SetPos({ vRes.x / 2.f - 1020.f, vRes.y / 2.f + 100.f });
 	wait->SetScale({ 30, 4 });
 
 	AddObject(STAGE, wait);
 	m_vecStageObjects[(UINT)StageObj::wait] = wait;
-
 
 
 	CCharacter* ending = new CCharacter;
@@ -279,17 +249,14 @@ void CStagePlayLevel::init()
 	pAnimator->SaveAnimation(L"animdata");*/
 	pAnimator->LoadAnimation(L"animdata\\Ending.txt");
 	pAnimator->Play(L"Ending", false);
-	ending->SetPos({ vRes.x / 2.f - 1000.f, vRes.y / 2.f });
 	
 
 	AddObject(STAGE, ending);
 	m_vecStageObjects[(UINT)StageObj::Ending] = ending;
 
-
 	CWindowEvent* newEvent = new CWindowEvent;
 	CEventMgr::GetInst()->RegistWindowEvent(newEvent);
-	newEvent->LoadEventData(L"Test.txt", m_listWinInfo);
-
+	
 	CBeatNote* newNote = new CBeatNote;
 	CEventMgr::GetInst()->RegistNoteEvent(newNote);
 	newNote = new CBeatNote;
@@ -297,9 +264,9 @@ void CStagePlayLevel::init()
 
 	CObjEvent* objEvent = new CObjEvent;
 	CEventMgr::GetInst()->RegistObjEvent(objEvent);
-	objEvent->LoadEventData(L"TestObj.txt", m_listObjInfo);
+	
 
-	MakeNotes();
+	
 	
 
 }
@@ -319,10 +286,50 @@ void CStagePlayLevel::enter()
 
 	dynamic_cast<CUnitBar*>(m_vecStageObjects[(UINT)StageObj::Bar])->HideAll();
 	dynamic_cast<CUnitBar*>(m_vecStageObjects[(UINT)StageObj::TingBar])->HideAll();
+
+	CEventMgr::GetInst()->GetWindowEvent()->LoadEventData(L"Test.txt", m_listWinInfo);
+	CEventMgr::GetInst()->GetObjEvent()->LoadEventData(L"TestObj.txt", m_listObjInfo);
+	MakeNotes();
+	m_AccTime = 0;
+	m_bAnyPressed = false;
+
+#pragma region 초기 위치 설정
+	Vec2 vRes = CEngine::GetInst()->GetResolution();
+
+	m_vecStageObjects[(UINT)StageObj::TingBG]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f },0);
+	m_vecStageObjects[(UINT)StageObj::TingBGOpen]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f },0);
+	m_vecStageObjects[(UINT)StageObj::ColeBGBack]->SetMove({ vRes.x / 2.f, vRes.y / 2.f - 55.f - 400.f },0);
+	m_vecStageObjects[(UINT)StageObj::ColeBGFront]->SetMove({ vRes.x / 2.f, vRes.y / 2.f + 77.f - 400.f },0);
+	m_vecStageObjects[(UINT)StageObj::BlueSky]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
+	m_vecStageObjects[(UINT)StageObj::BVeil]->SetMove({ vRes.x / 2.f, vRes.y + 360.f },0);
+	m_vecStageObjects[(UINT)StageObj::MVeil]->SetMove({ vRes.x / 2.f, vRes.y - 100.f },0);
+	m_vecStageObjects[(UINT)StageObj::MVeil]->SetScaleMove({ vRes.x, 50.f },0);
+	m_vecStageObjects[(UINT)StageObj::TVeil]->SetMove({ vRes.x / 2.f, vRes.y - 100.f },0);
+	m_vecStageObjects[(UINT)StageObj::Ting]->SetMove({ vRes.x / 2.f - 370.f, vRes.y / 2.f - 1000.f },0);
+	m_vecStageObjects[(UINT)StageObj::Cole]->SetMove({ vRes.x / 2.f - 1150.f, vRes.y / 2.f - 1120.f },0);
+	m_vecStageObjects[(UINT)StageObj::Cole]->GetComponent<CAnimator>()->Play(L"Idle", true);
+	m_vecStageObjects[(UINT)StageObj::Stage]->SetMove({ vRes.x / 2.f + 470.f, vRes.y / 2.f + 13.f },0);
+	m_vecStageObjects[(UINT)StageObj::Boss]->SetMove({ vRes.x / 2.f - 485.f, vRes.y / 2.f - 50.f },0);
+	m_vecStageObjects[(UINT)StageObj::Noise]->SetMove({ vRes.x / 2.f - 10000.f, vRes.y / 2.f },0);
+	m_vecStageObjects[(UINT)StageObj::Glitch]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
+	m_vecStageObjects[(UINT)StageObj::Hospital]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
+	m_vecStageObjects[(UINT)StageObj::Hand]->SetMove({ vRes.x / 2.f + 100.f, 358.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Thermometer]->SetMove({ vRes.x / 2.f - 70.f, vRes.y - 470.f },0);
+	m_vecStageObjects[(UINT)StageObj::ScriptBox]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 120.f },0);
+	m_vecStageObjects[(UINT)StageObj::Ian]->SetMove({ vRes.x / 2.f - 1260.f, vRes.y / 2.f + 93.f },0);
+	m_vecStageObjects[(UINT)StageObj::wait]->SetMove({ vRes.x / 2.f - 1020.f, vRes.y / 2.f + 100.f },0);
+	m_vecStageObjects[(UINT)StageObj::Ending]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
+	m_curTime = 0;
+	
+#pragma endregion
+
 }
 
 void CStagePlayLevel::exit()
 {
+	m_listWinInfo.clear();
+	m_listObjInfo.clear();
+	m_listNoteInfo.clear();
 }
 
 float audioDelay = 0.0f;
