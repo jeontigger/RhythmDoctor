@@ -39,8 +39,8 @@ private:
 
     class CTexture* m_StageTex;
     Vec2 m_vTexOffset;
-
     bool m_isHover;
+    class CTexture* m_PhoneTex;
 
 public:
     virtual void tick(float _dt) override;
@@ -68,6 +68,8 @@ public:
     void SetTextureOffset(Vec2 _v) { m_vTexOffset = _v; }
 
     void SetHover(bool _b) { m_isHover = _b; }
+    void SetPhoneTexture(class CTexture* _tex) { m_PhoneTex = _tex; }
+    class CTexture* GetPhoneTexture() { return m_PhoneTex; }
 
 public:
     CLONE_DISABLE(CStage);

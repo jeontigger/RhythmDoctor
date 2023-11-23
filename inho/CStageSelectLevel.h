@@ -4,8 +4,6 @@
 constexpr float Stage_YPosValue = 260;
 enum class Phone_Text{
     StageName,
-    CharacterName,
-    Description,
     END
 };
 
@@ -26,6 +24,7 @@ enum class Phone_Anim {
     RT,
     LB,
     RB,
+    Description,
     END
 };
 

@@ -1,10 +1,10 @@
 [ANIM_NAME]
-Miss
+AllTheTimesPhone
 
 [ATLAS_TEXTURE]
-Miss
+AllTheTimesPhone
 
-texture\Miss.png
+texture\AllTheTimesPhone.png
 
 [FRAME_COUNT]
 1
@@ -14,7 +14,7 @@ texture\Miss.png
 [LEFT_TOP]
 0.000000 0.000000
 [CUT_SIZE]
-500.000000 100.000000
+265.000000 155.000000
 [OFFSET]
 0.000000 0.000000
 [DURATION]

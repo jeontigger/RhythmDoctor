@@ -148,8 +148,8 @@ void CStageSelectLevel::init()
     pStage->SetPos({ 700.f, Stage_YPosValue });
     pStage->SetScale({ 42, 42 });
     pStage->SetBoss(true);
-    pStage->SetLevel(L"2-2");
-    pStage->SetStageName(L"SupraventricularTachycardia");
+    pStage->SetLevel(L"2-X");
+    pStage->SetStageName(L"AllTheTimes");
     pStage->SetCharacterName(L"콜 브루");
     pStage->SetDescription(L"환자의 심장 박동이 안정됨. 커피 섭취를 반드시 줄이도록 권고할 것.");
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
@@ -167,7 +167,7 @@ void CStageSelectLevel::init()
     pStage->SetScale({ 42, 42 });
     pStage->SetBoss(true);
     pStage->SetLevel(L"2-2");
-    pStage->SetStageName(L"SupraventricularTachycardia");
+    pStage->SetStageName(L"PuffPiece");
     pStage->SetCharacterName(L"콜 브루");
     pStage->SetDescription(L"환자의 심장 박동이 안정됨. 커피 섭취를 반드시 줄이도록 권고할 것.");
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
@@ -281,6 +281,8 @@ void CStageSelectLevel::init()
     pAnimator->LoadAnimation(L"animdata\\BattlewornInsomniac.txt");
     pAnimator->LoadAnimation(L"animdata\\SamuraiTechno.txt");
     pAnimator->LoadAnimation(L"animdata\\SupraventricularTachycardia.txt");
+    pAnimator->LoadAnimation(L"animdata\\AllTheTimes.txt");
+    pAnimator->LoadAnimation(L"animdata\\PuffPiece.txt");
     pAnimator->Play(L"SamuraiTechno", true);
     pAUI->SetScale({ 21, 24 });
     pAUI->SetPos({ -95,-39 });
@@ -387,6 +389,23 @@ void CStageSelectLevel::init()
     m_vecPhones[(UINT)Phone_Anim::RB] = pAUI;
     m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
 
+    // 설명 추가
+    pAUI = new CAnimUI;
+    pAnimator = pAUI->GetComponent<CAnimator>();
+    /*pAtlas = CAssetMgr::GetInst()->LoadTexture(L"PuffPiecePhone", L"texture\\PuffPiecePhone.png");
+    pAnimator->CreateAnimation(L"PuffPiecePhone", pAtlas, Vec2(0, 0), Vec2(265, 155), Vec2(0, 0), 0.3f, 1);
+    pAnimator->SaveAnimation(L"animdata");*/
+    pAnimator->LoadAnimation(L"animdata\\SamuraiTechnoPhone.txt");
+    pAnimator->LoadAnimation(L"animdata\\BattlewornInsomniacPhone.txt");
+    pAnimator->LoadAnimation(L"animdata\\SupraventricularTachycardiaPhone.txt");
+    pAnimator->LoadAnimation(L"animdata\\AllTheTimesPhone.txt");
+    pAnimator->LoadAnimation(L"animdata\\PuffPiecePhone.txt");
+    pAnimator->Play(L"SupraventricularTachycardiaPhone", true);
+    pAUI->SetPos({ 6,5 });
+    m_vecPhones[(UINT)Phone_Anim::Description] = pAUI;
+    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pAUI);
+
+
 
 
     m_vecPhoneTexts.resize((UINT)Phone_Text::END);
@@ -399,19 +418,19 @@ void CStageSelectLevel::init()
     //m_vecPhoneTexts.push_back(pTextUI);
     m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pTextUI);
 
-    pTextUI = new CTextUI;
-    pTextUI->SetText(L"캐릭터 이름 자리");
-    pTextUI->SetPos({ -67, -60 });
-    pTextUI->SetColor(0, 0, 0);
-    m_vecPhoneTexts[(UINT)Phone_Text::CharacterName] = pTextUI;
-    m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pTextUI);
+    //pTextUI = new CTextUI;
+    //pTextUI->SetText(L"캐릭터 이름 자리");
+    //pTextUI->SetPos({ -67, -60 });
+    //pTextUI->SetColor(0, 0, 0);
+    //m_vecPhoneTexts[(UINT)Phone_Text::CharacterName] = pTextUI;
+    //m_vecPhones[(UINT)Phone_Anim::Phone]->AddChildUI(pTextUI);
 
-    pTextUI = new CTextUI;
-    pTextUI->SetText(L"스테이지 설명 자리");
-    pTextUI->SetPos({ -117, -5 });
-    pTextUI->SetColor(0, 0, 0);
-    m_vecPhoneTexts[(UINT)Phone_Text::Description] = pTextUI;
-    m_vecPhones[(UINT)Phone_Anim::Phone] ->AddChildUI(pTextUI);
+    //pTextUI = new CTextUI;
+    //pTextUI->SetText(L"스테이지 설명 자리");
+    //pTextUI->SetPos({ -117, -5 });
+    //pTextUI->SetColor(0, 0, 0);
+    //m_vecPhoneTexts[(UINT)Phone_Text::Description] = pTextUI;
+    //m_vecPhones[(UINT)Phone_Anim::Phone] ->AddChildUI(pTextUI);
 
     AddObject(UI, m_vecPhones[(UINT)Phone_Anim::Phone]);
     SetPhoneUIAlpha(0);
@@ -454,7 +473,9 @@ void CStageSelectLevel::tick()
         if (KEY_TAP(ENTER) || KEY_TAP(SPACE)) {
             CCamera::GetInst()->BlinkIn(.5f);
             m_sndMenuSelect->Play(false);
-            ChangeLevel(LEVEL_TYPE::STAGE_PLAY_LEVEL);
+            if (m_cursorIdx == (UINT)Stage::AllTheTime) {
+                ChangeLevel(LEVEL_TYPE::STAGE_PLAY_LEVEL);
+            }
         }
         if (KEY_TAP(ESC)) {
             m_sndMenuCancel->Play(false);
@@ -536,10 +557,13 @@ void CStageSelectLevel::StageSelect()
     }
 
     m_vecPhoneTexts[(UINT)Phone_Text::StageName]->SetText(pStage->GetStageName());
-    m_vecPhoneTexts[(UINT)Phone_Text::CharacterName]->SetText(pStage->GetCharcaterName());
-    m_vecPhoneTexts[(UINT)Phone_Text::Description]->SetText(pStage->GetDescription());
+    //m_vecPhoneTexts[(UINT)Phone_Text::CharacterName]->SetText(pStage->GetCharcaterName());
+    //m_vecPhoneTexts[(UINT)Phone_Text::Description]->SetText(pStage->GetDescription());
     m_vecPhones[(UINT)Phone_Anim::Portrait]->GetAnimator()->Play(pStage->GetStageName(), true);
-    
+    wstring description = pStage->GetStageName();
+    description += L"Phone";
+    m_vecPhones[(UINT)Phone_Anim::Description]->GetAnimator()->Play(description, false);
+
     m_arrow[0]->SetAlpha(0);
     m_arrow[1]->SetAlpha(0);
     SetPhoneUIAlpha(255);

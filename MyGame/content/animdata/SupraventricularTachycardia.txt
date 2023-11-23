@@ -2,9 +2,9 @@
 SupraventricularTachycardia
 
 [ATLAS_TEXTURE]
-ColeAtlas
+TingAtlas
 
-texture\Cole.png
+texture\Ting.png
 
 [FRAME_COUNT]
 1
@@ -12,7 +12,7 @@ texture\Cole.png
 [FRAME_NUM]
 0
 [LEFT_TOP]
-168.000000 4.000000
+172.000000 4.000000
 [CUT_SIZE]
 21.000000 24.000000
 [OFFSET]

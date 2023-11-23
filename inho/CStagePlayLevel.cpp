@@ -249,6 +249,7 @@ void CStagePlayLevel::init()
 	pAnimator->SaveAnimation(L"animdata");*/
 	pAnimator->LoadAnimation(L"animdata\\Ending.txt");
 	pAnimator->Play(L"Ending", false);
+
 	
 
 	AddObject(STAGE, ending);

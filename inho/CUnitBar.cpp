@@ -80,16 +80,16 @@ CUnitBar::CUnitBar():
 	m_Correct->SetPos({ vRes.x / 2.f, vRes.y / 2.f - 60.f });
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Correct", L"texture\\Correct.png");
 	pAnimator = m_Correct->GetComponent<CAnimator>();
-	pAnimator->CreateAnimation(L"Correct", pAtlas, Vec2(0, 0), Vec2(81, 50), Vec2(0, 0), 0.3f, 1);
+	pAnimator->CreateAnimation(L"Correct", pAtlas, Vec2(0, 0), Vec2(500, 100), Vec2(0, 0), 0.3f, 1);
 	
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Fast", L"texture\\Fast.png");
-	pAnimator->CreateAnimation(L"Fast", pAtlas, Vec2(0, 0), Vec2(76, 46), Vec2(0, 0), 0.3f, 1);
+	pAnimator->CreateAnimation(L"Fast", pAtlas, Vec2(0, 0), Vec2(500, 100), Vec2(0, 0), 0.3f, 1);
 	
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Slow", L"texture\\Slow.png");
-	pAnimator->CreateAnimation(L"Slow", pAtlas, Vec2(0, 0), Vec2(86, 60), Vec2(0, 0), 0.3f, 1);
+	pAnimator->CreateAnimation(L"Slow", pAtlas, Vec2(0, 0), Vec2(500, 100), Vec2(0, 0), 0.3f, 1);
 	
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"Miss", L"texture\\Miss.png");
-	pAnimator->CreateAnimation(L"Miss", pAtlas, Vec2(0, 0), Vec2(83, 60), Vec2(0, 0), 0.3f, 1);
+	pAnimator->CreateAnimation(L"Miss", pAtlas, Vec2(0, 0), Vec2(500, 100), Vec2(0, 0), 0.3f, 1);
 	pAnimator->SaveAnimation(L"animdata");
 
 
