@@ -18,9 +18,12 @@ private:
     list<WinInfo> m_listWinInfo;
     list<NoteInfo> m_listNoteInfo;
     list<ObjInfo> m_listObjInfo;
+    float audioDelay;
     float m_NoteJudgeTime;
     float m_NoteJudgeTimeOffset;
     bool m_newNote;
+
+    class CPausePhone* m_PausePhone;
 
 private:
     class CUnitBar* m_UnitBar;

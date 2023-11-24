@@ -21,6 +21,7 @@
 #include "CBackground.h"
 #include "CObjEvent.h"
 #include "CThermometer.h"
+#include "CPausePhone.h"
 
 
 CStagePlayLevel::CStagePlayLevel(): 
@@ -267,8 +268,9 @@ void CStagePlayLevel::init()
 	CEventMgr::GetInst()->RegistObjEvent(objEvent);
 	
 
+	m_PausePhone = new CPausePhone;
 	
-	
+	AddObject(HAND, m_PausePhone);
 
 }
 
@@ -293,8 +295,10 @@ void CStagePlayLevel::enter()
 	MakeNotes();
 	m_AccTime = 0;
 	m_bAnyPressed = false;
+	m_Paused = false;
 
 #pragma region 초기 위치 설정
+
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 
 	m_vecStageObjects[(UINT)StageObj::TingBG]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f },0);
@@ -320,9 +324,13 @@ void CStagePlayLevel::enter()
 	m_vecStageObjects[(UINT)StageObj::Ian]->SetMove({ vRes.x / 2.f - 1260.f, vRes.y / 2.f + 93.f },0);
 	m_vecStageObjects[(UINT)StageObj::wait]->SetMove({ vRes.x / 2.f - 1020.f, vRes.y / 2.f + 100.f },0);
 	m_vecStageObjects[(UINT)StageObj::Ending]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
+	m_PausePhone->SetMove({ vRes.x / 2.f, 500.f }, 0);
 	m_curTime = 0;
-	
+
 #pragma endregion
+
+	audioDelay = m_PausePhone->GetAudioDelay();
+	m_NoteJudgeTimeOffset = m_PausePhone->GetJudgeOffset();
 
 }
 
@@ -333,11 +341,41 @@ void CStagePlayLevel::exit()
 	m_listNoteInfo.clear();
 }
 
-float audioDelay = 0.0f;
-
 void CStagePlayLevel::tick()
 {
 	if (Pause()) {
+
+		if (KEY_TAP(UP)) {
+			m_PausePhone->CursorUp();
+		}
+		if (KEY_TAP(DOWN)) {
+			m_PausePhone->CursorDown();
+		}
+		if (KEY_TAP(ENTER)) {
+			int res = m_PausePhone->Enter();
+			if (res == (UINT)PauseBtn::Continue) {
+				m_Paused = false;
+				m_BGSound->StopPlay();
+				CEventMgr::GetInst()->SetStop();
+				m_PausePhone->Close();
+			}
+			if (res == (UINT)PauseBtn::Replay) {
+				exit();
+				enter();
+				m_Paused = false;
+				m_PausePhone->Close();
+			}
+		}
+		if (KEY_TAP(RIGHT)) {
+			m_PausePhone->Right();
+			audioDelay = m_PausePhone->GetAudioDelay();
+			m_NoteJudgeTimeOffset = m_PausePhone->GetJudgeOffset();
+		}
+		if (KEY_TAP(LEFT)) {
+			m_PausePhone->Left();
+			audioDelay = m_PausePhone->GetAudioDelay();
+			m_NoteJudgeTimeOffset = m_PausePhone->GetJudgeOffset();
+		}
 		return;
 	}
 
@@ -365,6 +403,7 @@ void CStagePlayLevel::tick()
 		// 노트 이벤트 처리
 		if (!m_listNoteInfo.empty()) {
 			NoteInfo noteinfo = m_listNoteInfo.front();
+			
 			if (noteinfo.StartTime <= m_AccTime + audioDelay) {
 				CUnitBar* bar = m_vecBars[(UINT)noteinfo.Bar];
 				auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[(UINT)noteinfo.Bar]);
@@ -561,32 +600,7 @@ void CStagePlayLevel::tick()
 
 		if (KEY_TAP(SPACE)) {
 			m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
-		}
-		if (KEY_TAP(U)) {
-			audioDelay -= 0.1f;
-			wstring buffer = L"";
-			buffer += L"오디오 딜레이: " + std::to_wstring(audioDelay);
-			CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
-		}
-		if (KEY_TAP(I)) {
-			audioDelay += 0.1f;
-			wstring buffer = L"";
-			buffer += L"오디오 딜레이: " + std::to_wstring(audioDelay);
-			CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
-		}
-
-		if (KEY_TAP(O)) {
-			m_NoteJudgeTimeOffset -= 0.016f;
-			wstring buffer = L"";
-			buffer += L"노트 판정 보정 Offset: " + std::to_wstring(m_NoteJudgeTimeOffset);
-			CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
-		}
-		if (KEY_TAP(P)) {
-			m_NoteJudgeTimeOffset += 0.016f;
-			wstring buffer = L""; 
-			buffer += L"노트 판정 보정 Offset: " + std::to_wstring(m_NoteJudgeTimeOffset);
-			CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
-		}
+		}	
 	}
 }
 
@@ -597,6 +611,7 @@ bool CStagePlayLevel::Pause()
 			m_Paused = false;
 			m_BGSound->StopPlay();
 			CEventMgr::GetInst()->SetStop();
+			m_PausePhone->Close();
 		}
 
 		return true;
@@ -606,6 +621,7 @@ bool CStagePlayLevel::Pause()
 			m_Paused = true;
 			m_BGSound->Stop();
 			CEventMgr::GetInst()->SetStop();
+			m_PausePhone->Open();
 		}
 	}
 

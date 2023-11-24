@@ -178,6 +178,7 @@
     <ClInclude Include="CPaletteMgr.h" />
     <ClInclude Include="CPanelUI.h" />
     <ClInclude Include="CPathMgr.h" />
+    <ClInclude Include="CPausePhone.h" />
     <ClInclude Include="CPlatform.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CGuidedProjectile.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="CPaletteMgr.cpp" />
     <ClCompile Include="CPanelUI.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
+    <ClCompile Include="CPausePhone.cpp" />
     <ClCompile Include="CPlatform.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CGuidedProjectile.cpp" />

@@ -10,7 +10,7 @@ CAnimator::CAnimator(CObj* _Owner) :
 	CComponent(_Owner),
 	m_CurAnim(nullptr),
 	m_bRepeat(false),
-	m_Duration(100000.f)
+	m_Duration(10000.f)
 {}
 
 CAnimator::CAnimator(const CAnimator & _Origin):
@@ -40,7 +40,7 @@ void CAnimator::finaltick(float _DT) {
 	if (m_Duration <= m_AccTime) {
 		if (m_WaitName != L"") {
 			Play(m_WaitName, m_WaitRepeat);
-			m_Duration = 100000.f;
+			m_Duration = 1000.f;
 		}
 	}
 	if (IsValid(m_CurAnim)) {

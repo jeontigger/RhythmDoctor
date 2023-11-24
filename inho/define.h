@@ -162,6 +162,15 @@ enum class ENORMAL_MON_STATE {
     TRACE
 };
 
+enum class PauseBtn {
+    Continue,
+    Replay,
+    AudioDelay,
+    JudgeOffset,
+    Quit,
+    END
+};
+
 #define CheckPosAndScale Vec2 vPos = GetPos();\
 Vec2 vScale = GetScale();\
 if (KEY_TAP(KEY::W)) {\

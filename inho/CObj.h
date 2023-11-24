@@ -79,7 +79,13 @@ private:
     void Move(float _dt);
 public:
     void SetFadeAway(float _duration);
+    /// <summary>
+    /// 선형으로 움직이게 하는 함수
+    /// </summary>
+    /// <param name="_target">원하는 도착 지점</param>
+    /// <param name="_time">걸리는 시간</param>
     void SetMove(Vec2 _target, float _time);
+
     void SetScaleMove(Vec2 _target, float _time);
     void SetInitAlpha(int _i) { m_InitAlpha = _i; }
 

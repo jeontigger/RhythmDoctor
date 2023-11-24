@@ -17,9 +17,6 @@
     <Filter Include="Game\03. Manager">
       <UniqueIdentifier>{71bc80a9-43a7-4a83-9276-6602b92d0148}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\02. Engine">
-      <UniqueIdentifier>{39a91cb2-97fc-4415-9d00-a56c9666d396}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\06. Component">
       <UniqueIdentifier>{dd98df2a-d112-4a27-bd67-4f43a80d05da}</UniqueIdentifier>
     </Filter>
@@ -110,6 +107,9 @@
     <Filter Include="Game\05. Object\Stage\Thermometer">
       <UniqueIdentifier>{f419df07-c36c-4418-a756-433f7e83f90c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\03. Manager\02. Engine">
+      <UniqueIdentifier>{39a91cb2-97fc-4415-9d00-a56c9666d396}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inho.h">
@@ -164,7 +164,7 @@
       <Filter>Game\05. Object\CProjectile</Filter>
     </ClInclude>
     <ClInclude Include="CEngine.h">
-      <Filter>Game\02. Engine</Filter>
+      <Filter>Game\03. Manager\02. Engine</Filter>
     </ClInclude>
     <ClInclude Include="CGuidedProjectile.h">
       <Filter>Game\05. Object\CProjectile</Filter>
@@ -323,6 +323,7 @@
     <ClInclude Include="CThermometer.h">
       <Filter>Game\05. Object\Stage\Thermometer</Filter>
     </ClInclude>
+    <ClInclude Include="CPausePhone.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="inho.rc">
@@ -345,7 +346,7 @@
       <Filter>Default</Filter>
     </ClCompile>
     <ClCompile Include="CEngine.cpp">
-      <Filter>Game\02. Engine</Filter>
+      <Filter>Game\03. Manager\02. Engine</Filter>
     </ClCompile>
     <ClCompile Include="CLevel.cpp">
       <Filter>Game\04. Level</Filter>
@@ -531,5 +532,6 @@
     <ClCompile Include="CThermometer.cpp">
       <Filter>Game\05. Object\Stage\Thermometer</Filter>
     </ClCompile>
+    <ClCompile Include="CPausePhone.cpp" />
   </ItemGroup>
 </Project>
