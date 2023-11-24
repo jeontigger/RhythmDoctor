@@ -10,12 +10,14 @@ class CEngine {
   private:
     HWND  m_hWnd;
     POINT m_ptResolution;
+    POINT m_ptDrawRes;
 
     HDC     m_dc;
     CTexture* m_SubTex;
     bool m_bDebugRender;
 
   public:
+      void SetDrawResolution(Vec2 _v) { m_ptDrawRes.x = _v.x; m_ptDrawRes.y = _v.y; }
     HWND  GetMainWind() { return m_hWnd; }
     HDC   GetMainDC() { return m_dc; }
     HDC GetSubDC();

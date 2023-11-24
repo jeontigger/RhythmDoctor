@@ -332,6 +332,7 @@ void CStagePlayLevel::enter()
 	audioDelay = m_PausePhone->GetAudioDelay();
 	m_NoteJudgeTimeOffset = m_PausePhone->GetJudgeOffset();
 
+	CEngine::GetInst()->SetDrawResolution({ 704, 396 });
 }
 
 void CStagePlayLevel::exit()
@@ -339,6 +340,8 @@ void CStagePlayLevel::exit()
 	m_listWinInfo.clear();
 	m_listObjInfo.clear();
 	m_listNoteInfo.clear();
+	CEngine::GetInst()->SetDrawResolution({ 1600, 900 });
+	CEngine::GetInst()->ChangeWindowSize({ 1600, 900 }, false);
 }
 
 void CStagePlayLevel::tick()

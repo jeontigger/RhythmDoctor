@@ -85,7 +85,7 @@ void CEngine::tick() {
     float zoom = CCamera::GetInst()->GetZoomOffset();
     AlphaBlend(CEngine::GetInst()->GetMainDC()
         , -zoom/2.f, -zoom/2.f
-        ,m_ptResolution.x+ zoom, m_ptResolution.y + zoom
+        , m_ptDrawRes.x + zoom, m_ptDrawRes.y + zoom
         , m_SubTex->GetDC()
         , 0, 0
         , m_SubTex->GetWidth(), m_SubTex->GetHeight()
@@ -112,7 +112,8 @@ HDC CEngine::GetSubDC()
 
 void CEngine::ChangeWindowSize(POINT _ptResolution, bool _bMenu)
 {
-    m_ptResolution = _ptResolution;
+    m_ptDrawRes = _ptResolution;
+    m_ptResolution = {704, 396 };
 
     RECT rt = { 0, 0, _ptResolution.x, _ptResolution.y };
     AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, _bMenu);
