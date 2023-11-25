@@ -38,7 +38,6 @@ void CStartMenuLevel::init()
 	m_Monitor = new CAnimUI;
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"LogoMonitor", L"texture\\Logo_Monitor.png");
 	m_Monitor->GetAnimator()->CreateAnimation(L"MonitorFallDown", pAtlas, Vec2(0.f, 0.f), Vec2(184, 134), {0,0}, 0.05f, 4);
-	m_Monitor->SetPos({ 354, 185 });
 	m_Monitor->SetScale({ 184, 134});
 	
 	AddObject(UI, m_Monitor);
@@ -48,7 +47,7 @@ void CStartMenuLevel::init()
 	m_Rhythm->GetAnimator()->LoadAnimation(L"animdata\\Rhythm.txt");
 	
 	m_Rhythm->SetScale({ 130,36 });
-	m_Rhythm->SetPos(Vec2(-10.f, -20.f));
+	m_Rhythm->SetPos(Vec2(-8.f, -20.f));
 	m_Rhythm->GetAnimator()->Play(L"Rhythm", true);
 	m_Monitor->AddChildUI(m_Rhythm);
 	
@@ -116,11 +115,11 @@ void CStartMenuLevel::enter()
 
 	m_sndBGM->SetVolume(80);
 	m_sndBGM->SetPosition(0.f);
-	m_sndBGM->Play();
+	m_sndBGM->Play(true);
 
 	m_bOpen = false;
 
-	m_Monitor->SetPos({ 354, 185 });
+	m_Monitor->SetPos({ 354, 180 });
 	// 메뉴 버튼들 생성
 	for (int i = 0; i < StartMenuSize; ++i) {
 		m_vecMenus[i]->SetPos({ 750.f, 92.f + i * 30.f });

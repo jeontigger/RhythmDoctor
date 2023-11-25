@@ -49,6 +49,12 @@ private:
     float m_Speed;
     int m_curIdx;
 
+private:
+    class CSound* sndCursorMove;
+    class CSound* sndOpen;
+    class CSound* sndClose;
+    class CSound* sndSelect;
+
 public:
 
     int Enter();

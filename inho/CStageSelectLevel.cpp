@@ -12,6 +12,7 @@
 #include "CAnimUI.h"
 #include "CTextUI.h"
 #include "CCharacter.h"
+#include "CLevelMgr.h"
 //
 CStageSelectLevel::CStageSelectLevel():
     m_cursorIdx(0),
@@ -155,7 +156,7 @@ void CStageSelectLevel::init()
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
     pStage->SetCameraOffset({ 100.f,0.f });
     pStage->SetIsLeft(false);
-    pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"AllTheTimes", L"texture\\AllTheTimesNo.png"));
+    pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"AllTheTimesno", L"texture\\AllTheTimesNo.png"));
     pStage->SetTextureOffset({ -260.f, -175.f });
 
     AddObject(STAGE, pStage);
@@ -458,6 +459,13 @@ void CStageSelectLevel::enter()
     StageCursorPrev();
     m_BGM->SetVolume(100);
     m_BGM->Play(true);
+
+    if (CLevelMgr::GetInst()->IsClear()) {
+        m_vecStages[(UINT)Stage::AllTheTime]->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"AllTheTimes", L"texture\\AllTheTimes.png"));
+    }
+    else {
+        m_vecStages[(UINT)Stage::AllTheTime]->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"AllTheTimesno", L"texture\\AllTheTimesNo.png"));
+    }
 }
 
 void CStageSelectLevel::exit()

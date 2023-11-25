@@ -5,6 +5,7 @@
 #include "CTexture.h"
 #include "CTimeMgr.h"
 #include "CEngine.h"
+#include "CSound.h"
 
 CPausePhone::CPausePhone()
 {
@@ -102,6 +103,11 @@ CPausePhone::CPausePhone()
 
     m_AudioDelay = 0;
     m_JudgeOffset = 0;
+
+    sndSelect = CAssetMgr::GetInst()->LoadSound(L"sndMenuSelect", L"sound\\sndMenuSelect.wav");
+    sndOpen = CAssetMgr::GetInst()->LoadSound(L"sndPagerOpen", L"sound\\sndPagerOpen.wav");
+    sndClose = CAssetMgr::GetInst()->LoadSound(L"sndMenuClose", L"sound\\sndMenuClose.wav");
+    sndCursorMove = CAssetMgr::GetInst()->LoadSound(L"sndCursorMove", L"sound\\sndCursorMove.wav");
 }
 
 CPausePhone::~CPausePhone()
@@ -256,6 +262,7 @@ void CPausePhone::render(HDC _dc)
 int CPausePhone::Enter()
 {
     if (m_EnterFunc != nullptr) {
+        sndSelect->Play(false);
         return  (*m_EnterFunc)();
     }
     return -1;
@@ -264,6 +271,7 @@ int CPausePhone::Enter()
 void CPausePhone::Right()
 {
     if (m_RightFunc != nullptr) {
+        sndCursorMove->Play(false);
         (this->*m_RightFunc)();
     }
 }
@@ -271,18 +279,21 @@ void CPausePhone::Right()
 void CPausePhone::Left()
 {
     if (m_LeftFunc != nullptr) {
+        sndCursorMove->Play(false);
         (this->*m_LeftFunc)();
     }
 }
 
 void CPausePhone::Open()
 {
+    sndOpen->Play(false);
     SetPos({ 352.f, 0.f });
     m_curIdx = 0;
     begin();
 }
 void CPausePhone::Close()
 {
+    sndClose->Play(false);
     Vec2 vPos = GetPos();
     SetPos({ 352.f, 500.f });
     m_curBtnPos = { vPos.x + 32.f, vPos.y + 632.f };
@@ -291,6 +302,7 @@ void CPausePhone::Close()
 
 void CPausePhone::CursorDown()
 {
+    sndCursorMove->Play(false);
     m_curIdx++;
     if ((UINT)PauseBtn::END <= m_curIdx) {
         m_curIdx = 0;
@@ -306,6 +318,7 @@ void CPausePhone::CursorDown()
 }
 void CPausePhone::CursorUp()
 {
+    sndCursorMove->Play(false);
     m_curIdx--;
     if (m_curIdx < 0) {
         m_curIdx = (UINT)PauseBtn::END - 1;

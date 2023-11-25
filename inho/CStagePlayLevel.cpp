@@ -11,6 +11,7 @@
 #include "CTimeMgr.h"
 #include "CSound.h"
 #include "CLogMgr.h"
+#include "CLevelMgr.h"
 
 #include "CUnitBar.h"
 #include "CCharacter.h"
@@ -334,6 +335,7 @@ void CStagePlayLevel::enter()
 
 	CEngine::GetInst()->SetDrawResolution({ 704, 396 });
 	CEventMgr::GetInst()->SetStop(false);
+	CEventMgr::GetInst()->GetWindowEvent()->SetMode(WindowEventType::END);
 }
 
 void CStagePlayLevel::exit()
@@ -343,6 +345,8 @@ void CStagePlayLevel::exit()
 	m_listObjInfo.clear();
 	m_listNoteInfo.clear();
 	m_PausePhone->Close();
+	CEngine::GetInst()->SetDrawResolution({ 1600, 900 });
+	CEngine::GetInst()->ChangeWindowSize({ 1600, 900 }, false);
 	CEventMgr::GetInst()->SetStop(true);
 }
 
@@ -369,8 +373,7 @@ void CStagePlayLevel::tick()
 				enter();
 			}
 			if (res == (UINT)PauseBtn::Quit) {
-				CEngine::GetInst()->SetDrawResolution({ 1600, 900 });
-				CEngine::GetInst()->ChangeWindowSize({ 1600, 900 }, false);
+				
 				ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 			}
 		}
@@ -387,8 +390,9 @@ void CStagePlayLevel::tick()
 		return;
 	}
 
-	if (225.f <= m_AccTime) {
+	if (219.f <= m_AccTime) {
 		if (CKeyMgr::GetInst()->IsAnyKeyTap()) {
+			CLevelMgr::GetInst()->SetClear(true);
 			::ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 		}
 		else {
@@ -413,6 +417,7 @@ void CStagePlayLevel::tick()
 			NoteInfo noteinfo = m_listNoteInfo.front();
 			
 			if (noteinfo.StartTime <= m_AccTime + audioDelay) {
+				
 				CUnitBar* bar = m_vecBars[(UINT)noteinfo.Bar];
 				auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[(UINT)noteinfo.Bar]);
 				newNoteEvent->SetBar(bar);
@@ -618,7 +623,7 @@ bool CStagePlayLevel::Pause()
 		if (KEY_TAP(ESC)) {
 			m_Paused = false;
 			m_BGSound->StopPlay();
-			CEventMgr::GetInst()->SetStop(true);
+			CEventMgr::GetInst()->SetStop(false);
 			m_PausePhone->Close();
 		}
 
