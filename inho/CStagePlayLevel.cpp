@@ -596,15 +596,7 @@ void CStagePlayLevel::tick()
 			}
 		}
 
-		if (KEY_TAP(_1)) {
-			SetMusic(-60);
-		}
-		if (KEY_TAP(_2)) {
-			SetMusic(60);
-		}
-		if (KEY_TAP(_3)) {
-			SetMusic(-10);
-		}
+		
 		if (KEY_TAP(_4)) {
 			SetMusic(10);
 		}
