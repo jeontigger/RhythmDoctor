@@ -123,7 +123,7 @@ void CStageSelectLevel::init()
     pStage->SetDescription(L"환자의 심장 박동이 안정됨. 커피 섭취를 반드시 줄이도록 권고할 것.");
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
     pStage->SetCameraOffset({ 100.f,0.f });
-    pStage->SetIsLeft(false);
+    pStage->SetIsLeft(true);
     pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"SupraventricularTachycardia", L"texture\\SupraventricularTachycardia.png"));
     pStage->SetTextureOffset({ -280.f, -165.f });
     
@@ -456,6 +456,7 @@ void CStageSelectLevel::enter()
     CCamera::GetInst()->FadeIn(1.0f);
     StageCursorNext();
     StageCursorPrev();
+    m_BGM->SetVolume(100);
     m_BGM->Play(true);
 }
 

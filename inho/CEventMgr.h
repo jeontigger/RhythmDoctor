@@ -10,7 +10,7 @@ private:
 	class CObjEvent* m_ObjEvent;
 public:
 
-	void SetStop() { stop = !stop; }
+	void SetStop(bool _b) { stop = _b; }
 	void RegistObjEvent(class CObjEvent* _event) { m_ObjEvent = _event; }
 	void RegistNoteEvent(class CNote* _event) { m_vecNotes.push_back(_event); }
 	void RegistWindowEvent(class CWindowEvent* _event) { m_WinMove = _event; }

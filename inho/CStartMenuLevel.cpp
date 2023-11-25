@@ -134,6 +134,9 @@ void CStartMenuLevel::enter()
 	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
+
+	CEngine::GetInst()->SetDrawResolution({ 1600, 900 });
+	CEngine::GetInst()->ChangeWindowSize({ 1600, 900 }, false);
 }
 
 void CStartMenuLevel::exit()

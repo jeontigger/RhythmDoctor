@@ -4,6 +4,7 @@
 #include "CAssetMgr.h"
 #include "CTexture.h"
 #include "CTimeMgr.h"
+#include "CEngine.h"
 
 CPausePhone::CPausePhone()
 {
@@ -96,7 +97,7 @@ CPausePhone::CPausePhone()
     btn.Text.Texture = CAssetMgr::GetInst()->LoadTexture(L"PauseBackText", L"texture\\PauseBackText.png");
     btn.Text.PosOffset = { -5, 100 };
 
-    btn.EnterFunc = []() { ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL); return (int)PauseBtn::Quit; };
+    btn.EnterFunc = []() { 	return (int)PauseBtn::Quit; };
     m_vecBtns.push_back(btn);
 
     m_AudioDelay = 0;

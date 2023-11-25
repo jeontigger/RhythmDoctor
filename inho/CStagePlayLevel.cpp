@@ -333,15 +333,17 @@ void CStagePlayLevel::enter()
 	m_NoteJudgeTimeOffset = m_PausePhone->GetJudgeOffset();
 
 	CEngine::GetInst()->SetDrawResolution({ 704, 396 });
+	CEventMgr::GetInst()->SetStop(false);
 }
 
 void CStagePlayLevel::exit()
 {
+	m_Paused = false;
 	m_listWinInfo.clear();
 	m_listObjInfo.clear();
 	m_listNoteInfo.clear();
-	CEngine::GetInst()->SetDrawResolution({ 1600, 900 });
-	CEngine::GetInst()->ChangeWindowSize({ 1600, 900 }, false);
+	m_PausePhone->Close();
+	CEventMgr::GetInst()->SetStop(true);
 }
 
 void CStagePlayLevel::tick()
@@ -359,14 +361,17 @@ void CStagePlayLevel::tick()
 			if (res == (UINT)PauseBtn::Continue) {
 				m_Paused = false;
 				m_BGSound->StopPlay();
-				CEventMgr::GetInst()->SetStop();
+				CEventMgr::GetInst()->SetStop(false);
 				m_PausePhone->Close();
 			}
 			if (res == (UINT)PauseBtn::Replay) {
 				exit();
 				enter();
-				m_Paused = false;
-				m_PausePhone->Close();
+			}
+			if (res == (UINT)PauseBtn::Quit) {
+				CEngine::GetInst()->SetDrawResolution({ 1600, 900 });
+				CEngine::GetInst()->ChangeWindowSize({ 1600, 900 }, false);
+				ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 			}
 		}
 		if (KEY_TAP(RIGHT)) {
@@ -613,7 +618,7 @@ bool CStagePlayLevel::Pause()
 		if (KEY_TAP(ESC)) {
 			m_Paused = false;
 			m_BGSound->StopPlay();
-			CEventMgr::GetInst()->SetStop();
+			CEventMgr::GetInst()->SetStop(true);
 			m_PausePhone->Close();
 		}
 
@@ -623,7 +628,7 @@ bool CStagePlayLevel::Pause()
 		if (KEY_TAP(ESC)) {
 			m_Paused = true;
 			m_BGSound->Stop();
-			CEventMgr::GetInst()->SetStop();
+			CEventMgr::GetInst()->SetStop(true);
 			m_PausePhone->Open();
 		}
 	}
