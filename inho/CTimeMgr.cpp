@@ -38,9 +38,9 @@ void CTimeMgr::tick() {
 
     m_fTime += m_DeltaTime;
     if (1.f <= m_fTime) {
-        /*wchar_t szText[50] = {};
+        wchar_t szText[50] = {};
         swprintf_s(szText, 50, L"FPS [%d]", m_iCall);
-        SetWindowText(CEngine::GetInst()->GetMainWind(), szText);*/
+        SetWindowText(CEngine::GetInst()->GetMainWind(), szText);
 
         m_iCall = 0;
         m_fTime = 0;

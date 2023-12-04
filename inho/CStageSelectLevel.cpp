@@ -154,7 +154,7 @@ void CStageSelectLevel::init()
     pStage->SetCharacterName(L"콜 브루");
     pStage->SetDescription(L"환자의 심장 박동이 안정됨. 커피 섭취를 반드시 줄이도록 권고할 것.");
     pStage->SetRank(Stage_Rank::UNCOMPLETED);
-    pStage->SetCameraOffset({ 0.f,0.f });
+    pStage->SetCameraOffset({ 100.f,0.f });
     pStage->SetIsLeft(false);
     pStage->SetTexture(CAssetMgr::GetInst()->LoadTexture(L"AllTheTimesno", L"texture\\AllTheTimesNo.png"));
     pStage->SetTextureOffset({ -260.f, -175.f });

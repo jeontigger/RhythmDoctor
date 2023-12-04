@@ -107,7 +107,7 @@
     <Filter Include="Game\05. Object\Stage\Thermometer">
       <UniqueIdentifier>{f419df07-c36c-4418-a756-433f7e83f90c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\02. Engine">
+    <Filter Include="Game\03. Manager\02. Engine">
       <UniqueIdentifier>{39a91cb2-97fc-4415-9d00-a56c9666d396}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -164,7 +164,7 @@
       <Filter>Game\05. Object\CProjectile</Filter>
     </ClInclude>
     <ClInclude Include="CEngine.h">
-      <Filter>Game\02. Engine</Filter>
+      <Filter>Game\03. Manager\02. Engine</Filter>
     </ClInclude>
     <ClInclude Include="CGuidedProjectile.h">
       <Filter>Game\05. Object\CProjectile</Filter>
@@ -337,12 +337,6 @@
     <Image Include="inho.ico">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="Icon.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="icon1.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="inho.cpp">
@@ -352,7 +346,7 @@
       <Filter>Default</Filter>
     </ClCompile>
     <ClCompile Include="CEngine.cpp">
-      <Filter>Game\02. Engine</Filter>
+      <Filter>Game\03. Manager\02. Engine</Filter>
     </ClCompile>
     <ClCompile Include="CLevel.cpp">
       <Filter>Game\04. Level</Filter>

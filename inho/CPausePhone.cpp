@@ -399,7 +399,6 @@ void CPausePhone::judgeOffsetSlow()
     if (m_JudgeOffsetToFrame < 5) {
         m_JudgeOffset += 0.016f;
         m_JudgeOffsetToFrame++;
-        
         if (0 <= m_JudgeOffsetToFrame) {
             m_vecBtns[(UINT)PauseBtn::JudgeOffset].Value[0].Texture = nullptr;
             wstring key = L"_" + std::to_wstring(m_JudgeOffsetToFrame);
