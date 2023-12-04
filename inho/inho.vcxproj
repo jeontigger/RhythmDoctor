@@ -76,8 +76,8 @@
     <TargetName>game_debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)MyGame\bin\</OutDir>
-    <TargetName>game</TargetName>
+    <OutDir>$(SolutionDir)RhythmDoctor\game\</OutDir>
+    <TargetName>Rhythm Doctor</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -285,6 +285,8 @@
     <ResourceCompile Include="inho.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Icon.ico" />
+    <Image Include="icon1.ico" />
     <Image Include="inho.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
