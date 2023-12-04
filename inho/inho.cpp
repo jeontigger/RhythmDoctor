@@ -32,6 +32,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE     hInstance,
     // 단축키 테이블 참조
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_INHO));
     MSG    msg;
+    wchar_t szText[50] = {};
+    //swprintf_s(szText, 50, L"FPS [%d]", m_iCall);
+    SetWindowText(CEngine::GetInst()->GetMainWind(), L"Rhythm Doctor");
 
     while (true) {
         // 메세지가 있었다.
