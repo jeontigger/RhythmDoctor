@@ -234,6 +234,7 @@ enum class WindowEventType {
     /// </summary>
     END
 };
+
 struct WinInfo {
     WindowEventType Type;
     float StartTime;

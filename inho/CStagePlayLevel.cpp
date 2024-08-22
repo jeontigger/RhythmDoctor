@@ -12,6 +12,7 @@
 #include "CSound.h"
 #include "CLogMgr.h"
 #include "CLevelMgr.h"
+#include "CPathMgr.h"
 
 #include "CUnitBar.h"
 #include "CCharacter.h"
@@ -23,6 +24,9 @@
 #include "CObjEvent.h"
 #include "CThermometer.h"
 #include "CPausePhone.h"
+
+#include "Resource.h"
+#include <fstream>
 
 
 CStagePlayLevel::CStagePlayLevel() :
@@ -194,7 +198,7 @@ void CStagePlayLevel::init()
 
 	m_Hand = new CCharacter;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"HandAtlas", L"texture\\Hand.png");
-	float height = pAtlas->GetHeight();
+	float height = (float)pAtlas->GetHeight();
 	m_Hand->SetScale({ 300, 42 });
 	pAnimator = m_Hand->GetComponent<CAnimator>();
 	//pAnimator->CreateAnimation(L"Hand", pAtlas, Vec2(0, 0), Vec2(307, 42), Vec2(0, 0), 0.1f, 3);
@@ -353,7 +357,9 @@ void CStagePlayLevel::exit()
 void CStagePlayLevel::tick()
 {
 	if (Pause()) {
-
+		if (KEY_TAP(C)) {
+			OpenCreateWindow();
+		}
 		if (KEY_TAP(UP)) {
 			m_PausePhone->CursorUp();
 		}
@@ -554,14 +560,14 @@ void CStagePlayLevel::tick()
 				case WindowEventType::Quake:
 					newEvent->SetFlash(info.Flash);
 					newEvent->SetMode(info.Type);
-					newEvent->SetQuakeAmount(info.QuakeAmount);
+					newEvent->SetQuakeAmount((int)info.QuakeAmount);
 					break;
 
 				case WindowEventType::UpAndDown:
 					newEvent->SetMode(info.Type);
 					newEvent->SetTarget(info.Target, 0.05f);
 					newEvent->SetUpDownSize(info.Size);
-					newEvent->SetUpDownCount(info.Count);
+					newEvent->SetUpDownCount((int)info.Count);
 					break;
 
 				case WindowEventType::Jumping:
@@ -803,4 +809,234 @@ void CStagePlayLevel::MakeNotes()
 	noteinfo.JudgeTime = 2.0f;
 	m_listNoteInfo.push_back(noteinfo);
 
+}
+
+
+INT_PTR CALLBACK CreateWindowEventProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+
+void CStagePlayLevel::OpenCreateWindow()
+{
+	DialogBox(nullptr, MAKEINTRESOURCE(IDD_WND_EVENT), CEngine::GetInst()->GetMainWind(), CreateWindowEventProc);
+}
+
+INT_PTR CALLBACK CreateWindowEventProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+	UNREFERENCED_PARAMETER(lParam);
+	auto hComboBox = GetDlgItem(hDlg, IDC_WND_TYPE);
+	auto hFlash = GetDlgItem(hDlg, IDC_WND_FLASH);
+	auto hCW = GetDlgItem(hDlg, IDC_WND_CW);
+	auto hStartTime = GetDlgItem(hDlg, IDC_STARTTIME);
+	
+	switch (message) {
+	case WM_INITDIALOG:
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::LinearMove, (LPARAM)L"LinearMove");
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::CircleMove, (LPARAM)L"CircleMove");
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::Quake, (LPARAM)L"Quake");
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::UpAndDown, (LPARAM)L"UpAndDown");
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::Jumping, (LPARAM)L"Jumping");
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::Disapear, (LPARAM)L"Disapear");
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::Wave, (LPARAM)L"Wave");
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::PortalMove, (LPARAM)L"PortalMove");
+		SendMessage(hComboBox, CB_ADDSTRING, (UINT)WindowEventType::END, (LPARAM)L"END");
+		SendMessage(hFlash, CB_ADDSTRING, 0, (LPARAM)L"True");
+		SendMessage(hFlash, CB_ADDSTRING, 1, (LPARAM)L"False");
+		SendMessage(hCW, CB_ADDSTRING, 0, (LPARAM)L"True");
+		SendMessage(hCW, CB_ADDSTRING, 1, (LPARAM)L"False");
+
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK) {
+			wstring strFilePath = CPathMgr::GetContentPath();
+			strFilePath += L"eventdata\\Test.txt" ;
+			std::ofstream outputFile(strFilePath, std::ios::app);
+			wchar_t what[256] = {};
+
+			int Idx;
+			Idx = (int)SendMessage((HWND)hComboBox, CB_GETCURSEL, 0, 0);
+
+			GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+
+			int flash;
+			flash= (int)SendMessage((HWND)hFlash, CB_GETCURSEL, 0, 0);
+
+			int cw;
+			cw = (int)SendMessage((HWND)hCW, CB_GETCURSEL, 0, 0);
+
+
+			switch ((WindowEventType)Idx)
+			{
+			case WindowEventType::LinearMove:
+				outputFile << "[LINEAR_MOVE]" << std::endl;
+				outputFile << "[TYPE]" << std::endl;
+				outputFile << (UINT)WindowEventType::LinearMove << std::endl;
+				outputFile << "[START_TIME]" << std::endl;
+				GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[TARGET]" << std::endl;
+				GetDlgItemText(hDlg, IDC_TARGET_X, what, 256);
+				outputFile << _wtof(what);
+				outputFile << " ";
+				GetDlgItemText(hDlg, IDC_TARGET_Y, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SPEED]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SPEED, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[FLASH]" << std::endl;
+				outputFile << flash << std::endl;
+				break;
+
+			case WindowEventType::CircleMove:
+				outputFile << "[CIRCLE_MOVE]" << std::endl;
+				outputFile << "[TYPE]" << std::endl;
+				outputFile << (UINT)WindowEventType::CircleMove << std::endl;
+				outputFile << "[START_TIME]" << std::endl;
+				GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[THETA]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_THETA, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SPEED]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SPEED, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[RADIUS]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_RADIUS, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[CW]" << std::endl;
+				outputFile << cw << std::endl;
+				outputFile << "[DECREASE]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_DEC, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				break;
+
+			case WindowEventType::Quake:
+				outputFile << "[QUAKE_MOVE]" << std::endl;
+				outputFile << "[TYPE]" << std::endl;
+				outputFile << (UINT)WindowEventType::Quake << std::endl;
+				outputFile << "[START_TIME]" << std::endl;
+				GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[QUAKE_AMOUNT]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_QUAKE, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[FLASH]" << std::endl;
+				outputFile << flash << std::endl;
+				break;
+
+			case WindowEventType::UpAndDown:
+				outputFile << "[UP_DOWN]" << std::endl;
+				outputFile << "[TYPE]" << std::endl;
+				outputFile << (UINT)WindowEventType::UpAndDown << std::endl;
+				outputFile << "[START_TIME]" << std::endl;
+				GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[TARGET]" << std::endl;
+				GetDlgItemText(hDlg, IDC_TARGET_X, what, 256);
+				outputFile << _wtof(what);
+				outputFile << " ";
+				GetDlgItemText(hDlg, IDC_TARGET_Y, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SPEED]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SPEED, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SIZE]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SIZE, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[COUNT]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_COUNT, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				break;
+
+			case WindowEventType::Jumping:
+				outputFile << "[JUMPING]" << std::endl;
+				outputFile << "[TYPE]" << std::endl;
+				outputFile << (UINT)WindowEventType::Jumping<< std::endl;
+				outputFile << "[START_TIME]" << std::endl;
+				GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SIZE]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SIZE, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SPEED]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SPEED, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				break;
+
+			case WindowEventType::Disapear:
+				outputFile << "[DISAPPEAR]" << std::endl;
+				outputFile << "[TYPE]" << std::endl;
+				outputFile << (UINT)WindowEventType::Disapear << std::endl;
+				outputFile << "[START_TIME]" << std::endl;
+				GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SIZE]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SIZE, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SPEED]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SPEED, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[DURATION]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_DURATION, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				break;
+
+			case WindowEventType::Wave:
+				outputFile << "[WAVE]" << std::endl;
+				outputFile << "[TYPE]" << std::endl;
+				outputFile << (UINT)WindowEventType::Wave << std::endl;
+				outputFile << "[START_TIME]" << std::endl;
+				GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SIZE]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SIZE, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SPEED]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SPEED, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[DURATION]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_DURATION, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[PERSIST]" << std::endl;
+				outputFile << cw << std::endl;
+				break;
+
+			case WindowEventType::PortalMove:
+				outputFile << "[PORTAL]" << std::endl;
+				outputFile << "[TYPE]" << std::endl;
+				outputFile << (UINT)WindowEventType::PortalMove << std::endl;
+				outputFile << "[START_TIME]" << std::endl;
+				GetDlgItemText(hDlg, IDC_STARTTIME, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[TARGET]" << std::endl;
+				GetDlgItemText(hDlg, IDC_TARGET_X, what, 256);
+				outputFile << _wtof(what);
+				outputFile << " ";
+				GetDlgItemText(hDlg, IDC_TARGET_Y, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				outputFile << "[SPEED]" << std::endl;
+				GetDlgItemText(hDlg, IDC_WND_SPEED, what, 256);
+				outputFile << _wtof(what) << std::endl;
+				break;
+
+			case WindowEventType::END:
+				break;
+			default:
+				break;
+			}
+			
+			outputFile << std::endl;
+			outputFile.close(); // 파일을 닫습니다.
+			
+
+
+
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		else if (LOWORD(wParam) == IDCANCEL) {
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
 }

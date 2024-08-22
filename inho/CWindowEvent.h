@@ -96,7 +96,7 @@ public:
     Vec2 GetPos() { return m_vWinPos; }
     void SetPos(Vec2 _pos) {
         m_vWinPos = _pos;
-        MoveWindow(m_hWnd, _pos.x, _pos.y, m_vWinRes.x, m_vWinRes.y, TRUE);
+        MoveWindow(m_hWnd, (int)_pos.x, (int)_pos.y, (int)m_vWinRes.x, (int)m_vWinRes.y, TRUE);
     }
 
     Vec2 GetWinRes() { return m_vWinRes; }

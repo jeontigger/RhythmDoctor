@@ -195,7 +195,8 @@ void CPausePhone::render(HDC _dc)
         scaleOffset = m_vecBtns[i].Icon.ScaleOffset;
         if (tex != nullptr) {
             AlphaBlend(_dc
-                , vPos.x + offset.x, vPos.y + offset.y + i * m_gBtnYLength, tex->GetWidth() + scaleOffset.x, tex->GetHeight() + scaleOffset.y
+                , int(vPos.x + offset.x), int(vPos.y + offset.y + i * m_gBtnYLength)
+                , int(tex->GetWidth() + scaleOffset.x), int(tex->GetHeight() + scaleOffset.y)
                 , tex->GetDC()
                 , 0, 0
                 , tex->GetWidth(), tex->GetHeight()

@@ -66,6 +66,8 @@ public:
 	~CStagePlayLevel();
 
 private:
-	void MakeNotes();
+    void MakeNotes();
+    void OpenCreateWindow();
+
 };
 
