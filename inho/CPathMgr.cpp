@@ -17,5 +17,5 @@ void CPathMgr::init() {
             break;
         }
     }
-    wcscat_s(g_szContent, 255, L"content\\");
+    wcscat_s(g_szContent, 255, L"MyGame\\content\\");
 }

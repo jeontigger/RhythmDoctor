@@ -25,7 +25,7 @@
 #include "CPausePhone.h"
 
 
-CStagePlayLevel::CStagePlayLevel(): 
+CStagePlayLevel::CStagePlayLevel() :
 	m_AccTime(0.f)
 {
 }
@@ -66,13 +66,13 @@ void CStagePlayLevel::init()
 	pBG->SetScale({ 352, 119 });
 	AddObject(BACKGROUND, pBG);
 	m_vecStageObjects[(UINT)StageObj::ColeBGBack] = pBG;
-	
+
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ColeBG", L"texture\\ColeBG.png");
 	pBG->SetScale({ pAtlas->GetWidth(), pAtlas->GetHeight() });
 	pBG->SetTexture(pAtlas);
 	AddObject(BACKGROUND, pBG);
-	m_vecStageObjects[(UINT)StageObj::ColeBGFront	] = pBG;
+	m_vecStageObjects[(UINT)StageObj::ColeBGFront] = pBG;
 
 	pBG = new CBackground;
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"blueskyPixel", L"texture\\blueskyPixel.png");
@@ -87,7 +87,7 @@ void CStagePlayLevel::init()
 	for (int i = 0; i < 3; i++) {
 		pBG = new CBackground;
 		pAtlas = CAssetMgr::GetInst()->LoadTexture(L"blackPixel", L"texture\\blackPixel.png");
-		pBG->SetScale({ vRes .x, 50.f});
+		pBG->SetScale({ vRes.x, 50.f });
 		pBG->SetTexture(pAtlas);
 		AddObject(STAGE, pBG);
 		m_vecStageObjects[(UINT)StageObj::BVeil + i] = pBG;
@@ -212,10 +212,10 @@ void CStagePlayLevel::init()
 	CCharacter* ScriptBox = new CCharacter;
 	pAnimator = ScriptBox->GetComponent<CAnimator>();
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"ScriptBox", L"texture\\ScriptBox.png");
- 	pAnimator->CreateAnimation(L"ScriptBox", pAtlas, Vec2(0, 0), Vec2(98, 21), Vec2(0, 0), 0.1f, 1);
+	pAnimator->CreateAnimation(L"ScriptBox", pAtlas, Vec2(0, 0), Vec2(98, 21), Vec2(0, 0), 0.1f, 1);
 	pAnimator->SaveAnimation(L"animdata");
 	pAnimator->Play(L"ScriptBox", false);
-	ScriptBox->SetScale({ 560 , 100});
+	ScriptBox->SetScale({ 560 , 100 });
 	ScriptBox->SetAlpha(200);
 	AddObject(STAGE, ScriptBox);
 	m_vecStageObjects[(UINT)StageObj::ScriptBox] = ScriptBox;
@@ -229,7 +229,7 @@ void CStagePlayLevel::init()
 	Ian->SetScale({ 120, 110 });
 	AddObject(STAGE, Ian);
 	m_vecStageObjects[(UINT)StageObj::Ian] = Ian;
-	
+
 
 	CCharacter* wait = new CCharacter;
 	pAnimator = wait->GetComponent<CAnimator>();
@@ -252,14 +252,14 @@ void CStagePlayLevel::init()
 	pAnimator->LoadAnimation(L"animdata\\Ending.txt");
 	pAnimator->Play(L"Ending", false);
 
-	
+
 
 	AddObject(STAGE, ending);
 	m_vecStageObjects[(UINT)StageObj::Ending] = ending;
 
 	CWindowEvent* newEvent = new CWindowEvent;
 	CEventMgr::GetInst()->RegistWindowEvent(newEvent);
-	
+
 	CBeatNote* newNote = new CBeatNote;
 	CEventMgr::GetInst()->RegistNoteEvent(newNote);
 	newNote = new CBeatNote;
@@ -267,10 +267,10 @@ void CStagePlayLevel::init()
 
 	CObjEvent* objEvent = new CObjEvent;
 	CEventMgr::GetInst()->RegistObjEvent(objEvent);
-	
+
 
 	m_PausePhone = new CPausePhone;
-	
+
 	AddObject(HAND, m_PausePhone);
 
 }
@@ -283,10 +283,10 @@ void CStagePlayLevel::enter()
 	CCamera::GetInst()->SetLookAt(vLookAt);
 
 	m_BGSound = CAssetMgr::GetInst()->LoadSound(L"BGM_allthetimes", L"sound\\sndAllTheTimes.wav");
-	
-	CWindowEvent* event =  CEventMgr::GetInst()->GetWindowEvent();
-	
-	event->SetPos(event->GetMonitorRes()/2 - event->GetWinRes() / 2);
+
+	CWindowEvent* event = CEventMgr::GetInst()->GetWindowEvent();
+
+	event->SetPos(event->GetMonitorRes() / 2 - event->GetWinRes() / 2);
 
 	dynamic_cast<CUnitBar*>(m_vecStageObjects[(UINT)StageObj::Bar])->HideAll();
 	dynamic_cast<CUnitBar*>(m_vecStageObjects[(UINT)StageObj::TingBar])->HideAll();
@@ -302,29 +302,29 @@ void CStagePlayLevel::enter()
 
 	Vec2 vRes = CEngine::GetInst()->GetResolution();
 
-	m_vecStageObjects[(UINT)StageObj::TingBG]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f },0);
-	m_vecStageObjects[(UINT)StageObj::TingBGOpen]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f },0);
-	m_vecStageObjects[(UINT)StageObj::ColeBGBack]->SetMove({ vRes.x / 2.f, vRes.y / 2.f - 55.f - 400.f },0);
-	m_vecStageObjects[(UINT)StageObj::ColeBGFront]->SetMove({ vRes.x / 2.f, vRes.y / 2.f + 77.f - 400.f },0);
-	m_vecStageObjects[(UINT)StageObj::BlueSky]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
-	m_vecStageObjects[(UINT)StageObj::BVeil]->SetMove({ vRes.x / 2.f, vRes.y + 360.f },0);
-	m_vecStageObjects[(UINT)StageObj::MVeil]->SetMove({ vRes.x / 2.f, vRes.y - 100.f },0);
-	m_vecStageObjects[(UINT)StageObj::MVeil]->SetScaleMove({ vRes.x, 50.f },0);
-	m_vecStageObjects[(UINT)StageObj::TVeil]->SetMove({ vRes.x / 2.f, vRes.y - 100.f },0);
-	m_vecStageObjects[(UINT)StageObj::Ting]->SetMove({ vRes.x / 2.f - 370.f, vRes.y / 2.f - 1000.f },0);
-	m_vecStageObjects[(UINT)StageObj::Cole]->SetMove({ vRes.x / 2.f - 1150.f, vRes.y / 2.f - 1120.f },0);
+	m_vecStageObjects[(UINT)StageObj::TingBG]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::TingBGOpen]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 77.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::ColeBGBack]->SetMove({ vRes.x / 2.f, vRes.y / 2.f - 55.f - 400.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::ColeBGFront]->SetMove({ vRes.x / 2.f, vRes.y / 2.f + 77.f - 400.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::BlueSky]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::BVeil]->SetMove({ vRes.x / 2.f, vRes.y + 360.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::MVeil]->SetMove({ vRes.x / 2.f, vRes.y - 100.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::MVeil]->SetScaleMove({ vRes.x, 50.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::TVeil]->SetMove({ vRes.x / 2.f, vRes.y - 100.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Ting]->SetMove({ vRes.x / 2.f - 370.f, vRes.y / 2.f - 1000.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Cole]->SetMove({ vRes.x / 2.f - 1150.f, vRes.y / 2.f - 1120.f }, 0);
 	m_vecStageObjects[(UINT)StageObj::Cole]->GetComponent<CAnimator>()->Play(L"Idle", true);
-	m_vecStageObjects[(UINT)StageObj::Stage]->SetMove({ vRes.x / 2.f + 470.f, vRes.y / 2.f + 13.f },0);
-	m_vecStageObjects[(UINT)StageObj::Boss]->SetMove({ vRes.x / 2.f - 485.f, vRes.y / 2.f - 50.f },0);
-	m_vecStageObjects[(UINT)StageObj::Noise]->SetMove({ vRes.x / 2.f - 10000.f, vRes.y / 2.f },0);
-	m_vecStageObjects[(UINT)StageObj::Glitch]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
-	m_vecStageObjects[(UINT)StageObj::Hospital]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
+	m_vecStageObjects[(UINT)StageObj::Stage]->SetMove({ vRes.x / 2.f + 470.f, vRes.y / 2.f + 13.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Boss]->SetMove({ vRes.x / 2.f - 485.f, vRes.y / 2.f - 50.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Noise]->SetMove({ vRes.x / 2.f - 10000.f, vRes.y / 2.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Glitch]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Hospital]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f }, 0);
 	m_vecStageObjects[(UINT)StageObj::Hand]->SetMove({ vRes.x / 2.f + 100.f, 358.f }, 0);
-	m_vecStageObjects[(UINT)StageObj::Thermometer]->SetMove({ vRes.x / 2.f - 70.f, vRes.y - 470.f },0);
-	m_vecStageObjects[(UINT)StageObj::ScriptBox]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 120.f },0);
-	m_vecStageObjects[(UINT)StageObj::Ian]->SetMove({ vRes.x / 2.f - 1260.f, vRes.y / 2.f + 93.f },0);
-	m_vecStageObjects[(UINT)StageObj::wait]->SetMove({ vRes.x / 2.f - 1020.f, vRes.y / 2.f + 100.f },0);
-	m_vecStageObjects[(UINT)StageObj::Ending]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f },0);
+	m_vecStageObjects[(UINT)StageObj::Thermometer]->SetMove({ vRes.x / 2.f - 70.f, vRes.y - 470.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::ScriptBox]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f + 120.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Ian]->SetMove({ vRes.x / 2.f - 1260.f, vRes.y / 2.f + 93.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::wait]->SetMove({ vRes.x / 2.f - 1020.f, vRes.y / 2.f + 100.f }, 0);
+	m_vecStageObjects[(UINT)StageObj::Ending]->SetMove({ vRes.x / 2.f - 1000.f, vRes.y / 2.f }, 0);
 	m_PausePhone->SetMove({ vRes.x / 2.f, 500.f }, 0);
 	m_curTime = 0;
 
@@ -373,7 +373,7 @@ void CStagePlayLevel::tick()
 				enter();
 			}
 			if (res == (UINT)PauseBtn::Quit) {
-				
+
 				ChangeLevel(LEVEL_TYPE::STAGE_SELECT_LEVEL);
 			}
 		}
@@ -407,17 +407,21 @@ void CStagePlayLevel::tick()
 	}
 
 	else {
+		if (KEY_TAP(C)) {
+			m_bCorrectMode = !m_bCorrectMode;
+		}
+
 		auto newEvent = CEventMgr::GetInst()->GetWindowEvent();
-		
+
 		m_AccTime += DT;
 		CLogMgr::GetInst()->SetAccTime(m_AccTime);
 
 		// 노트 이벤트 처리
 		if (!m_listNoteInfo.empty()) {
 			NoteInfo noteinfo = m_listNoteInfo.front();
-			
+
 			if (noteinfo.StartTime <= m_AccTime + audioDelay) {
-				
+
 				CUnitBar* bar = m_vecBars[(UINT)noteinfo.Bar];
 				auto newNoteEvent = dynamic_cast<CBeatNote*>(CEventMgr::GetInst()->GetNoteEvents()[(UINT)noteinfo.Bar]);
 				newNoteEvent->SetBar(bar);
@@ -442,7 +446,7 @@ void CStagePlayLevel::tick()
 				{
 				case ObjEventType::Moving:
 					if (objinfo.Obj == StageObj::ColeBGFront) {
-						m_vecStageObjects[(UINT)StageObj::ColeBGFront]->SetMove({ objinfo.Pos.x - 0.f, objinfo.Pos.y}, objinfo.Speed);
+						m_vecStageObjects[(UINT)StageObj::ColeBGFront]->SetMove({ objinfo.Pos.x - 0.f, objinfo.Pos.y }, objinfo.Speed);
 						m_vecStageObjects[(UINT)StageObj::ColeBGBack]->SetMove({ objinfo.Pos.x - 0.f, objinfo.Pos.y - 132.f }, objinfo.Speed);
 					}
 					else if (objinfo.Obj == StageObj::Bar) {
@@ -478,7 +482,7 @@ void CStagePlayLevel::tick()
 							m_vecBars[(UINT)BarType::Cole]->HideAll();
 						}
 					}
-					else if(objinfo.Obj == StageObj::TingBar) {
+					else if (objinfo.Obj == StageObj::TingBar) {
 						if (objinfo.Show) {
 							m_vecBars[(UINT)BarType::Ting]->ShowAll();
 						}
@@ -596,7 +600,7 @@ void CStagePlayLevel::tick()
 			}
 		}
 
-		
+
 		if (KEY_TAP(_4)) {
 			SetMusic(10);
 		}
@@ -605,7 +609,7 @@ void CStagePlayLevel::tick()
 
 		if (KEY_TAP(SPACE)) {
 			m_Hand->GetComponent<CAnimator>()->Play(L"Hand", false);
-		}	
+		}
 	}
 }
 
@@ -650,22 +654,22 @@ void CStagePlayLevel::AnyPress()
 		m_bAnyPressed = true;
 	}
 	return;
-	
+
 }
 
 void CStagePlayLevel::Judge()
 {
-	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime + m_NoteJudgeTimeOffset 
-		&& m_AccTime  + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
-		if (KEY_TAP(SPACE)&& m_newNote) {
+	if (m_NoteJudgeTime - JudgeTime + m_NoteJudgeTimeOffset <= m_AccTime + m_NoteJudgeTimeOffset
+		&& m_AccTime + m_NoteJudgeTimeOffset < m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset) {
+		if (KEY_TAP(SPACE) && m_newNote && !m_bCorrectMode) {
 			m_newNote = false;
 			m_vecBars[(UINT)BarType::Cole]->Incorrect(JudgeBeatType::Left);
 			m_vecBars[(UINT)BarType::Ting]->Incorrect(JudgeBeatType::Left);
 		}
 	}
-	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime  + m_NoteJudgeTimeOffset
-		&& m_AccTime  + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
-		if (KEY_TAP(SPACE) && m_newNote) {
+	else if (m_NoteJudgeTime - CorrectTime + m_NoteJudgeTimeOffset <= m_AccTime + m_NoteJudgeTimeOffset
+		&& m_AccTime + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset) {
+		if ((KEY_TAP(SPACE) && m_newNote) || m_bCorrectMode) {
 			m_newNote = false;
 			CCamera::GetInst()->Judge(0.3f);
 			m_vecBars[(UINT)BarType::Cole]->Correct();
@@ -673,7 +677,7 @@ void CStagePlayLevel::Judge()
 
 		}
 	}
-	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime  + m_NoteJudgeTimeOffset
+	else if (m_NoteJudgeTime + CorrectTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset
 		&& m_AccTime + m_NoteJudgeTimeOffset <= m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset) {
 		if (KEY_TAP(SPACE) && m_newNote) {
 			m_newNote = false;
@@ -681,7 +685,7 @@ void CStagePlayLevel::Judge()
 			m_vecBars[(UINT)BarType::Ting]->Incorrect(JudgeBeatType::Right);
 		}
 	}
-	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime  + m_NoteJudgeTimeOffset) {
+	else if (m_NoteJudgeTime + JudgeTime + m_NoteJudgeTimeOffset < m_AccTime + m_NoteJudgeTimeOffset) {
 		if (m_newNote) {
 			m_newNote = false;
 			m_vecBars[(UINT)BarType::Cole]->Incorrect(JudgeBeatType::Miss);
@@ -746,7 +750,7 @@ void CStagePlayLevel::MakeNotes()
 		m_listNoteInfo.push_back(noteinfo2);
 	}
 
-	for (int i =16; i < 32; i++) {
+	for (int i = 16; i < 32; i++) {
 		NoteInfo noteinfo = {};
 		noteinfo.Bar = BarType::Cole;
 		noteinfo.StartTime = 94.8f + i * 1.657f;
