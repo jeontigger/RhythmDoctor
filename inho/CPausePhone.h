@@ -19,11 +19,11 @@ private:
     };
 
     struct Btn {
-        class Tex Icon;
-        class Tex Text;
-        class Tex LeftArrow;
-        class Tex RightArrow;
-        class Tex Value[4];
+        struct Tex Icon;
+        struct Tex Text;
+        struct Tex LeftArrow;
+        struct Tex RightArrow;
+        struct Tex Value[4];
         int (*EnterFunc)(void);
         void (CPausePhone::*LeftFunc)(void);
         void (CPausePhone::*RightFunc)(void);

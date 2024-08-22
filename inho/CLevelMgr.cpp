@@ -40,7 +40,7 @@ void CLevelMgr::init() {
         m_arrLevels[i]->init();
     }
 
-    ::ChangeLevel(LEVEL_TYPE::START_MENU_LEVEL);
+    ::ChangeLevel(LEVEL_TYPE::STAGE_PLAY_LEVEL);
 
 }
 

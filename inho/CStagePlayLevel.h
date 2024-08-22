@@ -64,5 +64,7 @@ public:
 
 private:
     void MakeNotes();
+    void OpenCreateWindow();
+
 };
 
